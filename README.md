@@ -39,3 +39,9 @@ This project implements a smart audio inference and retrieval system using Strea
 
 ```bash
 pip install -r requirements.txt
+
+### Running the app
+
+```bash
+streamlit run app.py
+
