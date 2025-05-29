@@ -1,0 +1,7 @@
+streamlit
+pytube
+moviepy
+speechrecognition
+requests
+nltk
+pydub
