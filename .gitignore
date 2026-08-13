@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Environment / secrets
+.env
+.env.*
+
+# Generated audio
+*.mp3
+*.wav
+*.m4a
+*.flac
+*.ogg
+
+# Generated transcripts / alignment
+audio.txt
+alignment_result.csv
+
+# Streamlit
+.streamlit/secrets.toml
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Agent/tooling
+.agents/
