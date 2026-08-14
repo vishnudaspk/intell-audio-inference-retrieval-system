@@ -1,38 +1,48 @@
 # Python
 __pycache__/
 *.py[cod]
-*.pyo
+*$py.class
+*.so
 
 # Virtual environment
 .venv/
 venv/
 env/
+ENV/
 
-# Environment / secrets
+# Environment & local secrets
 .env
 .env.*
+!.env.example
+.streamlit/secrets.toml
 
-# Generated audio
+# Data directory runtime outputs
+data/
+*.db
+*.sqlite
+*.sqlite3
+
+# Legacy / loose generated audio & output files
 *.mp3
 *.wav
 *.m4a
 *.flac
 *.ogg
-
-# Generated transcripts / alignment
 audio.txt
 alignment_result.csv
 
-# Streamlit
-.streamlit/secrets.toml
-
-# IDE
+# IDEs & Editors
 .vscode/
 .idea/
+*.swp
 
-# OS
+# OS generated
 .DS_Store
 Thumbs.db
 
-# Agent/tooling
+# Testing / Tooling
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
 .agents/
