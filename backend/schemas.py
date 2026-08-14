@@ -6,7 +6,7 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 
-from schemas.models import AudioAsset, ProcessingJob, SearchResult, TranscriptWord
+from schemas.models import AudioAsset, Chapter, ProcessingJob, SearchResult, SpeakerSegment, TranscriptWord
 
 
 class IngestUploadResponse(BaseModel):
@@ -51,4 +51,19 @@ class IndexResponse(BaseModel):
     indexed_chunks: int
     embedding_model: str
     error_message: Optional[str] = None
+
+
+class ChaptersResponse(BaseModel):
+    """Phase 7B: Chapters for a given audio asset."""
+    audio_id: str
+    chapters: List[Chapter]
+    count: int
+
+
+class SpeakersResponse(BaseModel):
+    """Phase 7B: Speaker segments for a given audio asset."""
+    audio_id: str
+    segments: List[SpeakerSegment]
+    count: int
+    note: str = "Speaker labels are heuristic turn estimates. No real speaker identity is verified."
 

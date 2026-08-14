@@ -7,8 +7,10 @@ from typing import List, Optional
 
 from schemas.models import (
     AudioAsset,
+    Chapter,
     IndexingStatus,
     ProcessingJob,
+    SpeakerSegment,
     Transcript,
     TranscriptChunk,
     TranscriptWord,
@@ -73,4 +75,21 @@ class BaseRepository(ABC):
     @abstractmethod
     def get_indexing_status(self, audio_id: str) -> Optional[IndexingStatus]:
         pass
+
+    @abstractmethod
+    def save_chapters(self, audio_id: str, chapters: List[Chapter]) -> None:
+        pass
+
+    @abstractmethod
+    def get_chapters(self, audio_id: str) -> List[Chapter]:
+        pass
+
+    @abstractmethod
+    def save_speaker_segments(self, audio_id: str, segments: List[SpeakerSegment]) -> None:
+        pass
+
+    @abstractmethod
+    def get_speaker_segments(self, audio_id: str) -> List[SpeakerSegment]:
+        pass
+
 

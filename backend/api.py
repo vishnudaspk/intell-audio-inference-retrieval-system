@@ -8,10 +8,12 @@ from fastapi import FastAPI, File, HTTPException, UploadFile, status
 
 from backend.schemas import (
     AskRequest,
+    ChaptersResponse,
     IndexResponse,
     IngestUploadResponse,
     SearchRequest,
     SearchResponse,
+    SpeakersResponse,
     TranscriptResponse,
     YouTubeIngestRequest,
 )
@@ -25,7 +27,9 @@ from services.audio_service import AudioService
 from services.embedding_service import LMStudioEmbeddingProvider
 from services.health_service import HealthService
 from services.llm_service import LMStudioLLMProvider
+from services.query_understanding import QueryUnderstanding
 from services.reasoning_agent import ReasoningAgent
+from services.temporal_context_expander import TemporalContextExpander
 from utils.exceptions import IntellAudioError
 from utils.logger import logger
 from workers.audio_worker import AudioWorker
@@ -34,7 +38,7 @@ from workers.indexing_worker import IndexingWorker
 app = FastAPI(
     title="Intell Audio Inference & Retrieval API",
     description="2026-grade Temporal Audio Intelligence & Retrieval Platform API",
-    version="2.0.0-phase6",
+    version="2.0.0-phase7",
 )
 
 # Application services & repository initialization
@@ -56,11 +60,17 @@ indexing_worker = IndexingWorker(
     embedding_provider=embedding_provider,
 )
 
+# Phase 7B: Query Understanding and Context Expander
+query_understanding = QueryUnderstanding(llm_provider=llm_provider)
+context_expander = TemporalContextExpander()
+
 retrieval_pipeline = RetrievalPipeline(
     bm25_index=bm25_index,
     vector_store=vector_store,
     embedding_provider=embedding_provider,
     repository=repo,
+    query_understanding=query_understanding,
+    context_expander=context_expander,
 )
 
 reasoning_agent = ReasoningAgent(
@@ -234,7 +244,7 @@ def ask_audio(payload: AskRequest):
         top_k = payload.top_k or 10
         final_k = payload.final_k or 5
 
-        # 1. Deterministic hybrid retrieval
+        # 1. Deterministic hybrid retrieval (Phase 7B: query intent extracted inside pipeline)
         retrieved_chunks = retrieval_pipeline.search(
             query=payload.query,
             top_k=top_k,
@@ -242,11 +252,21 @@ def ask_audio(payload: AskRequest):
             audio_id=payload.audio_id,
         )
 
+        # Extract query_intent from metadata if pipeline produced one
+        query_intent = None
+        if retrieved_chunks and "query_intent" in retrieved_chunks[0].metadata:
+            from schemas.models import QueryIntent
+            try:
+                query_intent = QueryIntent(**retrieved_chunks[0].metadata["query_intent"])
+            except Exception:
+                pass
+
         # 2. Grounded reasoning and application citation resolution
         rag_response = reasoning_agent.answer_question(
             query=payload.query,
             retrieved_chunks=retrieved_chunks,
             audio_id=payload.audio_id,
+            query_intent=query_intent,
         )
 
         return rag_response
@@ -258,3 +278,38 @@ def ask_audio(payload: AskRequest):
         logger.error(f"Ask the Audio endpoint internal error: {exc}")
         raise HTTPException(status_code=500, detail=f"Ask the Audio failed: {exc}") from exc
 
+
+@app.get(
+    "/api/v1/chapters/{audio_id}",
+    response_model=ChaptersResponse,
+    tags=["Audio Intelligence"],
+)
+def get_chapters(audio_id: str):
+    """Get auto-generated chapters for an audio asset (Phase 7A/7B)."""
+    asset = repo.get_audio_asset(audio_id)
+    if not asset:
+        raise HTTPException(status_code=404, detail="Audio asset not found")
+    try:
+        chapters = repo.get_chapters(audio_id)
+        return ChaptersResponse(audio_id=audio_id, chapters=chapters, count=len(chapters))
+    except Exception as exc:
+        logger.error(f"Get chapters endpoint error: {exc}")
+        raise HTTPException(status_code=500, detail=f"Failed to retrieve chapters: {exc}") from exc
+
+
+@app.get(
+    "/api/v1/speakers/{audio_id}",
+    response_model=SpeakersResponse,
+    tags=["Audio Intelligence"],
+)
+def get_speakers(audio_id: str):
+    """Get heuristic speaker-turn segments for an audio asset (Phase 7A/7B)."""
+    asset = repo.get_audio_asset(audio_id)
+    if not asset:
+        raise HTTPException(status_code=404, detail="Audio asset not found")
+    try:
+        segments = repo.get_speaker_segments(audio_id)
+        return SpeakersResponse(audio_id=audio_id, segments=segments, count=len(segments))
+    except Exception as exc:
+        logger.error(f"Get speakers endpoint error: {exc}")
+        raise HTTPException(status_code=500, detail=f"Failed to retrieve speaker segments: {exc}") from exc

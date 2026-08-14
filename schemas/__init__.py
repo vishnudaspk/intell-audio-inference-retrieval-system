@@ -1,10 +1,17 @@
-from schemas.enums import JobStatus, LanguageCode, SourceType
+from schemas.enums import ContentType, JobStatus, LanguageCode, SourceType
 from schemas.models import (
     AlignmentResult,
     AudioAsset,
+    Chapter,
+    Citation,
     ProcessingJob,
+    QueryIntent,
+    RAGResponse,
+    RelevantTemporalSpan,
     SearchResult,
+    SpeakerSegment,
     Transcript,
+    TranscriptChunk,
     TranscriptSegment,
     TranscriptWord,
 )
@@ -13,11 +20,19 @@ __all__ = [
     "SourceType",
     "JobStatus",
     "LanguageCode",
+    "ContentType",
     "AudioAsset",
     "TranscriptWord",
     "TranscriptSegment",
     "Transcript",
+    "TranscriptChunk",
     "AlignmentResult",
     "ProcessingJob",
     "SearchResult",
+    "SpeakerSegment",
+    "Chapter",
+    "Citation",
+    "QueryIntent",
+    "RAGResponse",
+    "RelevantTemporalSpan",
 ]

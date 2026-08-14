@@ -1,17 +1,22 @@
 """
-Post-alignment indexing worker orchestrating transcript chunking, BM25 indexing,
-vector embedding generation, and Qdrant storage.
+Post-alignment indexing worker orchestrating transcript chunking, speaker segmentation,
+semantic content analysis, BM25 indexing, vector embedding, Qdrant storage, and chapter generation.
 """
 
 from typing import Optional
 
 from config.settings import settings
 from database.base import BaseRepository
+from engines.diarization.base import DiarizationEngine
+from engines.diarization.factory import get_diarization_engine
 from retrieval.bm25 import BM25Index
 from retrieval.vector_store import VectorStore
 from schemas.models import IndexingStatus
+from services.chapter_generator import ChapterGenerator
 from services.chunker import TranscriptChunker
+from services.content_analyzer import ContentAnalyzer
 from services.embedding_service import EmbeddingProvider
+from services.speaker_assignment import SpeakerAssignmentService
 from utils.exceptions import IntellAudioError
 from utils.logger import logger
 
@@ -19,7 +24,8 @@ from utils.logger import logger
 class IndexingWorker:
     """
     Orchestrates indexing pipeline for an audio asset:
-    Transcript → Temporal Chunks → SQLite Chunk Store → BM25 Index → Qwen3 Embeddings → Qdrant Vector Store
+    Transcript → Temporal Chunks → Speaker Turns → Speaker Assignment → Content Analysis →
+    SQLite Persistence → BM25 Index → Qwen3 Embeddings → Qdrant Vector Store → Chapter Generation
     """
 
     def __init__(
@@ -29,6 +35,10 @@ class IndexingWorker:
         bm25_index: Optional[BM25Index] = None,
         vector_store: Optional[VectorStore] = None,
         embedding_provider: Optional[EmbeddingProvider] = None,
+        diarization_engine: Optional[DiarizationEngine] = None,
+        speaker_assignment: Optional[SpeakerAssignmentService] = None,
+        content_analyzer: Optional[ContentAnalyzer] = None,
+        chapter_generator: Optional[ChapterGenerator] = None,
     ):
         self.repository = repository
         self.chunker = chunker or TranscriptChunker()
@@ -46,14 +56,20 @@ class IndexingWorker:
             from services.embedding_service import LMStudioEmbeddingProvider
             self.embedding_provider = LMStudioEmbeddingProvider()
 
+        self.diarization_engine = diarization_engine or get_diarization_engine()
+        self.speaker_assignment = speaker_assignment or SpeakerAssignmentService()
+        self.content_analyzer = content_analyzer or ContentAnalyzer()
+        self.chapter_generator = chapter_generator or ChapterGenerator()
+
     def index_audio(self, audio_id: str) -> IndexingStatus:
-        """Execute full temporal chunking, BM25, embedding, and vector store indexing."""
+        """Execute full temporal chunking, diarization, content analysis, BM25, embedding, Qdrant, and chapter generation."""
         logger.info(f"Starting indexing pipeline for audio asset {audio_id}...")
 
         transcript = self.repository.get_transcript(audio_id)
         if not transcript:
             raise IntellAudioError(f"Cannot index audio {audio_id}: Transcript not found.")
 
+        asset = self.repository.get_audio_asset(audio_id)
         emb_model_name = getattr(self.embedding_provider, "model_name", settings.LM_STUDIO_EMBEDDING_MODEL)
 
         # 1. Save initial pending status
@@ -77,25 +93,59 @@ class IndexingWorker:
                 status.indexed_chunks = 0
                 return self.repository.save_indexing_status(status)
 
-            # 3. Store chunks in SQLite primary source of truth
+            # 3. Speaker turn segmentation (Graceful fallback)
+            speaker_segments = []
+            if asset and asset.file_path:
+                try:
+                    speaker_segments = self.diarization_engine.segment(asset.file_path)
+                    if speaker_segments:
+                        self.repository.save_speaker_segments(audio_id, speaker_segments)
+                        logger.info(f"Saved {len(speaker_segments)} speaker segments for audio {audio_id}.")
+                except Exception as spk_exc:
+                    logger.warning(f"Speaker turn segmentation skipped/degraded: {spk_exc}")
+
+            # 4. Speaker assignment to chunks
+            try:
+                chunks = self.speaker_assignment.assign(chunks, speaker_segments)
+            except Exception as asgn_exc:
+                logger.warning(f"Speaker assignment skipped/degraded: {asgn_exc}")
+
+            # 5. Content semantic analysis (Graceful fallback)
+            try:
+                chunks = self.content_analyzer.analyze_chunks(chunks)
+            except Exception as cnt_exc:
+                logger.warning(f"Content semantic analysis skipped/degraded: {cnt_exc}")
+
+            # 6. Store enriched chunks in SQLite primary source of truth
             self.repository.save_chunks(audio_id, chunks)
 
-            # 4. Index into BM25
+            # 7. Index into BM25
             self.bm25_index.index_chunks(chunks)
             logger.info(f"Indexed {len(chunks)} chunks into BM25 index.")
 
-            # 5. Generate Qwen3 Embeddings
+            # 8. Generate Qwen3 Embeddings
             chunk_texts = [c.text for c in chunks]
             embeddings = self.embedding_provider.embed_texts(chunk_texts)
             logger.info(f"Generated {len(embeddings)} embeddings via LM Studio.")
 
-            # 6. Upsert into Vector Store (Qdrant)
+            # 9. Upsert into Vector Store (Qdrant) with enriched metadata payload
             self.vector_store.upsert_chunks(chunks, embeddings)
             logger.info(f"Upserted {len(chunks)} vectors to vector store.")
 
+            # 10. Chapter boundary detection & title generation (Graceful fallback)
+            try:
+                chapters = self.chapter_generator.generate_chapters(chunks, audio_id)
+                if chapters:
+                    self.repository.save_chapters(audio_id, chapters)
+                    # Re-save chunks to persist assigned chapter_ids
+                    self.repository.save_chunks(audio_id, chunks)
+                    logger.info(f"Generated and saved {len(chapters)} chapters for audio {audio_id}.")
+            except Exception as chap_exc:
+                logger.warning(f"Chapter generation skipped/degraded: {chap_exc}")
+
             emb_dim = len(embeddings[0]) if embeddings else 0
 
-            # 7. Update status to completed
+            # 11. Update status to completed
             status.status = "completed"
             status.total_chunks = len(chunks)
             status.indexed_chunks = len(chunks)
@@ -112,3 +162,4 @@ class IndexingWorker:
             status.error_message = str(exc)
             self.repository.save_indexing_status(status)
             raise IntellAudioError(f"Indexing failed for audio {audio_id}: {exc}") from exc
+

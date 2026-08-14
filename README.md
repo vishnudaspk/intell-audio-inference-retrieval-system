@@ -1,50 +1,52 @@
 # Intell Audio Inference & Retrieval System
 
-Short project description
+A local-first, intent-aware temporal audio intelligence and grounded RAG platform.
 
 ## What Is Intell Audio?
 
-Explain the original 2022 project and the 2026 modernization.
+Originally created in 2022 as a basic PocketSphinx + Gentle audio search tool, Intell Audio has evolved in 2026 into an enterprise-grade audio intelligence platform combining temporal forced alignment, semantic chunking, speaker-turn segmentation, automatic chapters, content understanding, and grounded RAG.
 
 ## Why This Project Was Rebuilt
 
-2022:
+**2022:**
 - PocketSphinx
-- basic transcript generation
+- Basic transcript generation
 - Gentle alignment
 - CSV-based search
 - Streamlit monolith
 
-2026:
-- modular architecture
-- modern ASR-ready engine abstraction
-- temporal transcript representation
-- BM25
-- semantic embeddings
-- Qdrant
-- hybrid retrieval
-- RAG
-- Qwen3
-- timestamp-grounded answers
-- FastAPI + Streamlit
-
-## Architecture
-
-[architecture diagram]
+**2026:**
+- Modular multi-tier Python architecture
+- Pluggable ASR / alignment engine abstractions
+- Word-boundary preserving temporal chunking
+- Heuristic speaker-turn segmentation & speaker assignment
+- Semantic content analysis (topics, intents, actions, targets, tools, procedure steps)
+- Automatic chapter boundary detection & title synthesis
+- BM25 Okapi lexical indexing
+- Local Qwen3 vector embeddings + Qdrant vector storage
+- Hybrid Reciprocal Rank Fusion (RRF) retrieval
+- Deterministic application-side timestamp citations
+- FastAPI backend + Streamlit frontend
 
 ## Core Pipeline
 
 Audio
-→ ASR
-→ Temporal Transcript
-→ Chunking
-→ BM25 + Embeddings
-→ Qdrant
-→ Hybrid Retrieval
+→ ASR (PocketSphinx / Whisper-ready)
+→ Gentle Forced Alignment
+→ Temporal Transcript Generation
+→ Word-Boundary Chunking
+→ Speaker-Turn Segmentation
+→ Speaker Assignment
+→ Content Semantic Analysis (optional)
+→ BM25 Lexical Indexing
+→ Qwen3 Embedding Generation
+→ Qdrant Vector Upsert (enriched payloads)
+→ Chapter Boundary & Title Generation
+→ Hybrid Retrieval (BM25 + Qdrant)
 → Reranking
-→ Qwen3
-→ Grounded Answer
-→ Timestamp Citation
+→ Qwen3 Reasoning
+→ Grounded Answer with Resolved Timestamps
+
 
 ## Features
 

@@ -9,8 +9,9 @@ from typing import Dict, List, Optional
 
 from config.settings import settings
 from database.base import BaseRepository
-from schemas.models import Citation, RAGResponse, RetrievalResult, StructuredRAGOutput, TranscriptChunk
+from schemas.models import Citation, QueryIntent, RAGResponse, RetrievalResult, StructuredRAGOutput, TranscriptChunk
 from services.llm_service import LLMProvider
+from services.temporal_span_resolver import TemporalSpanResolver
 from utils.exceptions import IntellAudioError
 from utils.logger import logger
 
@@ -50,9 +51,12 @@ class ReasoningAgent:
         query: str,
         retrieved_chunks: List[RetrievalResult],
         audio_id: Optional[str] = None,
+        query_intent: Optional[QueryIntent] = None,  # Phase 7B
     ) -> RAGResponse:
         """
         Synthesize grounded natural language answer and resolve citations.
+        Phase 7B: accepts optional query_intent to enrich response with temporal spans,
+        speaker/chapter context, and intent metadata.
         """
         start_time_perf = time.perf_counter()
 
@@ -108,6 +112,18 @@ class ReasoningAgent:
                 chunk = self._lookup_chunk_from_repo(e_id)
 
             if chunk:
+                # Resolve speaker label and chapter title for citation if available
+                cit_speaker = chunk.speaker_label if chunk.speaker_label and chunk.speaker_label != "Unknown Speaker" else None
+                cit_chapter = None
+                if chunk.chapter_id and self.repository:
+                    try:
+                        chapters = self.repository.get_chapters(chunk.audio_id)
+                        matching = next((c for c in chapters if c.chapter_id == chunk.chapter_id), None)
+                        if matching:
+                            cit_chapter = matching.title
+                    except Exception:
+                        pass
+
                 citations.append(
                     Citation(
                         audio_id=chunk.audio_id,
@@ -115,6 +131,8 @@ class ReasoningAgent:
                         start_time=chunk.start_time,
                         end_time=chunk.end_time,
                         text=chunk.text,
+                        speaker_label=cit_speaker,
+                        chapter_title=cit_chapter,
                     )
                 )
                 valid_evidence_count += 1
@@ -133,6 +151,39 @@ class ReasoningAgent:
         raw_model = getattr(self.llm_provider, "model_name", "Qwen3-8B")
         model_name = str(raw_model) if isinstance(raw_model, str) else "Qwen3-8B"
 
+        # Phase 7B: Resolve temporal spans and enrich response
+        top_cited_chunk = chunk_map.get(citations[0].chunk_id) if citations else None
+        span_resolver = TemporalSpanResolver()
+        primary_timestamp = span_resolver.resolve_primary(citations, query_intent, top_chunk=top_cited_chunk)
+        related_sections = span_resolver.resolve_related(citations[1:] if len(citations) > 1 else [])
+
+        # Phase 7B: Extract speaker / chapter from top citation chunk
+        speaker: Optional[str] = None
+        chapter: Optional[str] = None
+        if citations and top_cited_chunk:
+            if top_cited_chunk.speaker_label and top_cited_chunk.speaker_label != "Unknown Speaker":
+                speaker = top_cited_chunk.speaker_label
+            if top_cited_chunk.chapter_id and self.repository:
+                try:
+                    chapters = self.repository.get_chapters(top_cited_chunk.audio_id)
+                    matching = next((c for c in chapters if c.chapter_id == top_cited_chunk.chapter_id), None)
+                    if matching:
+                        chapter = matching.title
+                except Exception:
+                    pass
+
+        # Build confidence reason string
+        confidence_reason = ""
+        if structured_output.grounded and citations:
+            confidence_reason = f"{valid_evidence_count}/{len(retrieved_chunks)} chunks cited"
+        elif not structured_output.grounded:
+            confidence_reason = "Insufficient evidence"
+
+        evidence_summary = (
+            f"{len(citations)} citation(s) from {len(retrieved_chunks)} retrieved chunks"
+            if citations else "No citations resolved"
+        )
+
         return RAGResponse(
             answer=structured_output.answer,
             confidence=confidence,
@@ -147,6 +198,15 @@ class ReasoningAgent:
                 "retrieved_count": len(retrieved_chunks),
                 "cited_count": len(citations),
             },
+            # Phase 7B enrichment
+            primary_timestamp=primary_timestamp,
+            related_sections=related_sections,
+            speaker=speaker,
+            chapter=chapter,
+            intent=query_intent.intent if query_intent else None,
+            abstained=not structured_output.grounded,
+            confidence_reason=confidence_reason,
+            evidence_summary=evidence_summary,
         )
 
     def _generate_structured_answer(self, prompt: str) -> StructuredRAGOutput:
@@ -219,6 +279,7 @@ class ReasoningAgent:
         retrieved_chunks: Optional[List[RetrievalResult]] = None,
         reason: str = "",
         processing_time: float = 0.0,
+        query_intent: Optional[QueryIntent] = None,
     ) -> RAGResponse:
         raw_model = getattr(self.llm_provider, "model_name", "Qwen3-8B")
         model_name = str(raw_model) if isinstance(raw_model, str) else "Qwen3-8B"
@@ -232,4 +293,7 @@ class ReasoningAgent:
             processing_time=processing_time,
             model=model_name,
             retrieval_metadata={"abstain_reason": reason},
+            abstained=True,
+            confidence_reason=reason,
+            intent=query_intent.intent if query_intent else None,
         )

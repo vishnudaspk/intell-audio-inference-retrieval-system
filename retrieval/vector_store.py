@@ -205,6 +205,28 @@ class QdrantVectorStore(VectorStore):
                     "end_time": chunk.end_time,
                     "language": chunk.language,
                     "metadata": chunk.metadata,
+                    "speaker_id": getattr(chunk, "speaker_id", None),
+                    "speaker_label": getattr(chunk, "speaker_label", None),
+                    "speaker_confidence": getattr(chunk, "speaker_confidence", 0.0),
+                    "chapter_id": getattr(chunk, "chapter_id", None),
+                    "topic": getattr(chunk, "topic", None),
+                    "subtopic": getattr(chunk, "subtopic", None),
+                    "intent": getattr(chunk, "intent", None),
+                    "content_type": getattr(chunk, "content_type", None),
+                    "actions": getattr(chunk, "actions", []),
+                    "objects": getattr(chunk, "objects", []),
+                    "targets": getattr(chunk, "targets", []),
+                    "entities": getattr(chunk, "entities", []),
+                    "tools": getattr(chunk, "tools", []),
+                    "parts": getattr(chunk, "parts", []),
+                    "locations": getattr(chunk, "locations", []),
+                    "quantities": getattr(chunk, "quantities", []),
+                    "conditions": getattr(chunk, "conditions", []),
+                    "warnings": getattr(chunk, "warnings", []),
+                    "outcomes": getattr(chunk, "outcomes", []),
+                    "temporal_references": getattr(chunk, "temporal_references", []),
+                    "procedure_step": getattr(chunk, "procedure_step", None),
+                    "chunk_summary": getattr(chunk, "chunk_summary", None),
                 }
                 points.append(
                     rest_models.PointStruct(
@@ -264,6 +286,7 @@ class QdrantVectorStore(VectorStore):
             results: List[RetrievalResult] = []
             for rank, hit in enumerate(hits, start=1):
                 p = hit.payload or {}
+                meta = p.get("metadata", {})
                 chunk = TranscriptChunk(
                     chunk_id=p.get("chunk_id", str(hit.id)),
                     audio_id=p.get("audio_id", ""),
@@ -273,8 +296,31 @@ class QdrantVectorStore(VectorStore):
                     start_time=p.get("start_time", 0.0),
                     end_time=p.get("end_time", 0.0),
                     language=p.get("language", "en"),
-                    metadata=p.get("metadata", {}),
+                    metadata=meta,
+                    speaker_id=p.get("speaker_id", meta.get("speaker_id")),
+                    speaker_label=p.get("speaker_label", meta.get("speaker_label")),
+                    speaker_confidence=p.get("speaker_confidence", meta.get("speaker_confidence", 0.0)),
+                    chapter_id=p.get("chapter_id", meta.get("chapter_id")),
+                    topic=p.get("topic", meta.get("topic")),
+                    subtopic=p.get("subtopic", meta.get("subtopic")),
+                    intent=p.get("intent", meta.get("intent")),
+                    content_type=p.get("content_type", meta.get("content_type")),
+                    actions=p.get("actions", meta.get("actions", [])),
+                    objects=p.get("objects", meta.get("objects", [])),
+                    targets=p.get("targets", meta.get("targets", [])),
+                    entities=p.get("entities", meta.get("entities", [])),
+                    tools=p.get("tools", meta.get("tools", [])),
+                    parts=p.get("parts", meta.get("parts", [])),
+                    locations=p.get("locations", meta.get("locations", [])),
+                    quantities=p.get("quantities", meta.get("quantities", [])),
+                    conditions=p.get("conditions", meta.get("conditions", [])),
+                    warnings=p.get("warnings", meta.get("warnings", [])),
+                    outcomes=p.get("outcomes", meta.get("outcomes", [])),
+                    temporal_references=p.get("temporal_references", meta.get("temporal_references", [])),
+                    procedure_step=p.get("procedure_step", meta.get("procedure_step")),
+                    chunk_summary=p.get("chunk_summary", meta.get("chunk_summary")),
                 )
+
                 results.append(
                     RetrievalResult(
                         chunk=chunk,

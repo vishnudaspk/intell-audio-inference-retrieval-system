@@ -14,8 +14,10 @@ from database.base import BaseRepository
 from schemas.enums import JobStatus, LanguageCode, SourceType
 from schemas.models import (
     AudioAsset,
+    Chapter,
     IndexingStatus,
     ProcessingJob,
+    SpeakerSegment,
     Transcript,
     TranscriptChunk,
     TranscriptWord,
@@ -130,10 +132,44 @@ class SQLiteRepository(BaseRepository):
                     )
                     """
                 )
+                cursor.execute(
+                    """
+                    CREATE TABLE IF NOT EXISTS chapters (
+                        chapter_id TEXT PRIMARY KEY,
+                        audio_id TEXT NOT NULL,
+                        title TEXT NOT NULL,
+                        summary TEXT,
+                        start_time REAL NOT NULL,
+                        end_time REAL NOT NULL,
+                        dominant_topic TEXT,
+                        sequence_order INTEGER NOT NULL,
+                        speaker_ids_json TEXT,
+                        chunk_ids_json TEXT,
+                        metadata_json TEXT,
+                        created_at TEXT NOT NULL,
+                        FOREIGN KEY (audio_id) REFERENCES audio_assets(id)
+                    )
+                    """
+                )
+                cursor.execute(
+                    """
+                    CREATE TABLE IF NOT EXISTS speaker_segments (
+                        id TEXT PRIMARY KEY,
+                        audio_id TEXT NOT NULL,
+                        speaker_id TEXT,
+                        speaker_label TEXT NOT NULL,
+                        start_time REAL NOT NULL,
+                        end_time REAL NOT NULL,
+                        confidence REAL DEFAULT 0.0,
+                        FOREIGN KEY (audio_id) REFERENCES audio_assets(id)
+                    )
+                    """
+                )
                 conn.commit()
         except Exception as exc:
             logger.error(f"Failed to initialize SQLite database: {exc}")
             raise StorageError(f"Database initialization error: {exc}") from exc
+
 
     def save_audio_asset(self, asset: AudioAsset) -> AudioAsset:
         try:
@@ -348,22 +384,49 @@ class SQLiteRepository(BaseRepository):
             with self._get_connection() as conn:
                 cursor = conn.cursor()
                 cursor.execute("DELETE FROM transcript_chunks WHERE audio_id = ?", (audio_id,))
-                records = [
-                    (
-                        c.chunk_id,
-                        c.audio_id,
-                        c.transcript_id,
-                        c.sequence_order,
-                        c.text,
-                        c.start_time,
-                        c.end_time,
-                        json.dumps([w.model_dump() for w in c.words]),
-                        c.language,
-                        json.dumps(c.metadata),
-                        datetime.utcnow().isoformat(),
+                records = []
+                for c in chunks:
+                    # Consolidate chunk attributes into metadata_json so _parse_chunk_row recovers everything
+                    meta = dict(c.metadata)
+                    meta.update({
+                        "speaker_id": c.speaker_id,
+                        "speaker_label": c.speaker_label,
+                        "speaker_confidence": c.speaker_confidence,
+                        "chapter_id": c.chapter_id,
+                        "topic": c.topic,
+                        "subtopic": c.subtopic,
+                        "intent": c.intent,
+                        "content_type": c.content_type,
+                        "actions": c.actions,
+                        "objects": c.objects,
+                        "targets": c.targets,
+                        "entities": c.entities,
+                        "tools": c.tools,
+                        "parts": c.parts,
+                        "locations": c.locations,
+                        "quantities": c.quantities,
+                        "conditions": c.conditions,
+                        "warnings": c.warnings,
+                        "outcomes": c.outcomes,
+                        "temporal_references": c.temporal_references,
+                        "procedure_step": c.procedure_step,
+                        "chunk_summary": c.chunk_summary,
+                    })
+                    records.append(
+                        (
+                            c.chunk_id,
+                            c.audio_id,
+                            c.transcript_id,
+                            c.sequence_order,
+                            c.text,
+                            c.start_time,
+                            c.end_time,
+                            json.dumps([w.model_dump() for w in c.words]),
+                            c.language,
+                            json.dumps(meta),
+                            datetime.utcnow().isoformat(),
+                        )
                     )
-                    for c in chunks
-                ]
                 cursor.executemany(
                     """
                     INSERT INTO transcript_chunks
@@ -428,6 +491,28 @@ class SQLiteRepository(BaseRepository):
             words=words,
             language=row["language"],
             metadata=metadata,
+            speaker_id=metadata.get("speaker_id"),
+            speaker_label=metadata.get("speaker_label"),
+            speaker_confidence=metadata.get("speaker_confidence", 0.0),
+            chapter_id=metadata.get("chapter_id"),
+            topic=metadata.get("topic"),
+            subtopic=metadata.get("subtopic"),
+            intent=metadata.get("intent"),
+            content_type=metadata.get("content_type"),
+            actions=metadata.get("actions", []),
+            objects=metadata.get("objects", []),
+            targets=metadata.get("targets", []),
+            entities=metadata.get("entities", []),
+            tools=metadata.get("tools", []),
+            parts=metadata.get("parts", []),
+            locations=metadata.get("locations", []),
+            quantities=metadata.get("quantities", []),
+            conditions=metadata.get("conditions", []),
+            warnings=metadata.get("warnings", []),
+            outcomes=metadata.get("outcomes", []),
+            temporal_references=metadata.get("temporal_references", []),
+            procedure_step=metadata.get("procedure_step"),
+            chunk_summary=metadata.get("chunk_summary"),
         )
 
     def save_indexing_status(self, status: IndexingStatus) -> IndexingStatus:
@@ -482,4 +567,130 @@ class SQLiteRepository(BaseRepository):
         except Exception as exc:
             logger.error(f"Failed to retrieve indexing status for audio {audio_id}: {exc}")
             raise StorageError(f"Failed to get indexing status: {exc}") from exc
+
+    def save_chapters(self, audio_id: str, chapters: List[Chapter]) -> None:
+        try:
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("DELETE FROM chapters WHERE audio_id = ?", (audio_id,))
+                records = [
+                    (
+                        c.chapter_id,
+                        audio_id,
+                        c.title,
+                        c.summary,
+                        c.start_time,
+                        c.end_time,
+                        c.dominant_topic,
+                        c.sequence_order,
+                        json.dumps(c.speaker_ids),
+                        json.dumps(c.chunk_ids),
+                        json.dumps(c.metadata),
+                        c.created_at.isoformat(),
+                    )
+                    for c in chapters
+                ]
+                cursor.executemany(
+                    """
+                    INSERT INTO chapters
+                    (chapter_id, audio_id, title, summary, start_time, end_time, dominant_topic, sequence_order, speaker_ids_json, chunk_ids_json, metadata_json, created_at)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    records,
+                )
+                conn.commit()
+        except Exception as exc:
+            logger.error(f"Failed to save chapters for audio {audio_id}: {exc}")
+            raise StorageError(f"Failed to save chapters: {exc}") from exc
+
+    def get_chapters(self, audio_id: str) -> List[Chapter]:
+        try:
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute(
+                    "SELECT * FROM chapters WHERE audio_id = ? ORDER BY sequence_order ASC",
+                    (audio_id,),
+                )
+                rows = cursor.fetchall()
+                results = []
+                for row in rows:
+                    speaker_ids = json.loads(row["speaker_ids_json"]) if row["speaker_ids_json"] else []
+                    chunk_ids = json.loads(row["chunk_ids_json"]) if row["chunk_ids_json"] else []
+                    metadata = json.loads(row["metadata_json"]) if row["metadata_json"] else {}
+                    results.append(
+                        Chapter(
+                            chapter_id=row["chapter_id"],
+                            audio_id=row["audio_id"],
+                            title=row["title"],
+                            summary=row["summary"],
+                            start_time=row["start_time"],
+                            end_time=row["end_time"],
+                            dominant_topic=row["dominant_topic"],
+                            sequence_order=row["sequence_order"],
+                            speaker_ids=speaker_ids,
+                            chunk_ids=chunk_ids,
+                            metadata=metadata,
+                            created_at=datetime.fromisoformat(row["created_at"]) if row["created_at"] else datetime.utcnow(),
+                        )
+                    )
+                return results
+        except Exception as exc:
+            logger.error(f"Failed to retrieve chapters for audio {audio_id}: {exc}")
+            raise StorageError(f"Failed to get chapters: {exc}") from exc
+
+    def save_speaker_segments(self, audio_id: str, segments: List[SpeakerSegment]) -> None:
+        try:
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("DELETE FROM speaker_segments WHERE audio_id = ?", (audio_id,))
+                records = [
+                    (
+                        s.id,
+                        audio_id,
+                        s.speaker_id,
+                        s.speaker_label,
+                        s.start_time,
+                        s.end_time,
+                        s.confidence,
+                    )
+                    for s in segments
+                ]
+                cursor.executemany(
+                    """
+                    INSERT INTO speaker_segments
+                    (id, audio_id, speaker_id, speaker_label, start_time, end_time, confidence)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    records,
+                )
+                conn.commit()
+        except Exception as exc:
+            logger.error(f"Failed to save speaker segments for audio {audio_id}: {exc}")
+            raise StorageError(f"Failed to save speaker segments: {exc}") from exc
+
+    def get_speaker_segments(self, audio_id: str) -> List[SpeakerSegment]:
+        try:
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute(
+                    "SELECT * FROM speaker_segments WHERE audio_id = ? ORDER BY start_time ASC",
+                    (audio_id,),
+                )
+                rows = cursor.fetchall()
+                return [
+                    SpeakerSegment(
+                        id=row["id"],
+                        audio_id=row["audio_id"],
+                        speaker_id=row["speaker_id"],
+                        speaker_label=row["speaker_label"],
+                        start_time=row["start_time"],
+                        end_time=row["end_time"],
+                        confidence=row["confidence"],
+                    )
+                    for row in rows
+                ]
+        except Exception as exc:
+            logger.error(f"Failed to retrieve speaker segments for audio {audio_id}: {exc}")
+            raise StorageError(f"Failed to get speaker segments: {exc}") from exc
+
 

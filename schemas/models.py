@@ -88,6 +88,35 @@ class SearchResult(BaseModel):
     word_index: Optional[int] = None
 
 
+class SpeakerSegment(BaseModel):
+    """A detected speaker turn with time bounds and confidence."""
+
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    audio_id: str
+    speaker_id: Optional[str] = None
+    speaker_label: str = "Unknown Speaker"
+    start_time: float
+    end_time: float
+    confidence: float = 0.0
+
+
+class Chapter(BaseModel):
+    """A semantically coherent temporal section of audio."""
+
+    chapter_id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    audio_id: str
+    title: str
+    summary: Optional[str] = None
+    start_time: float
+    end_time: float
+    dominant_topic: Optional[str] = None
+    sequence_order: int = 0
+    speaker_ids: List[str] = Field(default_factory=list)
+    chunk_ids: List[str] = Field(default_factory=list)
+    metadata: Dict[str, Any] = Field(default_factory=dict)
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+
 class TranscriptChunk(BaseModel):
     """Represents a temporal timestamp-preserving chunk of transcript text."""
 
@@ -102,6 +131,59 @@ class TranscriptChunk(BaseModel):
     language: str = "en"
     metadata: Dict[str, Any] = Field(default_factory=dict)
 
+    # Phase 7A Speaker & Chapter metadata (Optional for backward compatibility)
+    speaker_id: Optional[str] = None
+    speaker_label: Optional[str] = None
+    speaker_confidence: float = 0.0
+    chapter_id: Optional[str] = None
+
+    # Phase 7A Semantic Content metadata (Optional for backward compatibility)
+    topic: Optional[str] = None
+    subtopic: Optional[str] = None
+    intent: Optional[str] = None
+    content_type: Optional[str] = None
+    actions: List[str] = Field(default_factory=list)
+    objects: List[str] = Field(default_factory=list)
+    targets: List[str] = Field(default_factory=list)
+    entities: List[str] = Field(default_factory=list)
+    tools: List[str] = Field(default_factory=list)
+    parts: List[str] = Field(default_factory=list)
+    locations: List[str] = Field(default_factory=list)
+    quantities: List[str] = Field(default_factory=list)
+    conditions: List[str] = Field(default_factory=list)
+    warnings: List[str] = Field(default_factory=list)
+    outcomes: List[str] = Field(default_factory=list)
+    temporal_references: List[str] = Field(default_factory=list)
+    procedure_step: Optional[int] = None
+    chunk_summary: Optional[str] = None
+
+
+
+class QueryIntent(BaseModel):
+    """Extracted intent and semantic attributes from a user's natural-language query."""
+
+    query: str
+    normalized_query: str
+    intent: str = "unknown"
+    actions: List[str] = Field(default_factory=list)
+    objects: List[str] = Field(default_factory=list)
+    targets: List[str] = Field(default_factory=list)
+    entities: List[str] = Field(default_factory=list)
+    tools: List[str] = Field(default_factory=list)
+    content_type_preferences: List[str] = Field(default_factory=list)
+    topic: Optional[str] = None
+    requires_llm: bool = False
+
+
+class RelevantTemporalSpan(BaseModel):
+    """Application-resolved temporal span grounded in transcript chunk data. LLM never generates this."""
+
+    start_time: float
+    end_time: float
+    source_chunk_ids: List[str] = Field(default_factory=list)
+    confidence: float = 0.0
+    reason: str = ""
+
 
 class Citation(BaseModel):
     """Represents an application-resolved, timestamp-grounded source citation."""
@@ -111,6 +193,9 @@ class Citation(BaseModel):
     start_time: float
     end_time: float
     text: str
+    # Phase 7B optional enrichment fields
+    speaker_label: Optional[str] = None
+    chapter_title: Optional[str] = None
 
 
 class RetrievalResult(BaseModel):
@@ -145,6 +230,15 @@ class RAGResponse(BaseModel):
     processing_time: float
     model: str
     retrieval_metadata: Dict[str, Any] = Field(default_factory=dict)
+    # Phase 7B intent-aware enrichment (Optional, backward-compatible)
+    primary_timestamp: Optional["RelevantTemporalSpan"] = None
+    related_sections: List["RelevantTemporalSpan"] = Field(default_factory=list)
+    speaker: Optional[str] = None
+    chapter: Optional[str] = None
+    intent: Optional[str] = None
+    abstained: bool = False
+    confidence_reason: str = ""
+    evidence_summary: str = ""
 
 
 class IndexingStatus(BaseModel):

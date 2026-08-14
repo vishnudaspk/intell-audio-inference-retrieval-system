@@ -90,3 +90,73 @@ def test_sqlite_chunk_persistence(tmp_path):
     assert loaded_chunks[0].text == "testing persistence"
     assert loaded_chunks[0].start_time == 0.1
     assert loaded_chunks[0].end_time == 1.5
+
+
+def test_sqlite_chunk_phase7a_metadata_roundtrip(tmp_path):
+    """Verify all 22 Phase 7A/7B metadata fields survive SQLite save_chunks -> get_chunks roundtrip."""
+    from database.sqlite_db import SQLiteRepository
+    from schemas.models import TranscriptChunk
+
+    db_file = tmp_path / "test_meta.db"
+    repo = SQLiteRepository(db_path=db_file)
+
+    chunk = TranscriptChunk(
+        chunk_id="chk_full_meta",
+        audio_id="audio_meta",
+        transcript_id="t1",
+        sequence_order=0,
+        text="Unscrew the two 13mm bolts from the turbo housing with a ratchet.",
+        start_time=10.0,
+        end_time=25.0,
+        speaker_id="spk_01",
+        speaker_label="Mechanic",
+        speaker_confidence=0.88,
+        chapter_id="chap_01",
+        topic="Turbo Removal",
+        subtopic="Fastener Removal",
+        intent="remove_component",
+        content_type="instruction",
+        actions=["unscrew", "remove"],
+        objects=["bolts"],
+        targets=["turbo", "housing"],
+        entities=["Garrett"],
+        tools=["ratchet"],
+        parts=["13mm bolt"],
+        locations=["turbo housing lower flange"],
+        quantities=["two", "13mm"],
+        conditions=["engine cool"],
+        warnings=["avoid hot exhaust manifold"],
+        outcomes=["turbo detached"],
+        temporal_references=["first"],
+        procedure_step=1,
+        chunk_summary="Unscrew lower 13mm bolts to detach turbo.",
+    )
+
+    repo.save_chunks("audio_meta", [chunk])
+    loaded = repo.get_chunks("audio_meta")
+
+    assert len(loaded) == 1
+    c = loaded[0]
+    assert c.chunk_id == "chk_full_meta"
+    assert c.speaker_id == "spk_01"
+    assert c.speaker_label == "Mechanic"
+    assert c.speaker_confidence == 0.88
+    assert c.chapter_id == "chap_01"
+    assert c.topic == "Turbo Removal"
+    assert c.subtopic == "Fastener Removal"
+    assert c.intent == "remove_component"
+    assert c.content_type == "instruction"
+    assert c.actions == ["unscrew", "remove"]
+    assert c.objects == ["bolts"]
+    assert c.targets == ["turbo", "housing"]
+    assert c.entities == ["Garrett"]
+    assert c.tools == ["ratchet"]
+    assert c.parts == ["13mm bolt"]
+    assert c.locations == ["turbo housing lower flange"]
+    assert c.quantities == ["two", "13mm"]
+    assert c.conditions == ["engine cool"]
+    assert c.warnings == ["avoid hot exhaust manifold"]
+    assert c.outcomes == ["turbo detached"]
+    assert c.temporal_references == ["first"]
+    assert c.procedure_step == 1
+    assert c.chunk_summary == "Unscrew lower 13mm bolts to detach turbo."
