@@ -4,7 +4,7 @@ Pydantic data models establishing domain contracts across services.
 
 import uuid
 from datetime import datetime
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -86,3 +86,78 @@ class SearchResult(BaseModel):
     end: float
     confidence: Optional[float] = None
     word_index: Optional[int] = None
+
+
+class TranscriptChunk(BaseModel):
+    """Represents a temporal timestamp-preserving chunk of transcript text."""
+
+    chunk_id: str
+    audio_id: str
+    transcript_id: str
+    sequence_order: int = 0
+    text: str
+    start_time: float
+    end_time: float
+    words: List[TranscriptWord] = Field(default_factory=list)
+    language: str = "en"
+    metadata: Dict[str, Any] = Field(default_factory=dict)
+
+
+class Citation(BaseModel):
+    """Represents an application-resolved, timestamp-grounded source citation."""
+
+    audio_id: str
+    chunk_id: str
+    start_time: float
+    end_time: float
+    text: str
+
+
+class RetrievalResult(BaseModel):
+    """Represents a chunk retrieved by hybrid BM25 and vector search with rank score."""
+
+    chunk: TranscriptChunk
+    retrieval_source: str
+    score: float
+    rank: int
+    start_time: float
+    end_time: float
+    metadata: Dict[str, Any] = Field(default_factory=dict)
+
+
+class StructuredRAGOutput(BaseModel):
+    """JSON output model expected from LLM reasoning stage."""
+
+    answer: str
+    evidence_ids: List[str] = Field(default_factory=list)
+    grounded: bool = True
+
+
+class RAGResponse(BaseModel):
+    """Complete RAG query response payload."""
+
+    answer: str
+    confidence: float
+    grounded: bool
+    citations: List[Citation] = Field(default_factory=list)
+    retrieved_chunks: List[RetrievalResult] = Field(default_factory=list)
+    query: str
+    processing_time: float
+    model: str
+    retrieval_metadata: Dict[str, Any] = Field(default_factory=dict)
+
+
+class IndexingStatus(BaseModel):
+    """Metadata tracking vector & BM25 indexing state for an audio asset."""
+
+    audio_id: str
+    status: str
+    total_chunks: int = 0
+    indexed_chunks: int = 0
+    embedding_model: str
+    embedding_dimension: int = 0
+    embedding_version: str = "1.0"
+    chunking_version: str = "1.0"
+    error_message: Optional[str] = None
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+

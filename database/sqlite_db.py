@@ -5,13 +5,21 @@ SQLite implementation of the repository interface.
 import csv
 import json
 import sqlite3
+from datetime import datetime
 from pathlib import Path
 from typing import List, Optional
 
 from config.settings import settings
 from database.base import BaseRepository
 from schemas.enums import JobStatus, LanguageCode, SourceType
-from schemas.models import AudioAsset, ProcessingJob, Transcript, TranscriptWord
+from schemas.models import (
+    AudioAsset,
+    IndexingStatus,
+    ProcessingJob,
+    Transcript,
+    TranscriptChunk,
+    TranscriptWord,
+)
 from utils.exceptions import StorageError
 from utils.logger import logger
 
@@ -83,6 +91,41 @@ class SQLiteRepository(BaseRepository):
                         end_time REAL,
                         confidence REAL,
                         sequence_order INTEGER,
+                        FOREIGN KEY (audio_id) REFERENCES audio_assets(id)
+                    )
+                    """
+                )
+                cursor.execute(
+                    """
+                    CREATE TABLE IF NOT EXISTS transcript_chunks (
+                        chunk_id TEXT PRIMARY KEY,
+                        audio_id TEXT NOT NULL,
+                        transcript_id TEXT NOT NULL,
+                        sequence_order INTEGER NOT NULL,
+                        text TEXT NOT NULL,
+                        start_time REAL NOT NULL,
+                        end_time REAL NOT NULL,
+                        words_json TEXT NOT NULL,
+                        language TEXT NOT NULL,
+                        metadata_json TEXT,
+                        created_at TEXT NOT NULL,
+                        FOREIGN KEY (audio_id) REFERENCES audio_assets(id)
+                    )
+                    """
+                )
+                cursor.execute(
+                    """
+                    CREATE TABLE IF NOT EXISTS indexing_status (
+                        audio_id TEXT PRIMARY KEY,
+                        status TEXT NOT NULL,
+                        total_chunks INTEGER DEFAULT 0,
+                        indexed_chunks INTEGER DEFAULT 0,
+                        embedding_model TEXT NOT NULL,
+                        embedding_dimension INTEGER DEFAULT 0,
+                        embedding_version TEXT NOT NULL,
+                        chunking_version TEXT NOT NULL,
+                        error_message TEXT,
+                        updated_at TEXT NOT NULL,
                         FOREIGN KEY (audio_id) REFERENCES audio_assets(id)
                     )
                     """
@@ -299,3 +342,144 @@ class SQLiteRepository(BaseRepository):
         except Exception as exc:
             logger.error(f"Failed to retrieve alignment words for audio {audio_id}: {exc}")
             raise StorageError(f"Failed to get alignment words: {exc}") from exc
+
+    def save_chunks(self, audio_id: str, chunks: List[TranscriptChunk]) -> None:
+        try:
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("DELETE FROM transcript_chunks WHERE audio_id = ?", (audio_id,))
+                records = [
+                    (
+                        c.chunk_id,
+                        c.audio_id,
+                        c.transcript_id,
+                        c.sequence_order,
+                        c.text,
+                        c.start_time,
+                        c.end_time,
+                        json.dumps([w.model_dump() for w in c.words]),
+                        c.language,
+                        json.dumps(c.metadata),
+                        datetime.utcnow().isoformat(),
+                    )
+                    for c in chunks
+                ]
+                cursor.executemany(
+                    """
+                    INSERT INTO transcript_chunks
+                    (chunk_id, audio_id, transcript_id, sequence_order, text, start_time, end_time, words_json, language, metadata_json, created_at)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    records,
+                )
+                conn.commit()
+        except Exception as exc:
+            logger.error(f"Failed to save transcript chunks for audio {audio_id}: {exc}")
+            raise StorageError(f"Failed to save chunks: {exc}") from exc
+
+    def get_chunks(self, audio_id: str) -> List[TranscriptChunk]:
+        try:
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute(
+                    "SELECT * FROM transcript_chunks WHERE audio_id = ? ORDER BY sequence_order ASC",
+                    (audio_id,),
+                )
+                rows = cursor.fetchall()
+                return [self._parse_chunk_row(row) for row in rows]
+        except Exception as exc:
+            logger.error(f"Failed to retrieve chunks for audio {audio_id}: {exc}")
+            raise StorageError(f"Failed to get chunks: {exc}") from exc
+
+    def get_all_chunks(self) -> List[TranscriptChunk]:
+        try:
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("SELECT * FROM transcript_chunks ORDER BY audio_id, sequence_order ASC")
+                rows = cursor.fetchall()
+                return [self._parse_chunk_row(row) for row in rows]
+        except Exception as exc:
+            logger.error(f"Failed to retrieve all transcript chunks: {exc}")
+            raise StorageError(f"Failed to get all chunks: {exc}") from exc
+
+    def delete_chunks(self, audio_id: str) -> None:
+        try:
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("DELETE FROM transcript_chunks WHERE audio_id = ?", (audio_id,))
+                cursor.execute("DELETE FROM indexing_status WHERE audio_id = ?", (audio_id,))
+                conn.commit()
+        except Exception as exc:
+            logger.error(f"Failed to delete chunks for audio {audio_id}: {exc}")
+            raise StorageError(f"Failed to delete chunks: {exc}") from exc
+
+    def _parse_chunk_row(self, row: sqlite3.Row) -> TranscriptChunk:
+        words_raw = json.loads(row["words_json"]) if row["words_json"] else []
+        words = [TranscriptWord(**w) for w in words_raw]
+        metadata = json.loads(row["metadata_json"]) if row["metadata_json"] else {}
+        return TranscriptChunk(
+            chunk_id=row["chunk_id"],
+            audio_id=row["audio_id"],
+            transcript_id=row["transcript_id"],
+            sequence_order=row["sequence_order"],
+            text=row["text"],
+            start_time=row["start_time"],
+            end_time=row["end_time"],
+            words=words,
+            language=row["language"],
+            metadata=metadata,
+        )
+
+    def save_indexing_status(self, status: IndexingStatus) -> IndexingStatus:
+        try:
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute(
+                    """
+                    INSERT OR REPLACE INTO indexing_status
+                    (audio_id, status, total_chunks, indexed_chunks, embedding_model, embedding_dimension, embedding_version, chunking_version, error_message, updated_at)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (
+                        status.audio_id,
+                        status.status,
+                        status.total_chunks,
+                        status.indexed_chunks,
+                        status.embedding_model,
+                        status.embedding_dimension,
+                        status.embedding_version,
+                        status.chunking_version,
+                        status.error_message,
+                        status.updated_at.isoformat(),
+                    ),
+                )
+                conn.commit()
+            return status
+        except Exception as exc:
+            logger.error(f"Failed to save indexing status for audio {status.audio_id}: {exc}")
+            raise StorageError(f"Failed to save indexing status: {exc}") from exc
+
+    def get_indexing_status(self, audio_id: str) -> Optional[IndexingStatus]:
+        try:
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("SELECT * FROM indexing_status WHERE audio_id = ?", (audio_id,))
+                row = cursor.fetchone()
+                if not row:
+                    return None
+                return IndexingStatus(
+                    audio_id=row["audio_id"],
+                    status=row["status"],
+                    total_chunks=row["total_chunks"],
+                    indexed_chunks=row["indexed_chunks"],
+                    embedding_model=row["embedding_model"],
+                    embedding_dimension=row["embedding_dimension"],
+                    embedding_version=row["embedding_version"],
+                    chunking_version=row["chunking_version"],
+                    error_message=row["error_message"],
+                    updated_at=datetime.fromisoformat(row["updated_at"]) if row["updated_at"] else datetime.utcnow(),
+                )
+        except Exception as exc:
+            logger.error(f"Failed to retrieve indexing status for audio {audio_id}: {exc}")
+            raise StorageError(f"Failed to get indexing status: {exc}") from exc
+

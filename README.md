@@ -1,230 +1,194 @@
 # Intell Audio Inference & Retrieval System
 
-An intelligent, temporal audio processing and retrieval platform designed to ingest audio files or YouTube streams, perform automated speech recognition (ASR), generate word-level timestamp alignments, and provide exact lexical and temporal audio search with timestamp-based seeking and playback.
+Short project description
 
----
+## What Is Intell Audio?
 
-## Modernization Journey & Architecture
+Explain the original 2022 project and the 2026 modernization.
 
-This project was originally built as a mini-project in 2022. It has undergone a comprehensive **Phase 1 Architectural Modernization**, evolving from a monolithic script into a clean, modular, 2026-grade application platform without breaking V1 baseline capabilities.
+## Why This Project Was Rebuilt
 
-### System Architecture Diagram
+2022:
+- PocketSphinx
+- basic transcript generation
+- Gentle alignment
+- CSV-based search
+- Streamlit monolith
 
-```mermaid
-graph TD
-    User([User / Client]) --> UI[Streamlit Frontend]
-    User --> API[FastAPI Backend]
+2026:
+- modular architecture
+- modern ASR-ready engine abstraction
+- temporal transcript representation
+- BM25
+- semantic embeddings
+- Qdrant
+- hybrid retrieval
+- RAG
+- Qwen3
+- timestamp-grounded answers
+- FastAPI + Streamlit
 
-    UI --> Services[Application Services Layer]
-    API --> Services
+## Architecture
 
-    subgraph Service Layer
-        Services --> AudioSvc[Audio Service]
-        Services --> TranscSvc[Transcription Service]
-        Services --> AlignSvc[Alignment Service]
-        Services --> HealthSvc[Health Service]
-    end
+[architecture diagram]
 
-    subgraph Processing Pipeline
-        AudioSvc --> Worker[Audio Worker Pipeline]
-        TranscSvc --> Worker
-        AlignSvc --> Worker
-    end
+## Core Pipeline
 
-    subgraph Replaceable AI Engines & Abstractions
-        TranscSvc --> ASR[TranscriptionEngine Protocol]
-        ASR --> PocketSphinx[PocketSphinx Engine - Phase 1]
-        ASR -.-> Whisper[Whisper Engine - Phase 2]
+Audio
+→ ASR
+→ Temporal Transcript
+→ Chunking
+→ BM25 + Embeddings
+→ Qdrant
+→ Hybrid Retrieval
+→ Reranking
+→ Qwen3
+→ Grounded Answer
+→ Timestamp Citation
 
-        AlignSvc --> Alignment[AlignmentEngine Protocol]
-        Alignment --> Gentle[Gentle Forced Alignment Engine]
+## Features
 
-        Retrieval[RetrievalEngine Protocol] --> Lexical[Lexical Search Engine]
-        Retrieval -.-> Vector[Vector/Hybrid Search - Phase 5]
-    end
+### Audio ingestion
+### Transcription
+### Forced alignment
+### Temporal indexing
+### Hybrid retrieval
+### Ask the Audio
+### Timestamp citations
 
-    Worker --> DB[(SQLite Database)]
-    Services --> Retrieval
-```
+## Technology Stack
 
----
-
-## Currently Implemented (Phase 1 Baseline)
-
-- **Audio Acquisition:** File upload (`.mp3`, `.wav`, `.m4a`, `.flac`) and YouTube audio extraction.
-- **Speech Recognition (ASR):** PocketSphinx offline speech-to-text transcription isolated behind the `TranscriptionEngine` interface.
-- **Forced Alignment:** Integration with local Gentle forced-alignment Docker server for word-level timestamp generation.
-- **Temporal Retrieval:** Non-destructive single-word and multi-word phrase lexical search.
-- **Interactive Audio Navigation:** Timestamp-based audio seeking and segment playback in Streamlit UI.
-- **Database Persistence:** SQLite database storing structured `AudioAsset`, `ProcessingJob`, `Transcript`, and `TranscriptWord` records.
-- **FastAPI Foundation:** OpenAPI-compliant backend API featuring `/health`, upload ingestion, transcript retrieval, and search endpoints.
-- **Environment Management:** Configuration via `pydantic-settings`, `.env.example`, and strict `pathlib.Path` data directory isolation (`data/`).
-
----
-
-## Planned Future Phases (Roadmap)
-
-- **PHASE 2 — Modern ASR:** Replace PocketSphinx with Whisper / `faster-whisper` for high-accuracy speech recognition.
-- **PHASE 3 — Temporal Transcript:** Rich transcript representations with confidence scores, paragraph segmentation, and speaker turn markers.
-- **PHASE 4 — Intelligence:** Speaker diarization, topic modeling, named entity recognition (NER), and automatic chapter generation.
-- **PHASE 5 — Semantic Retrieval:** Vector embeddings, FAISS / Qdrant vector database integration, and hybrid lexical-semantic search.
-- **PHASE 6 — Modern Web UI:** Production-grade interactive React / Next.js audio waveform frontend.
-- **PHASE 7 — API & Productionization:** Async worker queues (Celery/Redis) and multi-tenant authentication.
-- **PHASE 8 — Deployment & Observability:** Docker Compose containerization, Prometheus metrics, and OpenTelemetry tracking.
-
----
+| Layer | Technology |
+|---|---|
+| Frontend | Streamlit |
+| API | FastAPI |
+| Storage | SQLite |
+| Lexical retrieval | BM25 |
+| Vector DB | Qdrant |
+| Embeddings | Qwen3-Embedding-0.6B |
+| LLM | Qwen3-8B |
+| Local inference | LM Studio |
+| Alignment | Gentle |
+| Audio | MoviePy / Pydub |
+| Testing | Pytest |
 
 ## Project Structure
 
-```
-intell-audio-inference-retrieval-system/
-│
-├── app.py                      # Root entrypoint delegating to frontend/streamlit_app.py
-├── frontend/
-│   └── streamlit_app.py        # Streamlit presentation UI (zero business logic)
-├── backend/
-│   ├── api.py                  # FastAPI server (/health, /api/v1/ endpoints)
-│   └── schemas.py              # API request/response models
-├── workers/
-│   └── audio_worker.py        # Pipeline orchestrator (Ingest -> ASR -> Align -> Store)
-├── services/
-│   ├── audio_service.py        # File validation, YouTube download, WAV conversion, seek
-│   ├── transcription_service.py# High-level ASR service
-│   ├── alignment_service.py    # Gentle forced alignment client
-│   └── health_service.py       # Application & dependency health diagnostics
-├── engines/
-│   ├── base.py                 # Abstract engine protocols (ASR, Alignment)
-│   ├── pocketsphinx_engine.py  # PocketSphinx ASR implementation
-│   ├── gentle_engine.py       # Gentle HTTP client implementation
-│   └── factory.py              # Dynamic engine resolution factory
-├── database/
-│   ├── base.py                 # Repository interface
-│   └── sqlite_db.py            # SQLite database repository implementation
-├── retrieval/
-│   ├── base.py                 # Retrieval engine interface
-│   └── lexical.py              # Non-destructive lexical exact/phrase search
-├── schemas/
-│   ├── enums.py                # JobStatus, SourceType, LanguageCode
-│   └── models.py               # Domain Pydantic models (AudioAsset, Transcript, etc.)
-├── config/
-│   └── settings.py             # Pydantic Settings & directory initialization
-├── utils/
-│   ├── exceptions.py           # Domain exception hierarchy
-│   └── logger.py               # Structured logger
-├── data/                       # Configurable runtime data directory (git-ignored)
-│   ├── audio/
-│   ├── transcripts/
-│   ├── alignments/
-│   └── db/
-├── tests/
-│   ├── unit/                   # Offline unit tests
-│   └── integration/            # Integration tests (marked with @pytest.mark.integration)
-├── .env.example                # Example environment configuration
-├── pyproject.toml              # Pytest & Ruff settings
-├── requirements.txt            # Python dependencies
-└── README.md                   # System documentation
-```
+[tree]
 
----
+## Requirements
 
-## Installation & Setup
+Hardware:
+- NVIDIA RTX 4060 8GB recommended
+- 16GB+ system RAM recommended
+- Docker Desktop
+- Python 3.11+
 
-### 1. Environment Setup
+Software:
+- LM Studio
+- Qdrant
+- Gentle
+- Python
 
-Ensure Python 3.10+ is installed:
+## Installation
 
-```bash
-# Create virtual environment
+git clone ...
+cd ...
 python -m venv .venv
-
-# Activate virtual environment (Windows PowerShell)
-.\.venv\Scripts\Activate.ps1
-
-# Install requirements
+...
 pip install -r requirements.txt
-```
 
-### 2. Environment Configuration
+## Local Services
 
-Copy `.env.example` to `.env` to customize settings:
+### 1. Gentle
 
-```bash
-cp .env.example .env
-```
+docker ...
 
-Default settings:
-```env
-APP_NAME=IntellAudioInferenceRetrieval
-DATA_DIR=data
-GENTLE_URL=http://localhost:8888/transcriptions?async=false
-ASR_ENGINE=pocketsphinx
-ALIGNMENT_ENGINE=gentle
-RETRIEVAL_ENGINE=lexical
-API_PORT=8000
-STREAMLIT_PORT=8501
-```
+### 2. Qdrant
 
----
+docker ...
 
-## Running the Application Components
+### 3. LM Studio
 
-### 1. Gentle Forced Alignment Docker Container
+Explain model configuration.
 
-Run the Gentle server on port 8888:
+## Configuration
 
-```bash
-docker run -p 8888:8888 lowerquality/gentle
-```
+.env example
 
-Verify Gentle connectivity:
-```bash
-curl http://localhost:8888
-```
+## Running
 
-### 2. Streamlit Web UI
+Terminal 1:
+Gentle
 
-Run the Streamlit application interface:
+Terminal 2:
+Qdrant
 
-```bash
-streamlit run app.py
-```
+Terminal 3:
+LM Studio
 
-Open browser at `http://localhost:8501`.
+Terminal 4:
+FastAPI
 
-### 3. FastAPI Backend Service
+Terminal 5:
+Streamlit
 
-Run the FastAPI application:
+## Usage
 
-```bash
-uvicorn backend.api:app --host 0.0.0.0 --port 8000 --reload
-```
+1. Upload audio
+2. Process
+3. Index
+4. Ask questions
+5. Open timestamp citation
 
-Interactive API documentation:
-- Swagger UI: `http://localhost:8000/docs`
-- ReDoc: `http://localhost:8000/redoc`
-- Health check endpoint: `http://localhost:8000/health`
+## API
 
----
+Health
+Ingest
+Index
+Search
+Ask
 
-## Running Tests & Quality Checks
+## Testing
 
-Run the automated test suite with `pytest`:
-
-```bash
-# Run unit tests
-pytest tests/unit/
-
-# Run all tests (including integration tests)
 pytest
 
-# Run Ruff linter
-ruff check .
-```
+## Example Questions
 
----
+"What topics were discussed?"
+"When was X mentioned?"
+"What did the speaker say about Y?"
+"Summarize the discussion about Z."
+
+## Design Principles
+
+### Local-first
+### Evidence-grounded
+### Temporal retrieval
+### Deterministic citations
+### Modular providers
 
 ## Current Limitations
 
-- **ASR Accuracy:** PocketSphinx is an offline engine with lower accuracy compared to modern transformer-based models (Whisper will replace it in Phase 2).
-- **Synchronous Pipeline:** Audio ingestion runs synchronously in Phase 1 (Celery/Redis background worker queue planned for Phase 7).
-- **Single-Tenant Storage:** SQLite database serves local single-user execution.
+Be honest about:
+- ASR engine
+- speaker diarization
+- model context limits
+- local inference performance
+- YouTube dependency
+- Gentle limitations
+
+## Roadmap
+
+Phase 1 — Architecture ✓
+Phase 2 — Modern ASR
+Phase 3 — Temporal Transcript ✓
+Phase 4 — Intelligence
+Phase 5 — Intelligent Retrieval ✓
+Phase 6 — Ask the Audio ✓
+Phase 7 — Speaker Intelligence
+Phase 8 — Productionization
+
+## Project Evolution
+
+2022 → 2026

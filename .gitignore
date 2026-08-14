@@ -1,4 +1,4 @@
-# Python
+# Python & bytecode
 __pycache__/
 *.py[cod]
 *$py.class
@@ -22,27 +22,42 @@ data/
 *.sqlite
 *.sqlite3
 
-# Legacy / loose generated audio & output files
+# Loose audio & generated output files
 *.mp3
 *.wav
 *.m4a
 *.flac
 *.ogg
+*.aac
+*.opus
 audio.txt
 alignment_result.csv
+org.txt
+temp.csv
+*tmp*.py
+diagnose*.py
+verify*.py
+test_tok*.py
+
+# Models & vector storage
+models/
+*.gguf
+qdrant_data/
 
 # IDEs & Editors
 .vscode/
 .idea/
 *.swp
+*.swo
 
 # OS generated
 .DS_Store
 Thumbs.db
 
-# Testing / Tooling
+# Testing, Tooling & Logs
 .pytest_cache/
 .ruff_cache/
 .coverage
 htmlcov/
+*.log
 .agents/

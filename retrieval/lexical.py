@@ -1,14 +1,14 @@
-"""
-Lexical (exact word & phrase) search engine implementation.
-"""
-
+import re
 from typing import List
-
-from nltk.tokenize import word_tokenize
 
 from retrieval.base import BaseRetrievalEngine
 from schemas.models import SearchResult, TranscriptWord
 from utils.logger import logger
+
+
+def _normalize_token(text: str) -> str:
+    """Strip leading/trailing punctuation and lowercase."""
+    return re.sub(r"^[^\w]+|[^\w]+$", "", text.strip()).lower()
 
 
 class LexicalRetrievalEngine(BaseRetrievalEngine):
@@ -21,45 +21,25 @@ class LexicalRetrievalEngine(BaseRetrievalEngine):
         if not query or not query.strip():
             return []
 
-        search_tokens = [
-            t.lower()
-            for t in word_tokenize(query.strip())
-            if t.strip()
-        ]
+        # Split query by whitespace and clean each token
+        raw_tokens = query.strip().split()
+        search_tokens = [_normalize_token(t) for t in raw_tokens if _normalize_token(t)]
 
         if not search_tokens:
             return []
 
         # Filter out empty/invalid word records while retaining full list indexing
         valid_words = [w for w in words if w.word and w.word.strip()]
+        norm_words = [_normalize_token(w.word) for w in valid_words]
         results: List[SearchResult] = []
 
         query_len = len(search_tokens)
 
-        for idx, word_obj in enumerate(valid_words):
-            current_clean = word_obj.word.strip().lower()
+        for idx in range(len(valid_words)):
+            if idx + query_len > len(valid_words):
+                break
 
-            if query_len == 1:
-                if current_clean == search_tokens[0]:
-                    start_t = word_obj.start if word_obj.start is not None else 0.0
-                    end_t = word_obj.end if word_obj.end is not None else start_t
-                    results.append(
-                        SearchResult(
-                            matched_text=word_obj.word,
-                            start=start_t,
-                            end=end_t,
-                            confidence=word_obj.confidence,
-                            word_index=idx,
-                        )
-                    )
-                continue
-
-            # Multi-word consecutive phrase search
-            candidate_tokens = [
-                valid_words[idx + offset].word.strip().lower()
-                for offset in range(query_len)
-                if idx + offset < len(valid_words)
-            ]
+            candidate_tokens = norm_words[idx : idx + query_len]
 
             if candidate_tokens == search_tokens:
                 start_word = valid_words[idx]

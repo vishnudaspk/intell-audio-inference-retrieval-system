@@ -36,6 +36,31 @@ class Settings(BaseSettings):
     ALIGNMENT_ENGINE: str = "gentle"
     RETRIEVAL_ENGINE: str = "lexical"
 
+    # LM Studio Configuration
+    LM_STUDIO_BASE_URL: str = "http://localhost:1234"
+    LM_STUDIO_CHAT_MODEL: str = "qwen3-8b"
+    LM_STUDIO_EMBEDDING_MODEL: str = "text-embedding-qwen3-embedding-0.6b"
+    LM_STUDIO_TIMEOUT: float = 120.0
+
+    # Qdrant Vector Store Configuration
+    QDRANT_URL: str = "http://localhost:6333"
+    QDRANT_COLLECTION: str = "intell_audio_chunks"
+    QDRANT_API_KEY: Optional[str] = None
+    VECTOR_STORE: str = "qdrant"
+    ALLOW_LEXICAL_FALLBACK: bool = False
+
+    # Chunking Configuration
+    CHUNK_SIZE_WORDS: int = 60
+    CHUNK_OVERLAP_WORDS: int = 10
+
+    # RAG & Retrieval Parameters
+    RAG_TOP_K: int = 10
+    RAG_FINAL_K: int = 5
+    RAG_MIN_RELEVANCE_SCORE: float = 0.3
+    RAG_REQUIRE_EVIDENCE: bool = True
+    RAG_ALLOW_UNGROUNDED_ANSWER: bool = False
+    EXPAND_ADJACENT_CONTEXT: bool = True
+
     # API Server Settings
     API_HOST: str = "0.0.0.0"
     API_PORT: int = 8000
@@ -71,6 +96,14 @@ class Settings(BaseSettings):
     def db_path(self) -> Path:
         return self.db_dir / "system.db"
 
+    @property
+    def bm25_dir(self) -> Path:
+        return self.DATA_DIR / "bm25"
+
+    @property
+    def qdrant_dir(self) -> Path:
+        return self.DATA_DIR / "qdrant"
+
     def ensure_directories(self) -> None:
         """Ensure all required runtime data directories exist."""
         for directory in [
@@ -81,6 +114,8 @@ class Settings(BaseSettings):
             self.export_dir,
             self.temp_dir,
             self.db_dir,
+            self.bm25_dir,
+            self.qdrant_dir,
         ]:
             directory.mkdir(parents=True, exist_ok=True)
 
@@ -88,3 +123,4 @@ class Settings(BaseSettings):
 # Global settings instance
 settings = Settings()
 settings.ensure_directories()
+

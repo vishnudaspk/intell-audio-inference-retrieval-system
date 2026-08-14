@@ -2,7 +2,7 @@
 Pydantic Request/Response schemas for the FastAPI backend endpoints.
 """
 
-from typing import List
+from typing import List, Optional
 
 from pydantic import BaseModel
 
@@ -35,3 +35,20 @@ class TranscriptResponse(BaseModel):
     text: str
     language: str
     words: List[TranscriptWord]
+
+
+class AskRequest(BaseModel):
+    query: str
+    audio_id: Optional[str] = None
+    top_k: Optional[int] = None
+    final_k: Optional[int] = None
+
+
+class IndexResponse(BaseModel):
+    audio_id: str
+    status: str
+    total_chunks: int
+    indexed_chunks: int
+    embedding_model: str
+    error_message: Optional[str] = None
+
