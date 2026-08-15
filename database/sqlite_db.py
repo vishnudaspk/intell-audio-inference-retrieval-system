@@ -14,6 +14,7 @@ from database.base import BaseRepository
 from schemas.enums import JobStatus, LanguageCode, SourceType
 from schemas.models import (
     AudioAsset,
+    AudioSegment,
     IndexingStatus,
     ProcessingJob,
     Transcript,
@@ -130,6 +131,41 @@ class SQLiteRepository(BaseRepository):
                     )
                     """
                 )
+                # V3: Audio segments table (VAD + ASR + Speaker Embeddings + Acoustics)
+                cursor.execute(
+                    """
+                    CREATE TABLE IF NOT EXISTS audio_segments (
+                        id TEXT PRIMARY KEY,
+                        audio_id TEXT NOT NULL,
+                        sequence_order INTEGER NOT NULL,
+                        start_sec REAL NOT NULL,
+                        end_sec REAL NOT NULL,
+                        duration_sec REAL NOT NULL,
+                        vad_confidence REAL DEFAULT 0.0,
+                        text TEXT NOT NULL DEFAULT '',
+                        language TEXT NOT NULL DEFAULT 'en',
+                        speaker_label TEXT,
+                        speaker_id TEXT,
+                        whisper_segment_id INTEGER,
+                        avg_logprob REAL,
+                        no_speech_prob REAL,
+                        words_json TEXT,
+                        speaker_embedding_json TEXT,
+                        acoustic_features_json TEXT,
+                        created_at TEXT NOT NULL,
+                        FOREIGN KEY (audio_id) REFERENCES audio_assets(id)
+                    )
+                    """
+                )
+
+                # Migration check: ensure speaker_label and speaker_id columns exist
+                cursor.execute("PRAGMA table_info(audio_segments)")
+                columns = [col["name"] for col in cursor.fetchall()]
+                if "speaker_label" not in columns:
+                    cursor.execute("ALTER TABLE audio_segments ADD COLUMN speaker_label TEXT")
+                if "speaker_id" not in columns:
+                    cursor.execute("ALTER TABLE audio_segments ADD COLUMN speaker_id TEXT")
+
                 conn.commit()
         except Exception as exc:
             logger.error(f"Failed to initialize SQLite database: {exc}")
@@ -180,6 +216,28 @@ class SQLiteRepository(BaseRepository):
         except Exception as exc:
             logger.error(f"Failed to retrieve audio asset {audio_id}: {exc}")
             raise StorageError(f"Failed to get audio asset: {exc}") from exc
+
+    def get_all_audio_assets(self) -> List[AudioAsset]:
+        try:
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("SELECT * FROM audio_assets ORDER BY created_at DESC")
+                rows = cursor.fetchall()
+                return [
+                    AudioAsset(
+                        id=row["id"],
+                        filename=row["filename"],
+                        file_path=row["file_path"],
+                        format=row["format"],
+                        duration=row["duration"],
+                        source_type=SourceType(row["source_type"]),
+                    )
+                    for row in rows
+                ]
+        except Exception as exc:
+            logger.error(f"Failed to retrieve all audio assets: {exc}")
+            raise StorageError(f"Failed to get all audio assets: {exc}") from exc
+
 
     def save_job(self, job: ProcessingJob) -> ProcessingJob:
         try:
@@ -483,3 +541,102 @@ class SQLiteRepository(BaseRepository):
             logger.error(f"Failed to retrieve indexing status for audio {audio_id}: {exc}")
             raise StorageError(f"Failed to get indexing status: {exc}") from exc
 
+    # ─────────────────────────────────────────────────────────────────────────
+    # V3: Audio Segments (VAD + ASR + Speaker Embeddings + Acoustic Features)
+    # ─────────────────────────────────────────────────────────────────────────
+
+    def save_audio_segments(self, audio_id: str, segments: List[AudioSegment]) -> None:
+        """Persist a list of V3 AudioSegment objects, replacing any existing segments for the asset."""
+        try:
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("DELETE FROM audio_segments WHERE audio_id = ?", (audio_id,))
+
+                records = [
+                    (
+                        seg.id,
+                        seg.audio_id,
+                        seg.sequence_order,
+                        seg.start_sec,
+                        seg.end_sec,
+                        seg.duration_sec,
+                        seg.vad_confidence,
+                        seg.text,
+                        seg.language,
+                        seg.speaker_label,
+                        seg.speaker_id,
+                        seg.whisper_segment_id,
+                        seg.avg_logprob,
+                        seg.no_speech_prob,
+                        json.dumps([w.model_dump() for w in seg.words]) if seg.words else None,
+                        json.dumps(seg.speaker_embedding) if seg.speaker_embedding is not None else None,
+                        json.dumps(seg.acoustic_features) if seg.acoustic_features is not None else None,
+                        seg.created_at.isoformat(),
+                    )
+                    for seg in segments
+                ]
+
+                cursor.executemany(
+                    """
+                    INSERT INTO audio_segments
+                    (id, audio_id, sequence_order, start_sec, end_sec, duration_sec,
+                     vad_confidence, text, language, speaker_label, speaker_id,
+                     whisper_segment_id, avg_logprob, no_speech_prob, words_json,
+                     speaker_embedding_json, acoustic_features_json, created_at)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    records,
+                )
+                conn.commit()
+
+            logger.info(f"Saved {len(segments)} audio segment(s) for asset {audio_id}.")
+        except Exception as exc:
+            logger.error(f"Failed to save audio segments for {audio_id}: {exc}")
+            raise StorageError(f"Failed to save audio segments: {exc}") from exc
+
+    def get_audio_segments(self, audio_id: str) -> List[AudioSegment]:
+        """Retrieve all V3 AudioSegment objects for an audio asset, ordered by sequence."""
+        try:
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute(
+                    "SELECT * FROM audio_segments WHERE audio_id = ? ORDER BY sequence_order ASC",
+                    (audio_id,),
+                )
+                rows = cursor.fetchall()
+                return [self._parse_audio_segment_row(row) for row in rows]
+        except Exception as exc:
+            logger.error(f"Failed to retrieve audio segments for {audio_id}: {exc}")
+            raise StorageError(f"Failed to get audio segments: {exc}") from exc
+
+    def _parse_audio_segment_row(self, row: sqlite3.Row) -> AudioSegment:
+        words_raw = json.loads(row["words_json"]) if row["words_json"] else []
+        words = [TranscriptWord(**w) for w in words_raw]
+
+        embedding_raw = json.loads(row["speaker_embedding_json"]) if row["speaker_embedding_json"] else None
+        acoustic_raw = json.loads(row["acoustic_features_json"]) if row["acoustic_features_json"] else None
+
+        keys = row.keys() if hasattr(row, "keys") else []
+        speaker_label = row["speaker_label"] if "speaker_label" in keys else None
+        speaker_id = row["speaker_id"] if "speaker_id" in keys else None
+
+        return AudioSegment(
+            id=row["id"],
+            audio_id=row["audio_id"],
+            sequence_order=row["sequence_order"],
+            start_sec=row["start_sec"],
+            end_sec=row["end_sec"],
+            duration_sec=row["duration_sec"],
+            vad_confidence=row["vad_confidence"],
+            text=row["text"],
+            language=row["language"],
+            speaker_label=speaker_label,
+            speaker_id=speaker_id,
+            whisper_segment_id=row["whisper_segment_id"],
+            avg_logprob=row["avg_logprob"],
+            no_speech_prob=row["no_speech_prob"],
+            words=words,
+            speaker_embedding=embedding_raw,
+            acoustic_features=acoustic_raw,
+            created_at=datetime.fromisoformat(row["created_at"]) if row["created_at"] else datetime.utcnow(),
+        )

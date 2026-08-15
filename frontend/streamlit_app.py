@@ -92,11 +92,9 @@ def main():
         st.write(f"**Overall Status:** `{health['status']}`")
         st.write(f"**ASR Engine:** `{health['asr_engine']}`")
 
-        gentle_st = health["services"]["gentle"]
-        if gentle_st == "available":
-            st.success("Gentle Server: Available")
-        else:
-            st.warning("Gentle Server: Unavailable (Forced alignment disabled)")
+        st.write(f"**VAD Engine:** `{health.get('vad_engine', 'silero')}`")
+        st.write(f"**Speaker Model:** `{health.get('speaker_embedding_engine', 'speechbrain')}`")
+        st.caption("ℹ️ *Legacy Dev UI — Primary UI is React/Vite*")
 
         lm_st = health.get("lm_studio", "unavailable")
         if lm_st == "available":

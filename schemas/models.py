@@ -161,3 +161,50 @@ class IndexingStatus(BaseModel):
     error_message: Optional[str] = None
     updated_at: datetime = Field(default_factory=datetime.utcnow)
 
+
+# ─────────────────────────────────────────────────────────────────────────────
+# V3 Audio Intelligence Models
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+class AudioSegment(BaseModel):
+    """
+    V3 unified audio segment representation.
+
+    Aggregates:
+    - VAD interval (start_sec / end_sec / vad_confidence)
+    - Whisper ASR transcript text and per-word data
+    - SpeechBrain ECAPA-TDNN speaker embedding (192-dim, L2-normalized)
+    - Librosa acoustic features (pitch, energy, spectral)
+    - Sequence metadata (audio_id, segment index)
+    """
+
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    audio_id: str
+
+    # VAD timing
+    start_sec: float
+    end_sec: float
+    duration_sec: float = 0.0
+    vad_confidence: float = 0.0
+
+    # ASR
+    text: str = ""
+    language: str = "en"
+    whisper_segment_id: Optional[int] = None
+    avg_logprob: Optional[float] = None
+    no_speech_prob: Optional[float] = None
+    words: List[TranscriptWord] = Field(default_factory=list)
+
+    # Speaker representation & intelligence
+    speaker_label: Optional[str] = None
+    speaker_id: Optional[str] = None
+    speaker_embedding: Optional[List[float]] = None
+
+    # Acoustic features (stored as nested JSON)
+    acoustic_features: Optional[Dict[str, Any]] = None
+
+    # Metadata
+    sequence_order: int = 0
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+

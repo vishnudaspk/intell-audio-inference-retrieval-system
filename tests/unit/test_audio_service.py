@@ -13,16 +13,19 @@ from utils.exceptions import AudioProcessingError
 def test_audio_service_validation(tmp_path: Path):
     service = AudioService(data_dir=tmp_path)
 
-    # Valid file
+    # Valid files (audio + video audio extraction)
     service.validate_file("sample.mp3", 1024)
+    service.validate_file("video.mp4", 1024)
+    service.validate_file("speech.wav", 1024)
+    service.validate_file("track.flac", 1024)
 
     # Invalid extension
     with pytest.raises(AudioProcessingError):
         service.validate_file("document.pdf", 1024)
 
-    # File size too large
+    # File size too large (exceeds 500 MB limit)
     with pytest.raises(AudioProcessingError):
-        service.validate_file("huge.mp3", 200 * 1024 * 1024)
+        service.validate_file("huge.mp4", 600 * 1024 * 1024)
 
 
 def test_audio_service_save_upload(tmp_path: Path):

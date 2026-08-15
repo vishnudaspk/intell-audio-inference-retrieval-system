@@ -27,6 +27,10 @@ class BaseRepository(ABC):
         pass
 
     @abstractmethod
+    def get_all_audio_assets(self) -> List[AudioAsset]:
+        pass
+
+    @abstractmethod
     def save_job(self, job: ProcessingJob) -> ProcessingJob:
         pass
 
@@ -73,4 +77,13 @@ class BaseRepository(ABC):
     @abstractmethod
     def get_indexing_status(self, audio_id: str) -> Optional[IndexingStatus]:
         pass
+
+    @abstractmethod
+    def save_audio_segments(self, audio_id: str, segments: list) -> None:
+        pass
+
+    @abstractmethod
+    def get_audio_segments(self, audio_id: str) -> list:
+        pass
+
 

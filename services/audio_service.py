@@ -1,5 +1,8 @@
 """
-Audio Service managing file ingestion, validation, WAV conversion, and segment seeking.
+Audio Service — V3 Phase 1C
+Handles media ingestion, validation, and normalization to 16kHz mono PCM WAV.
+Supports: MP3, WAV, M4A, FLAC, OGG, MP4 (audio track extraction).
+Uses soundfile + torchaudio/librosa for reliable, dependency-light normalization.
 """
 
 import io
@@ -7,9 +10,10 @@ import uuid
 from pathlib import Path
 from typing import Optional
 
-from moviepy.editor import AudioFileClip
-from pydub import AudioSegment
-from pytube import YouTube
+import numpy as np
+import soundfile as sf
+import torchaudio
+import torchaudio.transforms as T
 
 from config.settings import settings
 from schemas.enums import SourceType
@@ -17,12 +21,14 @@ from schemas.models import AudioAsset
 from utils.exceptions import AudioProcessingError
 from utils.logger import logger
 
-ALLOWED_EXTENSIONS = {".mp3", ".wav", ".m4a", ".flac", ".ogg"}
-MAX_FILE_SIZE_BYTES = 100 * 1024 * 1024  # 100 MB limit
+ALLOWED_EXTENSIONS = {".mp3", ".wav", ".m4a", ".flac", ".ogg", ".mp4"}
+MAX_FILE_SIZE_BYTES = 500 * 1024 * 1024  # 500 MB limit (accommodates video files)
+TARGET_SAMPLE_RATE = 16_000
+TARGET_CHANNELS = 1
 
 
 class AudioService:
-    """Service handling audio file validation, YouTube download, format conversion, and timestamp seeking."""
+    """Service handling audio/video ingestion, validation, format normalization, and preview seeking."""
 
     def __init__(self, data_dir: Optional[Path] = None):
         self.audio_dir = (data_dir or settings.DATA_DIR) / "audio"
@@ -30,105 +36,124 @@ class AudioService:
         self.audio_dir.mkdir(parents=True, exist_ok=True)
         self.temp_dir.mkdir(parents=True, exist_ok=True)
 
+    # ------------------------------------------------------------------
+    # Validation
+    # ------------------------------------------------------------------
+
     def validate_file(self, filename: str, file_size: int) -> None:
         """Validate filename extension and file size."""
         ext = Path(filename).suffix.lower()
         if ext not in ALLOWED_EXTENSIONS:
             raise AudioProcessingError(
-                f"Unsupported audio format '{ext}'. Allowed extensions: {', '.join(ALLOWED_EXTENSIONS)}"
+                f"Unsupported media format '{ext}'. Allowed: {', '.join(sorted(ALLOWED_EXTENSIONS))}"
+            )
+        if file_size > MAX_FILE_SIZE_BYTES:
+            raise AudioProcessingError(
+                f"File size ({file_size / 1024 / 1024:.1f} MB) exceeds maximum limit (500 MB)"
             )
 
-        if file_size > MAX_FILE_SIZE_BYTES:
-            raise AudioProcessingError(f"Audio file size ({file_size} bytes) exceeds maximum limit (100 MB)")
+    # ------------------------------------------------------------------
+    # Ingestion
+    # ------------------------------------------------------------------
 
     def save_uploaded_file(self, file_bytes: bytes, original_filename: str) -> AudioAsset:
-        """Save uploaded audio bytes under a unique asset ID."""
+        """Persist raw upload bytes and return an AudioAsset record."""
         self.validate_file(original_filename, len(file_bytes))
         asset_id = str(uuid.uuid4())
         ext = Path(original_filename).suffix.lower() or ".mp3"
-        target_filename = f"{asset_id}{ext}"
-        target_path = self.audio_dir / target_filename
+        raw_filename = f"{asset_id}_raw{ext}"
+        raw_path = self.audio_dir / raw_filename
 
         try:
-            with open(target_path, "wb") as f:
+            with open(raw_path, "wb") as f:
                 f.write(file_bytes)
 
-            logger.info(f"Saved uploaded audio asset {asset_id} ({original_filename}) to {target_path}")
+            logger.info(f"Saved uploaded asset {asset_id} ({original_filename}) -> {raw_path}")
 
             return AudioAsset(
                 id=asset_id,
                 filename=original_filename,
-                file_path=str(target_path),
+                file_path=str(raw_path),
                 format=ext.lstrip("."),
                 source_type=SourceType.UPLOAD,
             )
         except Exception as exc:
-            logger.error(f"Failed to save uploaded audio file: {exc}")
+            logger.error(f"Failed to save uploaded file: {exc}")
             raise AudioProcessingError(f"Failed to save audio file: {exc}") from exc
 
-    def download_youtube_audio(self, youtube_url: str) -> AudioAsset:
-        """Download lowest bitrate audio stream from a YouTube video URL."""
-        if not youtube_url or not youtube_url.strip():
-            raise AudioProcessingError("YouTube URL must not be empty")
+    # ------------------------------------------------------------------
+    # Normalization — Core V3 Stage
+    # ------------------------------------------------------------------
 
-        asset_id = str(uuid.uuid4())
-        target_filename = f"{asset_id}.mp3"
-        target_path = self.audio_dir / target_filename
+    def normalize_to_wav(self, asset: AudioAsset) -> Path:
+        """
+        Normalize any supported audio/video file to 16 kHz mono PCM WAV.
 
-        try:
-            logger.info(f"Downloading YouTube audio from {youtube_url} for asset {asset_id}")
-            yt = YouTube(youtube_url.strip())
-            audio_streams = yt.streams.filter(only_audio=True)
-            sorted_streams = sorted(audio_streams, key=lambda s: s.bitrate)
+        Handles:
+        - Resampling to TARGET_SAMPLE_RATE (16 kHz)
+        - Downmixing to mono (averaging channels)
+        - Float32 → int16 PCM conversion for broad compatibility
+        - MP4 video files: extracts audio track via torchaudio's ffmpeg backend
 
-            if not sorted_streams:
-                raise AudioProcessingError("No suitable audio stream found in YouTube link")
-
-            best_audio = sorted_streams[0]
-            best_audio.download(output_path=str(self.audio_dir), filename=target_filename)
-
-            logger.info(f"Successfully downloaded YouTube audio for asset {asset_id}")
-
-            return AudioAsset(
-                id=asset_id,
-                filename=f"youtube_{yt.video_id or asset_id}.mp3",
-                file_path=str(target_path),
-                format="mp3",
-                source_type=SourceType.YOUTUBE,
-            )
-        except Exception as exc:
-            logger.error(f"YouTube audio download failed for {youtube_url}: {exc}")
-            raise AudioProcessingError(f"YouTube download failed: {exc}") from exc
-
-    def convert_to_wav(self, audio_asset: AudioAsset) -> Path:
-        """Convert input audio asset to 16kHz WAV format required by PocketSphinx & Gentle."""
-        input_path = Path(audio_asset.file_path)
+        Returns the path to the normalized WAV file.
+        """
+        input_path = Path(asset.file_path)
         if not input_path.exists():
-            raise AudioProcessingError(f"Source audio file not found: {input_path}")
+            raise AudioProcessingError(f"Source media file not found: {input_path}")
 
-        wav_filename = f"{audio_asset.id}.wav"
-        wav_path = self.audio_dir / wav_filename
+        wav_path = self.audio_dir / f"{asset.id}.wav"
 
-        logger.info(f"Converting audio {audio_asset.id} to WAV standard at {wav_path}")
+        logger.info(f"Normalizing asset {asset.id} to 16kHz mono WAV -> {wav_path}")
 
-        clip = None
         try:
-            clip = AudioFileClip(str(input_path))
-            clip.write_audiofile(str(wav_path), verbose=False, logger=None)
+            # torchaudio handles MP3, WAV, FLAC, OGG, M4A, MP4 (via ffmpeg backend)
+            waveform, sample_rate = torchaudio.load(str(input_path))
+            # waveform shape: (channels, num_samples)
 
-            # Update duration on asset
-            audio_asset.duration = clip.duration
+            # Downmix to mono
+            if waveform.shape[0] > 1:
+                waveform = waveform.mean(dim=0, keepdim=True)
+
+            # Resample if needed
+            if sample_rate != TARGET_SAMPLE_RATE:
+                resampler = T.Resample(orig_freq=sample_rate, new_freq=TARGET_SAMPLE_RATE)
+                waveform = resampler(waveform)
+
+            # Compute duration
+            num_samples = waveform.shape[-1]
+            duration_sec = num_samples / TARGET_SAMPLE_RATE
+            asset.duration = round(duration_sec, 3)
+
+            # Save as 16-bit PCM WAV via soundfile (avoids torchcodec dependency)
+            audio_np = waveform.squeeze(0).numpy().astype(np.float32)
+            sf.write(str(wav_path), audio_np, TARGET_SAMPLE_RATE, subtype="PCM_16")
+
+            logger.info(
+                f"Normalized asset {asset.id}: {duration_sec:.1f}s | "
+                f"sample_rate={TARGET_SAMPLE_RATE} | mono | {wav_path}"
+            )
             return wav_path
 
         except Exception as exc:
-            logger.error(f"Failed to convert audio {audio_asset.id} to WAV: {exc}")
-            raise AudioProcessingError(f"Audio conversion failed: {exc}") from exc
-        finally:
-            if clip is not None:
-                try:
-                    clip.close()
-                except Exception:
-                    pass
+            logger.error(f"Failed to normalize asset {asset.id}: {exc}")
+            raise AudioProcessingError(f"Audio normalization failed: {exc}") from exc
+
+    def load_waveform(self, wav_path: Path) -> tuple:
+        """
+        Load a normalized WAV file and return (numpy_array, sample_rate).
+        The array is 1-D float32 in [-1.0, 1.0] range.
+        """
+        if not wav_path.exists():
+            raise AudioProcessingError(f"WAV file not found: {wav_path}")
+
+        audio_np, sr = sf.read(str(wav_path), dtype="float32")
+        if audio_np.ndim == 2:
+            audio_np = audio_np.mean(axis=1)
+        return audio_np, sr
+
+    # ------------------------------------------------------------------
+    # Preview seeking (retained for Streamlit UI)
+    # ------------------------------------------------------------------
 
     def extract_audio_preview(self, audio_path: Path, start_time_sec: float) -> bytes:
         """Slice audio from start_time_sec to end of file as WAV bytes for UI seeking."""
@@ -136,14 +161,25 @@ class AudioService:
             raise AudioProcessingError(f"Audio file for preview seek not found: {audio_path}")
 
         try:
-            audio_seg = AudioSegment.from_file(str(audio_path))
-            start_ms = int(float(start_time_sec) * 1000)
-            preview_seg = audio_seg[start_ms:]
+            audio_np, sr = sf.read(str(audio_path), dtype="float32")
+            if audio_np.ndim == 2:
+                audio_np = audio_np.mean(axis=1)
+            start_sample = int(start_time_sec * sr)
+            preview_np = audio_np[start_sample:]
 
-            output_buffer = io.BytesIO()
-            preview_seg.export(output_buffer, format="wav")
-            return output_buffer.getvalue()
+            buffer = io.BytesIO()
+            sf.write(buffer, preview_np, sr, subtype="PCM_16", format="WAV")
+            buffer.seek(0)
+            return buffer.read()
 
         except Exception as exc:
-            logger.error(f"Failed to seek audio preview at timestamp {start_time_sec}s: {exc}")
+            logger.error(f"Failed to seek audio preview at {start_time_sec}s: {exc}")
             raise AudioProcessingError(f"Audio seek error: {exc}") from exc
+
+    # ------------------------------------------------------------------
+    # Backward-compat shim (old callers that used convert_to_wav)
+    # ------------------------------------------------------------------
+
+    def convert_to_wav(self, audio_asset: AudioAsset) -> Path:
+        """Backward-compatible alias for normalize_to_wav."""
+        return self.normalize_to_wav(audio_asset)

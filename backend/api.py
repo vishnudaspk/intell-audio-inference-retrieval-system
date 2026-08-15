@@ -2,12 +2,16 @@
 FastAPI application backend exposing /health and /api/v1/ endpoints.
 """
 
-from typing import Any, Dict
+from pathlib import Path
+from typing import Any, Dict, List
 
 from fastapi import FastAPI, File, HTTPException, UploadFile, status
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 
 from backend.schemas import (
     AskRequest,
+    AudioSegmentsResponse,
     IndexResponse,
     IngestUploadResponse,
     SearchRequest,
@@ -20,7 +24,7 @@ from retrieval.bm25 import BM25Index
 from retrieval.hybrid import RetrievalPipeline
 from retrieval.lexical import LexicalRetrievalEngine
 from retrieval.vector_store import QdrantVectorStore
-from schemas.models import RAGResponse
+from schemas.models import AudioAsset, ProcessingJob, RAGResponse
 from services.audio_service import AudioService
 from services.embedding_service import LMStudioEmbeddingProvider
 from services.health_service import HealthService
@@ -33,8 +37,17 @@ from workers.indexing_worker import IndexingWorker
 
 app = FastAPI(
     title="Intell Audio Inference & Retrieval API",
-    description="2026-grade Temporal Audio Intelligence & Retrieval Platform API",
-    version="2.0.0-phase6",
+    description="2026-grade Temporal Audio Intelligence & Retrieval Platform API (V3)",
+    version="3.0.0-phase1",
+)
+
+# Enable CORS for React Vite frontend (ports 5173, 3000, etc.)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Application services & repository initialization
@@ -43,7 +56,7 @@ audio_service = AudioService()
 worker = AudioWorker(repository=repo, audio_service=audio_service)
 retrieval_engine = LexicalRetrievalEngine()
 
-# Phase 5 & 6 services
+# Hybrid retrieval & RAG services
 bm25_index = BM25Index()
 vector_store = QdrantVectorStore()
 embedding_provider = LMStudioEmbeddingProvider()
@@ -83,13 +96,13 @@ def health_check() -> Dict[str, Any]:
     tags=["Ingestion"],
 )
 async def ingest_file_upload(file: UploadFile = File(...)):
-    """Ingest uploaded audio file and run processing pipeline."""
+    """Ingest uploaded audio/video file and run V3 Phase 1 pipeline."""
     try:
         content = await file.read()
         asset = audio_service.save_uploaded_file(content, file.filename)
         job = worker.process_asset(asset)
 
-        # Trigger Phase 5 chunking & indexing after alignment
+        # Trigger chunking & indexing after transcription
         try:
             indexing_worker.index_audio(asset.id)
         except Exception as idx_exc:
@@ -101,7 +114,7 @@ async def ingest_file_upload(file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     except Exception as exc:
         logger.error(f"API upload internal error: {exc}")
-        raise HTTPException(status_code=500, detail="Internal server error") from exc
+        raise HTTPException(status_code=500, detail=f"Internal server error: {exc}") from exc
 
 
 @app.post(
@@ -111,12 +124,12 @@ async def ingest_file_upload(file: UploadFile = File(...)):
     tags=["Ingestion"],
 )
 def ingest_youtube_audio(payload: YouTubeIngestRequest):
-    """Ingest audio from YouTube video URL and run processing pipeline."""
+    """Ingest audio from YouTube video URL and run V3 Phase 1 pipeline."""
     try:
         asset = audio_service.download_youtube_audio(payload.url)
         job = worker.process_asset(asset)
 
-        # Trigger Phase 5 chunking & indexing after alignment
+        # Trigger chunking & indexing after transcription
         try:
             indexing_worker.index_audio(asset.id)
         except Exception as idx_exc:
@@ -128,16 +141,62 @@ def ingest_youtube_audio(payload: YouTubeIngestRequest):
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     except Exception as exc:
         logger.error(f"API YouTube ingest internal error: {exc}")
-        raise HTTPException(status_code=500, detail="Internal server error") from exc
+        raise HTTPException(status_code=500, detail=f"Internal server error: {exc}") from exc
 
 
-@app.get("/api/v1/assets/{audio_id}", tags=["Assets"])
+@app.get("/api/v1/assets", response_model=List[AudioAsset], tags=["Assets"])
+def list_assets():
+    """List all ingested media assets."""
+    return repo.get_all_audio_assets()
+
+
+@app.get("/api/v1/assets/{audio_id}", response_model=AudioAsset, tags=["Assets"])
 def get_asset_metadata(audio_id: str):
     """Get metadata for an ingested audio asset."""
     asset = repo.get_audio_asset(audio_id)
     if not asset:
         raise HTTPException(status_code=404, detail="Audio asset not found")
     return asset
+
+
+@app.get("/api/v1/assets/{audio_id}/media", tags=["Assets"])
+def get_asset_media_file(audio_id: str):
+    """Stream or download the media file (or normalized WAV) for playback."""
+    asset = repo.get_audio_asset(audio_id)
+    if not asset:
+        raise HTTPException(status_code=404, detail="Audio asset not found")
+
+    file_path = Path(asset.file_path)
+    if not file_path.exists():
+        # Fallback to normalized WAV if raw original not present
+        wav_fallback = audio_service.audio_dir / f"{audio_id}.wav"
+        if wav_fallback.exists():
+            file_path = wav_fallback
+        else:
+            raise HTTPException(status_code=404, detail="Media file not found on disk")
+
+    media_type = "audio/wav"
+    if file_path.suffix.lower() == ".mp4":
+        media_type = "video/mp4"
+    elif file_path.suffix.lower() == ".mp3":
+        media_type = "audio/mpeg"
+    elif file_path.suffix.lower() == ".ogg":
+        media_type = "audio/ogg"
+    elif file_path.suffix.lower() == ".flac":
+        media_type = "audio/flac"
+    elif file_path.suffix.lower() == ".m4a":
+        media_type = "audio/mp4"
+
+    return FileResponse(path=str(file_path), media_type=media_type, filename=file_path.name)
+
+
+@app.get("/api/v1/assets/{audio_id}/jobs/{job_id}", response_model=ProcessingJob, tags=["Jobs"])
+def get_job_status(audio_id: str, job_id: str):
+    """Get status and performance timings for an audio processing job."""
+    job = repo.get_job(job_id)
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+    return job
 
 
 @app.get(
@@ -155,6 +214,21 @@ def get_asset_transcript(audio_id: str):
         text=transcript.text,
         language=transcript.language.value,
         words=transcript.words,
+    )
+
+
+@app.get(
+    "/api/v1/assets/{audio_id}/segments",
+    response_model=AudioSegmentsResponse,
+    tags=["V3 Intelligence"],
+)
+def get_asset_segments(audio_id: str):
+    """Get unified V3 AudioSegment objects with VAD intervals, speaker embeddings, and acoustics."""
+    segments = repo.get_audio_segments(audio_id)
+    return AudioSegmentsResponse(
+        audio_id=audio_id,
+        total_segments=len(segments),
+        segments=segments,
     )
 
 
@@ -257,4 +331,3 @@ def ask_audio(payload: AskRequest):
     except Exception as exc:
         logger.error(f"Ask the Audio endpoint internal error: {exc}")
         raise HTTPException(status_code=500, detail=f"Ask the Audio failed: {exc}") from exc
-

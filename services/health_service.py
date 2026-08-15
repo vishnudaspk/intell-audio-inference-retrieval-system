@@ -6,16 +6,14 @@ from typing import Any, Dict
 
 from config.settings import settings
 from database.sqlite_db import SQLiteRepository
-from engines.factory import EngineFactory
 from utils.logger import logger
 
 
 class HealthService:
-    """Provides application diagnostics and health status checks."""
+    """Provides application diagnostics and health status checks for V3."""
 
     @staticmethod
     def check_health() -> Dict[str, Any]:
-        gentle_status = "unavailable"
         db_status = "unavailable"
         dirs_status = "ok"
         lm_studio_status = "unavailable"
@@ -23,16 +21,10 @@ class HealthService:
         embedding_model_status = "unavailable"
         qdrant_status = "unavailable"
         bm25_status = "available"
+        asr_status = "configured"
+        vad_status = "configured"
 
-        # 1. Gentle check
-        try:
-            alignment_engine = EngineFactory.get_alignment_engine()
-            if alignment_engine.is_available():
-                gentle_status = "available"
-        except Exception as exc:
-            logger.debug(f"Gentle health check failed: {exc}")
-
-        # 2. Database check
+        # 1. Database check
         try:
             repo = SQLiteRepository()
             with repo._get_connection() as conn:
@@ -43,13 +35,13 @@ class HealthService:
         except Exception as exc:
             logger.debug(f"Database health check failed: {exc}")
 
-        # 3. Data directory writable check
+        # 2. Data directory writable check
         try:
             settings.ensure_directories()
         except Exception:
             dirs_status = "error"
 
-        # 4. LM Studio check
+        # 3. LM Studio check
         try:
             from services.embedding_service import LMStudioEmbeddingProvider
             from services.llm_service import LMStudioLLMProvider
@@ -67,7 +59,7 @@ class HealthService:
         except Exception as exc:
             logger.debug(f"LM Studio health check failed: {exc}")
 
-        # 5. Qdrant check
+        # 4. Qdrant check
         try:
             from retrieval.vector_store import QdrantVectorStore
 
@@ -84,7 +76,8 @@ class HealthService:
             "app_name": settings.APP_NAME,
             "environment": settings.APP_ENV,
             "asr_engine": settings.ASR_ENGINE,
-            "alignment_engine": settings.ALIGNMENT_ENGINE,
+            "vad_engine": settings.VAD_ENGINE,
+            "speaker_embedding_engine": settings.SPEAKER_EMBEDDING_ENGINE,
             "retrieval_engine": settings.RETRIEVAL_ENGINE,
             "lm_studio": lm_studio_status,
             "chat_model": chat_model_status,
@@ -92,11 +85,11 @@ class HealthService:
             "qdrant": qdrant_status,
             "bm25_index": bm25_status,
             "services": {
-                "gentle": gentle_status,
                 "database": db_status,
                 "data_directories": dirs_status,
+                "asr": asr_status,
+                "vad": vad_status,
                 "lm_studio": lm_studio_status,
                 "qdrant": qdrant_status,
             },
         }
-

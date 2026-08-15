@@ -24,16 +24,39 @@ class Settings(BaseSettings):
     # Base Data Directory
     DATA_DIR: Path = Path("data")
 
-    # Gentle forced alignment server URL
-    GENTLE_URL: str = "http://localhost:8888/transcriptions?async=false"
-
     # Database URL
     DATABASE_URL: Optional[str] = None
 
-    # Engine Selections
-    ASR_ENGINE: str = "pocketsphinx"
-    ASR_MODEL: str = "default"
-    ALIGNMENT_ENGINE: str = "gentle"
+    # V3 Audio Processing Settings
+    SAMPLE_RATE: int = 16000
+    CHANNELS: int = 1
+
+    # V3 ASR (Whisper) Configuration
+    ASR_ENGINE: str = "whisper"
+    WHISPER_MODEL_SIZE: str = "base.en"
+    WHISPER_DEVICE: str = "auto"  # "cuda", "cpu", or "auto"
+    WHISPER_COMPUTE_TYPE: str = "auto"  # "float16", "int8", "float32", or "auto"
+    WHISPER_BEAM_SIZE: int = 5
+    WHISPER_VAD_FILTER: bool = False  # Set False since we have our own dedicated VAD layer
+
+    # V3 VAD Configuration
+    VAD_ENGINE: str = "silero"
+    VAD_THRESHOLD: float = 0.5
+    VAD_MIN_SPEECH_DURATION_MS: int = 250
+    VAD_MIN_SILENCE_DURATION_MS: int = 300
+    VAD_SPEECH_PAD_MS: int = 100
+
+    # V3 Speaker Representation Configuration
+    SPEAKER_EMBEDDING_ENGINE: str = "speechbrain"
+    SPEAKER_EMBEDDING_MODEL: str = "speechbrain/spkrec-ecapa-voxceleb"
+    SPEAKER_EMBEDDING_DEVICE: str = "auto"  # "cuda", "cpu", or "auto"
+    SPEAKER_MIN_SEGMENT_DURATION_SEC: float = 0.5
+
+    # V3 Acoustic Analysis Configuration
+    EXTRACT_ACOUSTICS: bool = True
+    ACOUSTIC_SAMPLE_RATE: int = 16000
+
+    # Retrieval Engine Selection
     RETRIEVAL_ENGINE: str = "lexical"
 
     # LM Studio Configuration
@@ -104,6 +127,10 @@ class Settings(BaseSettings):
     def qdrant_dir(self) -> Path:
         return self.DATA_DIR / "qdrant"
 
+    @property
+    def models_dir(self) -> Path:
+        return self.DATA_DIR / "models"
+
     def ensure_directories(self) -> None:
         """Ensure all required runtime data directories exist."""
         for directory in [
@@ -116,6 +143,7 @@ class Settings(BaseSettings):
             self.db_dir,
             self.bm25_dir,
             self.qdrant_dir,
+            self.models_dir,
         ]:
             directory.mkdir(parents=True, exist_ok=True)
 
@@ -123,4 +151,3 @@ class Settings(BaseSettings):
 # Global settings instance
 settings = Settings()
 settings.ensure_directories()
-

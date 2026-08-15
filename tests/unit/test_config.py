@@ -16,4 +16,6 @@ def test_settings_default_initialization(tmp_path: Path):
     assert settings.db_dir == custom_data_dir / "db"
     assert settings.audio_dir.exists()
     assert settings.db_dir.exists()
-    assert settings.ASR_ENGINE == "pocketsphinx"
+    assert settings.ASR_ENGINE == "whisper"
+    assert settings.VAD_ENGINE == "silero"
+    assert settings.SPEAKER_EMBEDDING_ENGINE == "speechbrain"

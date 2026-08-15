@@ -2,11 +2,18 @@
 Pydantic Request/Response schemas for the FastAPI backend endpoints.
 """
 
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel
 
-from schemas.models import AudioAsset, ProcessingJob, SearchResult, TranscriptWord
+from schemas.models import (
+    AudioAsset,
+    AudioSegment,
+    ProcessingJob,
+    SearchResult,
+    TranscriptSegment,
+    TranscriptWord,
+)
 
 
 class IngestUploadResponse(BaseModel):
@@ -35,6 +42,13 @@ class TranscriptResponse(BaseModel):
     text: str
     language: str
     words: List[TranscriptWord]
+    segments: Optional[List[TranscriptSegment]] = None
+
+
+class AudioSegmentsResponse(BaseModel):
+    audio_id: str
+    total_segments: int
+    segments: List[AudioSegment]
 
 
 class AskRequest(BaseModel):
@@ -51,4 +65,3 @@ class IndexResponse(BaseModel):
     indexed_chunks: int
     embedding_model: str
     error_message: Optional[str] = None
-
