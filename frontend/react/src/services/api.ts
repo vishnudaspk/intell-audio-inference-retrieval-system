@@ -79,6 +79,18 @@ class ApiService {
     return this.request<ProcessingJob>(`/api/v1/assets/${audioId}/jobs/${jobId}`);
   }
 
+  async deleteAsset(audioId: string): Promise<{ status: string; audio_id: string }> {
+    return this.request<{ status: string; audio_id: string }>(`/api/v1/assets/${audioId}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async reprocessAsset(audioId: string): Promise<IngestResponse> {
+    return this.request<IngestResponse>(`/api/v1/assets/${audioId}/process`, {
+      method: 'POST',
+    });
+  }
+
   // Transcripts & V3 Segments
   async getTranscript(audioId: string): Promise<TranscriptResponse | null> {
     try {

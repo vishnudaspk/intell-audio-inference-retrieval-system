@@ -159,6 +159,65 @@ def get_asset_metadata(audio_id: str):
     return asset
 
 
+@app.delete("/api/v1/assets/{audio_id}", tags=["Assets"])
+def delete_asset(audio_id: str):
+    """Delete an ingested media asset and all associated transcript, segments, and indexes."""
+    asset = repo.get_audio_asset(audio_id)
+    if not asset:
+        raise HTTPException(status_code=404, detail="Audio asset not found")
+
+    try:
+        # Delete from vector store & BM25
+        try:
+            vector_store.delete_audio(audio_id)
+        except Exception as e:
+            logger.warning(f"Failed to delete vector index for {audio_id}: {e}")
+
+        try:
+            bm25_index.delete_audio(audio_id)
+        except Exception as e:
+            logger.warning(f"Failed to delete BM25 index for {audio_id}: {e}")
+
+        # Delete from database and file system
+        repo.delete_audio_asset(audio_id)
+        return {"status": "deleted", "audio_id": audio_id}
+    except Exception as exc:
+        logger.error(f"Failed to delete asset {audio_id}: {exc}")
+        raise HTTPException(status_code=500, detail=f"Failed to delete asset: {exc}") from exc
+
+
+@app.post(
+    "/api/v1/assets/{audio_id}/process",
+    response_model=IngestUploadResponse,
+    status_code=status.HTTP_200_OK,
+    tags=["Ingestion"],
+)
+def reprocess_asset(audio_id: str):
+    """Re-run the full V3 pipeline (VAD → Whisper → Speaker Embeddings → Acoustics) on an existing catalog asset."""
+    asset = repo.get_audio_asset(audio_id)
+    if not asset:
+        raise HTTPException(status_code=404, detail="Audio asset not found")
+
+    try:
+        job = worker.process_asset(asset)
+
+        # Re-index after processing
+        try:
+            indexing_worker.index_audio(asset.id)
+        except Exception as idx_exc:
+            logger.warning(f"Post-reprocessing indexing skipped or degraded: {idx_exc}")
+
+        # Return fresh asset (duration may be updated after processing)
+        updated_asset = repo.get_audio_asset(audio_id) or asset
+        return IngestUploadResponse(asset=updated_asset, job=job)
+    except IntellAudioError as exc:
+        logger.error(f"API reprocess failed for {audio_id}: {exc}")
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except Exception as exc:
+        logger.error(f"API reprocess internal error for {audio_id}: {exc}")
+        raise HTTPException(status_code=500, detail=f"Reprocess failed: {exc}") from exc
+
+
 @app.get("/api/v1/assets/{audio_id}/media", tags=["Assets"])
 def get_asset_media_file(audio_id: str):
     """Stream or download the media file (or normalized WAV) for playback."""

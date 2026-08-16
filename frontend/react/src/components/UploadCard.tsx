@@ -145,9 +145,9 @@ export const UploadCard: React.FC<UploadCardProps> = ({ onIngestSuccess }) => {
           style={{ width: '100%', justifyContent: 'center' }}
         >
           {loading ? (
-            <><Loader2 size={13} className="spin" /> Processing pipeline…</>
+            <><Loader2 size={13} className="spin" /> Ingesting media…</>
           ) : (
-            <><ArrowRight size={13} /> Run V3 Pipeline</>
+            <><ArrowRight size={13} /> Add to Audio Library</>
           )}
         </button>
       </form>

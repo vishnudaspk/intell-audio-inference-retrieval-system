@@ -86,4 +86,8 @@ class BaseRepository(ABC):
     def get_audio_segments(self, audio_id: str) -> list:
         pass
 
+    @abstractmethod
+    def delete_audio_asset(self, audio_id: str) -> bool:
+        pass
+
 

@@ -17,6 +17,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import List, Optional
 
+import numpy as np
+
 from database.base import BaseRepository
 from database.sqlite_db import SQLiteRepository
 from schemas.enums import JobStatus
@@ -180,80 +182,115 @@ class AudioWorker:
             # Map Whisper output onto VAD intervals
             vad_to_whisper = _match_whisper_to_vad(vad_segments, raw_whisper_segments)
 
-            # ── Stage 4: Speaker Embeddings ───────────────────────────────
-            embeddings = [None] * len(vad_segments)
+            # ── Stage 4: Diarization & Speaker Embeddings ─────────────────
+            diarized_segments = []
+            diarization_diagnostics = {}
             if self.extract_embeddings:
-                logger.info(f"[Job {job.id}] Stage=SPEAKER_EMBEDDINGS asset={asset.id}")
+                logger.info(f"[Job {job.id}] Stage=SPEAKER_DIARIZATION asset={asset.id}")
                 t0 = time.time()
                 try:
-                    raw_embeddings = self.speaker_embedding_service.embed_segments(
-                        wav_path,
-                        [(s, e) for s, e, _ in vad_segments],
+                    words_for_diarization = [
+                        {
+                            "word": w.word,
+                            "start_time": w.start or 0.0,
+                            "end_time": w.end or 0.0,
+                            "confidence": w.confidence,
+                        }
+                        for w in (transcript.words or [])
+                    ]
+                    speech_intervals = [(s, e) for s, e, _ in vad_segments]
+                    diarized_segments, diarization_diagnostics = self.speaker_embedding_service.diarize_audio(
+                        wav_path=wav_path,
+                        speech_intervals=speech_intervals,
+                        transcript_words=words_for_diarization if words_for_diarization else None,
                     )
-                    embeddings = raw_embeddings
+                    timings["speaker_diarization_diagnostics"] = diarization_diagnostics
                 except Exception as exc:
-                    logger.warning(f"[Job {job.id}] Speaker embedding failed (non-fatal): {exc}")
+                    logger.warning(f"[Job {job.id}] Speaker diarization failed (non-fatal): {exc}")
                 timings["speaker_embedding_sec"] = round(time.time() - t0, 3)
 
-            # ── Stage 5: Acoustic Features ────────────────────────────────
-            acoustic_features_list = [None] * len(vad_segments)
+            # Determine segments to assemble: prefer diarized phrase units if available, else VAD intervals
+            if diarized_segments:
+                assembled_units = diarized_segments
+            else:
+                assembled_units = [
+                    {
+                        "start_sec": s,
+                        "end_sec": e,
+                        "duration_sec": e - s,
+                        "vad_confidence": conf,
+                        "text": vad_to_whisper.get(i, {}).get("text", ""),
+                        "words": vad_to_whisper.get(i, {}).get("words", []),
+                        "speaker_label": None,
+                    }
+                    for i, (s, e, conf) in enumerate(vad_segments)
+                ]
+
+            # ── Stage 5: Acoustic Features & Embeddings for Assembled Units ──
+            acoustic_features_list = [None] * len(assembled_units)
+            embeddings_list = [None] * len(assembled_units)
+            assembled_intervals = [(u["start_sec"], u["end_sec"]) for u in assembled_units]
+
             if self.extract_acoustics:
                 logger.info(f"[Job {job.id}] Stage=ACOUSTIC_FEATURES asset={asset.id}")
                 t0 = time.time()
                 try:
                     acoustic_features_list = self.acoustic_service.extract_batch(
                         wav_path,
-                        [(s, e) for s, e, _ in vad_segments],
+                        assembled_intervals,
                     )
                 except Exception as exc:
                     logger.warning(f"[Job {job.id}] Acoustic extraction failed (non-fatal): {exc}")
                 timings["acoustic_sec"] = round(time.time() - t0, 3)
 
+            if self.extract_embeddings:
+                try:
+                    embeddings_list = self.speaker_embedding_service.embed_segments(
+                        wav_path,
+                        assembled_intervals,
+                    )
+                except Exception as exc:
+                    logger.warning(f"[Job {job.id}] Segment embedding extraction failed (non-fatal): {exc}")
+
             # ── Stage 6: Assemble AudioSegment objects ────────────────────
             logger.info(f"[Job {job.id}] Stage=ASSEMBLY asset={asset.id}")
-            speaker_labels = (
-                self.speaker_embedding_service.cluster_segments(embeddings)
-                if self.extract_embeddings
-                else [None] * len(vad_segments)
-            )
-
             audio_segments: List[AudioSegment] = []
 
-            for idx, (start_sec, end_sec, vad_conf) in enumerate(vad_segments):
-                whisper_data = vad_to_whisper.get(idx, {})
-
-                # Convert raw word dicts → TranscriptWord models
+            for idx, unit in enumerate(assembled_units):
+                unit_words = unit.get("words", [])
                 words: List[TranscriptWord] = [
                     TranscriptWord(
                         word=w.get("word", ""),
-                        start=w.get("start"),
-                        end=w.get("end"),
-                        confidence=w.get("probability"),
+                        start=w.get("start", w.get("start_time")),
+                        end=w.get("end", w.get("end_time")),
+                        confidence=w.get("confidence", w.get("probability")),
                     )
-                    for w in whisper_data.get("words", [])
+                    if isinstance(w, dict)
+                    else w
+                    for w in unit_words
                 ]
 
-                # Speaker embedding → serializable list
-                emb = embeddings[idx]
-                embedding_list = emb.tolist() if emb is not None else None
+                emb = embeddings_list[idx] if idx < len(embeddings_list) else None
+                embedding_list = emb.tolist() if emb is not None and np.linalg.norm(emb) > 1e-6 else None
 
-                # Acoustic features → dict
-                acoustic = acoustic_features_list[idx]
+                acoustic = acoustic_features_list[idx] if idx < len(acoustic_features_list) else None
                 acoustic_dict = acoustic.to_dict() if acoustic is not None else None
+
+                vad_conf = unit.get("vad_confidence", 0.90)
 
                 seg = AudioSegment(
                     audio_id=asset.id,
                     sequence_order=idx,
-                    start_sec=round(start_sec, 4),
-                    end_sec=round(end_sec, 4),
-                    duration_sec=round(end_sec - start_sec, 4),
+                    start_sec=round(unit["start_sec"], 4),
+                    end_sec=round(unit["end_sec"], 4),
+                    duration_sec=round(unit["end_sec"] - unit["start_sec"], 4),
                     vad_confidence=round(vad_conf, 4),
-                    text=whisper_data.get("text", ""),
+                    text=unit.get("text", ""),
                     language=transcript.language.value,
-                    speaker_label=speaker_labels[idx] if idx < len(speaker_labels) else None,
-                    whisper_segment_id=whisper_data.get("whisper_segment_id"),
-                    avg_logprob=whisper_data.get("avg_logprob"),
-                    no_speech_prob=whisper_data.get("no_speech_prob"),
+                    speaker_label=unit.get("speaker_label"),
+                    whisper_segment_id=unit.get("whisper_segment_id"),
+                    avg_logprob=unit.get("avg_logprob"),
+                    no_speech_prob=unit.get("no_speech_prob"),
                     words=words,
                     speaker_embedding=embedding_list,
                     acoustic_features=acoustic_dict,

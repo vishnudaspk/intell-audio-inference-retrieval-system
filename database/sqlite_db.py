@@ -640,3 +640,43 @@ class SQLiteRepository(BaseRepository):
             acoustic_features=acoustic_raw,
             created_at=datetime.fromisoformat(row["created_at"]) if row["created_at"] else datetime.utcnow(),
         )
+
+    def delete_audio_asset(self, audio_id: str) -> bool:
+        """
+        Delete an audio asset and cascade delete all associated processing jobs,
+        transcripts, word alignments, chunks, indexing statuses, and audio segments.
+        Also safely removes media files from disk if present.
+        """
+        try:
+            asset = self.get_audio_asset(audio_id)
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("DELETE FROM audio_segments WHERE audio_id = ?", (audio_id,))
+                cursor.execute("DELETE FROM indexing_status WHERE audio_id = ?", (audio_id,))
+                cursor.execute("DELETE FROM transcript_chunks WHERE audio_id = ?", (audio_id,))
+                cursor.execute("DELETE FROM transcript_words WHERE audio_id = ?", (audio_id,))
+                cursor.execute("DELETE FROM transcripts WHERE audio_id = ?", (audio_id,))
+                cursor.execute("DELETE FROM processing_jobs WHERE audio_id = ?", (audio_id,))
+                cursor.execute("DELETE FROM audio_assets WHERE id = ?", (audio_id,))
+                conn.commit()
+
+            # Clean up media files on disk
+            if asset:
+                raw_path = Path(asset.file_path)
+                if raw_path.exists():
+                    try:
+                        raw_path.unlink()
+                    except Exception as e:
+                        logger.warning(f"Could not remove raw file {raw_path}: {e}")
+                wav_path = raw_path.parent / f"{audio_id}.wav"
+                if wav_path.exists():
+                    try:
+                        wav_path.unlink()
+                    except Exception as e:
+                        logger.warning(f"Could not remove wav file {wav_path}: {e}")
+
+            logger.info(f"Successfully deleted audio asset {audio_id} from SQLite.")
+            return True
+        except Exception as exc:
+            logger.error(f"Failed to delete audio asset {audio_id}: {exc}")
+            raise StorageError(f"Failed to delete audio asset: {exc}") from exc

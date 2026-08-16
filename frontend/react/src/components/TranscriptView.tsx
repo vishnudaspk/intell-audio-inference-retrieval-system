@@ -17,6 +17,17 @@ const fmt = (sec: number | null | undefined): string => {
   return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}.${ms.toString().padStart(2, '0')}`;
 };
 
+const getSpeakerChipClass = (label?: string | null): string => {
+  if (!label) return 'chip-purple';
+  if (label.includes('1')) return 'chip-purple';
+  if (label.includes('2')) return 'chip-blue';
+  if (label.includes('3')) return 'chip-amber';
+  if (label.includes('4')) return 'chip-green';
+  if (label.includes('5')) return 'chip-cyan';
+  if (label.includes('6')) return 'chip-red';
+  return 'chip-purple';
+};
+
 export const TranscriptView: React.FC<TranscriptViewProps> = ({
   transcript, segments, currentTime, onSeek,
 }) => {
@@ -103,7 +114,7 @@ export const TranscriptView: React.FC<TranscriptViewProps> = ({
                       </button>
 
                       {seg.speaker_label && (
-                        <span className="chip chip-purple" style={{ fontWeight: 600 }}>
+                        <span className={`chip ${getSpeakerChipClass(seg.speaker_label)}`} style={{ fontWeight: 600 }}>
                           <Mic size={9} />
                           {seg.speaker_label}
                         </span>
@@ -203,17 +214,46 @@ export const TranscriptView: React.FC<TranscriptViewProps> = ({
             background: 'var(--c-surface-1)',
             border: '1px solid var(--c-border)',
             borderRadius: 'var(--radius)',
-            padding: '14px',
+            padding: '16px',
             fontSize: '13px',
             color: 'var(--c-text)',
             lineHeight: 1.75,
             fontFamily: 'var(--sans)',
-            whiteSpace: 'pre-wrap',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '12px',
           }}>
-            {transcript?.text ||
-              (segments.length > 0
-                ? segments.map((s) => s.text).filter(Boolean).join(' ')
-                : 'No text extracted.')}
+            {segments.some((s) => s.speaker_label) ? (
+              segments.map((seg, i) => (
+                <div key={seg.id || i} style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span className={`chip ${getSpeakerChipClass(seg.speaker_label)}`} style={{ fontWeight: 600, fontSize: '10px' }}>
+                      <Mic size={9} />
+                      {seg.speaker_label || 'Speaker'}
+                    </span>
+                    <button
+                      onClick={() => onSeek(seg.start_sec)}
+                      className="ts-btn"
+                      style={{ fontSize: '10px', padding: '1px 5px' }}
+                      title="Seek"
+                    >
+                      <Clock size={8} />
+                      {fmt(seg.start_sec)}
+                    </button>
+                  </div>
+                  <div style={{ paddingLeft: '4px', color: 'var(--c-text)' }}>
+                    {seg.text || <span style={{ fontStyle: 'italic', color: 'var(--c-text-muted)' }}>(non-verbal)</span>}
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div style={{ whiteSpace: 'pre-wrap' }}>
+                {transcript?.text ||
+                  (segments.length > 0
+                    ? segments.map((s) => s.text).filter(Boolean).join(' ')
+                    : 'No text extracted.')}
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -239,7 +279,15 @@ export const TranscriptView: React.FC<TranscriptViewProps> = ({
                   <td className="col-ts" onClick={() => onSeek(s.start_sec)} title="Seek">
                     {fmt(s.start_sec)}
                   </td>
-                  <td style={{ color: 'var(--c-purple)', fontWeight: 600 }}>{s.speaker_label ?? '—'}</td>
+                  <td>
+                    {s.speaker_label ? (
+                      <span className={`chip ${getSpeakerChipClass(s.speaker_label)}`} style={{ fontSize: '10px', fontWeight: 600 }}>
+                        {s.speaker_label}
+                      </span>
+                    ) : (
+                      '—'
+                    )}
+                  </td>
                   <td>{s.duration_sec.toFixed(2)}s</td>
                   <td className="col-f0">{s.acoustic_features?.f0_mean?.toFixed(1) ?? '—'}</td>
                   <td className="col-rms">{s.acoustic_features?.rms_mean?.toFixed(3) ?? '—'}</td>

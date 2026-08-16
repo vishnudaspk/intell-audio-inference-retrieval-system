@@ -81,6 +81,64 @@ class AudioService:
             logger.error(f"Failed to save uploaded file: {exc}")
             raise AudioProcessingError(f"Failed to save audio file: {exc}") from exc
 
+    def download_youtube_audio(self, url: str) -> AudioAsset:
+        """
+        Download and extract audio from a YouTube URL via yt-dlp.
+        Saves raw audio to audio_dir and returns an AudioAsset configured for the V3 pipeline.
+        """
+        if not url or not isinstance(url, str) or not url.strip():
+            raise AudioProcessingError("A valid YouTube URL must be provided.")
+
+        clean_url = url.strip()
+        asset_id = str(uuid.uuid4())
+        out_template = str(self.audio_dir / f"{asset_id}_raw.%(ext)s")
+
+        try:
+            import yt_dlp
+
+            ydl_opts = {
+                "format": "bestaudio/best",
+                "outtmpl": out_template,
+                "postprocessors": [
+                    {
+                        "key": "FFmpegExtractAudio",
+                        "preferredcodec": "mp3",
+                        "preferredquality": "192",
+                    }
+                ],
+                "quiet": True,
+                "no_warnings": True,
+                "noplaylist": True,
+            }
+
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                info = ydl.extract_info(clean_url, download=True)
+                title = info.get("title", f"YouTube_{asset_id[:8]}") if info else f"YouTube_{asset_id[:8]}"
+                filename = f"{title}.mp3"
+
+            raw_path = self.audio_dir / f"{asset_id}_raw.mp3"
+            if not raw_path.exists():
+                matching = list(self.audio_dir.glob(f"{asset_id}_raw.*"))
+                if matching:
+                    raw_path = matching[0]
+                else:
+                    raise AudioProcessingError("Downloaded YouTube audio file not found on disk.")
+
+            logger.info(f"Successfully downloaded YouTube audio for {clean_url} -> {raw_path}")
+
+            return AudioAsset(
+                id=asset_id,
+                filename=filename,
+                file_path=str(raw_path),
+                format="mp3",
+                source_type=SourceType.YOUTUBE,
+            )
+        except AudioProcessingError:
+            raise
+        except Exception as exc:
+            logger.error(f"Failed to download YouTube audio from {clean_url}: {exc}")
+            raise AudioProcessingError(f"YouTube ingestion failed: {exc}") from exc
+
     # ------------------------------------------------------------------
     # Normalization — Core V3 Stage
     # ------------------------------------------------------------------

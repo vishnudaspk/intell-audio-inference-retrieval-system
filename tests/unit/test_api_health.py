@@ -21,3 +21,14 @@ def test_api_health_endpoint():
 def test_api_get_nonexistent_asset():
     response = client.get("/api/v1/assets/non-existent-uuid")
     assert response.status_code == 404
+
+
+def test_api_list_assets():
+    response = client.get("/api/v1/assets")
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
+
+
+def test_api_delete_nonexistent_asset():
+    response = client.delete("/api/v1/assets/non-existent-uuid")
+    assert response.status_code == 404

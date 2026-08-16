@@ -88,6 +88,38 @@ def _mock_embedding_service():
         np.random.rand(192).astype(np.float32),
         np.random.rand(192).astype(np.float32),
     ]
+    svc.cluster_segments.return_value = ["Speaker 1", "Speaker 1"]
+    svc.diarize_audio.return_value = (
+        [
+            {
+                "start_sec": 0.0,
+                "end_sec": 1.5,
+                "duration_sec": 1.5,
+                "vad_confidence": 0.9,
+                "text": "Hello",
+                "words": [{"word": "Hello", "start_time": 0.1, "end_time": 0.5, "confidence": 0.95}],
+                "speaker_label": "Speaker 1",
+            },
+            {
+                "start_sec": 1.8,
+                "end_sec": 3.0,
+                "duration_sec": 1.2,
+                "vad_confidence": 0.85,
+                "text": "world",
+                "words": [{"word": "world", "start_time": 1.9, "end_time": 2.3, "confidence": 0.92}],
+                "speaker_label": "Speaker 1",
+            },
+        ],
+        {
+            "num_windows": 2,
+            "num_embeddings": 2,
+            "embedding_dim": 192,
+            "estimated_speakers": 1,
+            "distinct_speakers": 1,
+            "cluster_sizes": {"Speaker 1": 2},
+            "mean_cosine_sim": 0.9,
+        },
+    )
     return svc
 
 
