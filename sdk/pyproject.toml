@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "intell-audio-sdk"
+version = "3.2.0"
+description = "Developer SDK for the Intell Audio Intelligence & Speaker Analytics Platform"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.28.0",
+    "pydantic>=2.0.0",
+]
+
+[project.optional-dependencies]
+websocket = [
+    "websockets>=11.0",
+]

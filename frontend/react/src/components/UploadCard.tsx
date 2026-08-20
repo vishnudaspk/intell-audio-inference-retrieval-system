@@ -125,8 +125,8 @@ export const UploadCard: React.FC<UploadCardProps> = ({ onIngestSuccess }) => {
               onChange={(e) => setYoutubeUrl(e.target.value)}
               className="input"
             />
-            <div style={{ fontSize: '10px', color: 'var(--c-text-muted)', fontFamily: 'var(--mono)' }}>
-              yt-dlp → 16kHz WAV → VAD + Whisper + ECAPA-TDNN
+            <div style={{ fontSize: '10px', color: 'var(--c-text-muted)', fontFamily: 'var(--sans)', marginTop: '2px' }}>
+              Paste public YouTube video link for automated transcription and speaker analysis.
             </div>
           </div>
         )}

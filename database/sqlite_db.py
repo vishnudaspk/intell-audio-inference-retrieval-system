@@ -174,6 +174,18 @@ class SQLiteRepository(BaseRepository):
                     cursor.execute("ALTER TABLE audio_segments ADD COLUMN attribution_evidence_json TEXT")
                 if "provisional" not in columns:
                     cursor.execute("ALTER TABLE audio_segments ADD COLUMN provisional INTEGER")
+                # Analysis results table (V3.2+ Canonical AnalysisResult JSON)
+                cursor.execute(
+                    """
+                    CREATE TABLE IF NOT EXISTS analysis_results (
+                        job_id TEXT PRIMARY KEY,
+                        audio_id TEXT NOT NULL,
+                        result_json TEXT NOT NULL,
+                        created_at TEXT NOT NULL,
+                        FOREIGN KEY (audio_id) REFERENCES audio_assets(id)
+                    )
+                    """
+                )
 
                 conn.commit()
         except Exception as exc:
@@ -708,3 +720,40 @@ class SQLiteRepository(BaseRepository):
         except Exception as exc:
             logger.error(f"Failed to delete audio asset {audio_id}: {exc}")
             raise StorageError(f"Failed to delete audio asset: {exc}") from exc
+
+    def save_analysis_result(self, job_id: str, audio_id: str, result_json: str) -> None:
+        """Persist a canonical AnalysisResult serialized JSON."""
+        try:
+            now_iso = datetime.utcnow().isoformat()
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute(
+                    """
+                    INSERT OR REPLACE INTO analysis_results
+                    (job_id, audio_id, result_json, created_at)
+                    VALUES (?, ?, ?, ?)
+                    """,
+                    (job_id, audio_id, result_json, now_iso),
+                )
+                conn.commit()
+            logger.debug(f"Saved AnalysisResult for job {job_id}")
+        except Exception as exc:
+            logger.error(f"Failed to save analysis result for job {job_id}: {exc}")
+            raise StorageError(f"Failed to save analysis result: {exc}") from exc
+
+    def get_analysis_result(self, job_id: str) -> Optional[dict]:
+        """Fetch a canonical AnalysisResult JSON by job_id."""
+        try:
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute(
+                    "SELECT result_json FROM analysis_results WHERE job_id = ?",
+                    (job_id,),
+                )
+                row = cursor.fetchone()
+                if row and row["result_json"]:
+                    return json.loads(row["result_json"])
+                return None
+        except Exception as exc:
+            logger.error(f"Failed to fetch analysis result for job {job_id}: {exc}")
+            raise StorageError(f"Failed to fetch analysis result: {exc}") from exc

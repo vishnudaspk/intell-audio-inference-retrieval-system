@@ -65,3 +65,33 @@ class IndexResponse(BaseModel):
     indexed_chunks: int
     embedding_model: str
     error_message: Optional[str] = None
+
+
+class AnalyzeJobResponse(BaseModel):
+    job_id: str
+    audio_id: str
+    status: str
+    events_url: str
+
+
+class JobStageStatus(BaseModel):
+    name: str
+    status: str
+    duration_sec: Optional[float] = None
+    progress: Optional[int] = None
+
+
+class JobStatusResponse(BaseModel):
+    job_id: str
+    audio_id: str
+    status: str
+    overall_progress: int = 0
+    current_stage: Optional[str] = None
+    stages: List[JobStageStatus] = []
+    elapsed_sec: float = 0.0
+    estimated_remaining_sec: Optional[float] = None
+    error_message: Optional[str] = None
+
+
+class AnalyzeUrlRequest(BaseModel):
+    url: str

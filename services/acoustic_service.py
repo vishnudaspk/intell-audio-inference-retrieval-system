@@ -42,10 +42,20 @@ class AcousticFeatures:
     spectral_centroid_mean: Optional[float] = None
     spectral_bandwidth_mean: Optional[float] = None
     spectral_rolloff_mean: Optional[float] = None
+    spectral_flux_mean: Optional[float] = None
     zero_crossing_rate_mean: Optional[float] = None
 
-    # MFCCs (means of first N_MFCC coefficients)
+    # MFCCs
     mfcc_means: List[float] = field(default_factory=list)
+    mfcc_deltas: List[float] = field(default_factory=list)
+    mfcc_delta2: List[float] = field(default_factory=list)
+
+    # Frequency band energies
+    band_energy_low: Optional[float] = None
+    band_energy_low_mid: Optional[float] = None
+    band_energy_mid: Optional[float] = None
+    band_energy_high_mid: Optional[float] = None
+    band_energy_high: Optional[float] = None
 
     def to_dict(self) -> dict:
         """Serialize to a plain dict for JSON storage."""
@@ -62,8 +72,16 @@ class AcousticFeatures:
             "spectral_centroid_mean": self.spectral_centroid_mean,
             "spectral_bandwidth_mean": self.spectral_bandwidth_mean,
             "spectral_rolloff_mean": self.spectral_rolloff_mean,
+            "spectral_flux_mean": self.spectral_flux_mean,
             "zero_crossing_rate_mean": self.zero_crossing_rate_mean,
             "mfcc_means": self.mfcc_means,
+            "mfcc_deltas": self.mfcc_deltas,
+            "mfcc_delta2": self.mfcc_delta2,
+            "band_energy_low": self.band_energy_low,
+            "band_energy_low_mid": self.band_energy_low_mid,
+            "band_energy_mid": self.band_energy_mid,
+            "band_energy_high_mid": self.band_energy_high_mid,
+            "band_energy_high": self.band_energy_high,
         }
 
     @classmethod
@@ -207,17 +225,49 @@ class AcousticFeatureService:
             logger.debug(f"Spectral rolloff failed: {exc}")
 
         try:
+            # Spectral flux: euclidean distance between consecutive mel frames
+            melspec = librosa.feature.melspectrogram(y=audio, sr=sr, n_fft=N_FFT, hop_length=HOP_LENGTH)
+            flux = np.sqrt(np.mean(np.diff(melspec, axis=1) ** 2, axis=0))
+            features.spectral_flux_mean = float(np.mean(flux)) if len(flux) > 0 else 0.0
+        except Exception as exc:
+            logger.debug(f"Spectral flux failed: {exc}")
+
+        try:
             zcr = librosa.feature.zero_crossing_rate(audio, hop_length=HOP_LENGTH)[0]
             features.zero_crossing_rate_mean = float(np.mean(zcr))
         except Exception as exc:
             logger.debug(f"ZCR failed: {exc}")
 
-        # ── MFCCs ───────────────────────────────────────────────────────
+        # ── MFCCs & Deltas ──────────────────────────────────────────────
         try:
             mfccs = librosa.feature.mfcc(y=audio, sr=sr, n_mfcc=N_MFCC, hop_length=HOP_LENGTH)
             features.mfcc_means = [round(float(np.mean(mfccs[i])), 4) for i in range(N_MFCC)]
+
+            # Delta and Delta-Delta MFCCs
+            if mfccs.shape[1] > 2:
+                delta_mfcc = librosa.feature.delta(mfccs, order=1)
+                features.mfcc_deltas = [round(float(np.mean(delta_mfcc[i])), 4) for i in range(N_MFCC)]
+                delta2_mfcc = librosa.feature.delta(mfccs, order=2)
+                features.mfcc_delta2 = [round(float(np.mean(delta2_mfcc[i])), 4) for i in range(N_MFCC)]
         except Exception as exc:
-            logger.debug(f"MFCC extraction failed: {exc}")
+            logger.debug(f"MFCC/Delta extraction failed: {exc}")
+
+        # ── Frequency Band Energies ─────────────────────────────────────
+        try:
+            stft = np.abs(librosa.stft(audio, n_fft=N_FFT, hop_length=HOP_LENGTH))
+            freqs = librosa.fft_frequencies(sr=sr, n_fft=N_FFT)
+
+            def _band_energy(low_f, high_f):
+                mask = (freqs >= low_f) & (freqs < high_f)
+                return float(np.sqrt(np.mean(stft[mask, :] ** 2))) if np.any(mask) else 0.0
+
+            features.band_energy_low = round(_band_energy(0, 500), 4)
+            features.band_energy_low_mid = round(_band_energy(500, 2000), 4)
+            features.band_energy_mid = round(_band_energy(2000, 4000), 4)
+            features.band_energy_high_mid = round(_band_energy(4000, 6000), 4)
+            features.band_energy_high = round(_band_energy(6000, 8000), 4)
+        except Exception as exc:
+            logger.debug(f"Band energies extraction failed: {exc}")
 
         return features
 

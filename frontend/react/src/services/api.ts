@@ -123,6 +123,35 @@ class ApiService {
       body: JSON.stringify({ query, audio_id: audioId }),
     });
   }
+
+  // Developer Platform & AnalysisResult Endpoints
+  async getAnalysisResult(jobId: string): Promise<any | null> {
+    try {
+      return await this.request<any>(`/api/v1/jobs/${jobId}`);
+    } catch (err: any) {
+      if (err?.status === 202) {
+        return { status: 'running' };
+      }
+      if (err?.status === 404) {
+        return null;
+      }
+      throw err;
+    }
+  }
+
+  async getPlatformJobStatus(jobId: string): Promise<any> {
+    return this.request<any>(`/api/v1/jobs/${jobId}/status`);
+  }
+
+  getExportUrl(jobId: string, format: string): string {
+    return `${API_BASE}/api/v1/jobs/${jobId}/export?format=${format}`;
+  }
+
+  getWebSocketEventsUrl(jobId: string): string {
+    const wsProto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const host = API_BASE.replace(/^https?:\/\//, '');
+    return `${wsProto}//${host}/api/v1/jobs/${jobId}/events`;
+  }
 }
 
 export const api = new ApiService();

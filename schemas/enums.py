@@ -12,13 +12,23 @@ class SourceType(str, Enum):
 
 class JobStatus(str, Enum):
     CREATED = "CREATED"
+    QUEUED = "QUEUED"
     VALIDATING = "VALIDATING"
     NORMALIZING = "NORMALIZING"
     TRANSCRIBING = "TRANSCRIBING"
     ALIGNING = "ALIGNING"
+    RUNNING = "RUNNING"
     PERSISTING = "PERSISTING"
     COMPLETED = "COMPLETED"
     FAILED = "FAILED"
+
+
+class StageStatus(str, Enum):
+    PENDING = "pending"
+    RUNNING = "running"
+    COMPLETED = "completed"
+    FAILED = "failed"
+    SKIPPED = "skipped"
 
 
 class LanguageCode(str, Enum):

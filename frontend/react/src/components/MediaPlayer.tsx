@@ -25,21 +25,60 @@ export const MediaPlayer = forwardRef<HTMLMediaElement, MediaPlayerProps>(
     const mediaUrl = api.getMediaUrl(asset.id);
     const [pipelineState, setPipelineState] = useState<PipelineState>('idle');
     const [pipelineError, setPipelineError] = useState<string | null>(null);
+    const [progressPct, setProgressPct] = useState<number>(0);
+    const [progressStage, setProgressStage] = useState<string>('');
 
     const handleRunPipeline = async () => {
       if (pipelineState === 'running') return;
       setPipelineState('running');
       setPipelineError(null);
+      setProgressPct(10);
+      setProgressStage('Initializing audio analysis…');
+
+      // Simulate smooth progress increments while background task processes
+      const timer = setInterval(() => {
+        setProgressPct((prev) => {
+          if (prev < 30) {
+            setProgressStage('Voice activity & speech detection…');
+            return prev + 15;
+          }
+          if (prev < 65) {
+            setProgressStage('Speech transcription & alignment…');
+            return prev + 10;
+          }
+          if (prev < 85) {
+            setProgressStage('Speaker diarization & acoustics…');
+            return prev + 5;
+          }
+          if (prev < 95) {
+            setProgressStage('Synthesizing intelligence results…');
+            return prev + 2;
+          }
+          return prev;
+        });
+      }, 500);
+
       try {
         await api.reprocessAsset(asset.id);
+        clearInterval(timer);
+        setProgressPct(100);
+        setProgressStage('Complete');
         setPipelineState('done');
         if (onReprocess) onReprocess(asset.id);
-        // Reset back to idle after 3s so button is reusable
-        setTimeout(() => setPipelineState('idle'), 3000);
+        setTimeout(() => {
+          setPipelineState('idle');
+          setProgressPct(0);
+          setProgressStage('');
+        }, 3000);
       } catch (err: any) {
-        setPipelineError(err?.message || 'Pipeline failed');
+        clearInterval(timer);
+        setPipelineError(err?.message || 'Processing failed');
         setPipelineState('error');
-        setTimeout(() => setPipelineState('idle'), 4000);
+        setTimeout(() => {
+          setPipelineState('idle');
+          setProgressPct(0);
+          setProgressStage('');
+        }, 4000);
       }
     };
 
@@ -62,26 +101,30 @@ export const MediaPlayer = forwardRef<HTMLMediaElement, MediaPlayerProps>(
             </span>
             <span className="chip chip-dim">{asset.format.toUpperCase()}</span>
 
-            {/* Run V3 Pipeline button */}
+            {/* Run Analysis button */}
             <button
               className={`run-pipeline-btn ${pipelineState}`}
               onClick={handleRunPipeline}
               disabled={pipelineState === 'running'}
+              style={{ minWidth: pipelineState === 'running' ? '180px' : 'auto' }}
               title={
-                pipelineState === 'running' ? 'Processing…'
-                : pipelineState === 'done' ? 'Pipeline complete!'
+                pipelineState === 'running' ? progressStage
+                : pipelineState === 'done' ? 'Analysis complete!'
                 : pipelineState === 'error' ? (pipelineError || 'Error occurred')
-                : 'Re-run V3 Pipeline: VAD → Whisper → Speaker Embeddings → Acoustics → Index'
+                : 'Run complete audio intelligence & speaker analytics'
               }
             >
               {pipelineState === 'running' ? (
-                <><Loader2 size={11} className="spin" /> Processing…</>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Loader2 size={11} className="spin" />
+                  <span>Analyzing ({progressPct}%)</span>
+                </div>
               ) : pipelineState === 'done' ? (
-                <><CheckCircle size={11} /> Done</>
+                <><CheckCircle size={11} /> Analysis Ready</>
               ) : pipelineState === 'error' ? (
                 <><Play size={11} /> Error — Retry</>
               ) : (
-                <><Play size={11} /> Run V3 Pipeline</>
+                <><Play size={11} /> Analyze Audio</>
               )}
             </button>
           </div>

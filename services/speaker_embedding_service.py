@@ -6,7 +6,7 @@ Handles short segments gracefully (< 0.5s returns zero embedding).
 """
 
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import Callable, List, Optional, Tuple
 
 import numpy as np
 import torch
@@ -166,6 +166,7 @@ class SpeakerEmbeddingService:
         self,
         wav_path: Path,
         segments: List[Tuple[float, float]],
+        progress_callback: Optional[Callable[[int, int], None]] = None,
     ) -> List[np.ndarray]:
         """
         Batch-embed multiple (start_sec, end_sec) segments from a single WAV file.
@@ -176,6 +177,7 @@ class SpeakerEmbeddingService:
         self._load_model()
 
         embeddings: List[np.ndarray] = []
+        total = len(segments)
         for i, (start, end) in enumerate(segments):
             try:
                 emb = self.embed_segment(wav_path, start, end)
@@ -183,6 +185,9 @@ class SpeakerEmbeddingService:
             except AudioProcessingError as exc:
                 logger.warning(f"Embedding failed for segment {i} [{start:.2f}–{end:.2f}]s: {exc}. Using zero.")
                 embeddings.append(np.zeros(ECAPA_EMBEDDING_DIM, dtype=np.float32))
+
+            if progress_callback:
+                progress_callback(i + 1, total)
 
         return embeddings
 

@@ -90,4 +90,12 @@ class BaseRepository(ABC):
     def delete_audio_asset(self, audio_id: str) -> bool:
         pass
 
+    @abstractmethod
+    def save_analysis_result(self, job_id: str, audio_id: str, result_json: str) -> None:
+        pass
+
+    @abstractmethod
+    def get_analysis_result(self, job_id: str) -> Optional[dict]:
+        pass
+
 
