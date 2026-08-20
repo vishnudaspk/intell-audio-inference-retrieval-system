@@ -568,10 +568,21 @@ class SpeakerEmbeddingService:
                 phrase_cluster_order: dict = {}
                 pn_num = 1
                 phrase_assigned_cids: List[int] = []
+                # V3.2: collect one representative embedding per phrase for CASA
+                phrase_repr_embeddings: List[Optional[np.ndarray]] = []
                 for p_idx in range(len(phrases)):
                     votes = phrase_votes.get(p_idx)
                     if votes:
                         best_cid = votes.most_common(1)[0][0]
+                        # Representative embedding: the phrase-window embedding closest to centroid
+                        cid_mask_indices = [
+                            arr_i for arr_i, src_p in enumerate(p_valid_src)
+                            if src_p == p_idx and p_cids[arr_i] == best_cid
+                        ]
+                        if cid_mask_indices:
+                            rep_emb = PX[cid_mask_indices[0]]
+                        else:
+                            rep_emb = None
                     else:
                         # No phrase-window covered this phrase → direct embedding
                         pst = phrases[p_idx]["start_sec"]
@@ -583,9 +594,12 @@ class SpeakerEmbeddingService:
                             fb_norm = fb_emb / np.linalg.norm(fb_emb)
                             sims = {cid: float(np.dot(fb_norm, c)) for cid, c in pw_centroids.items()}
                             best_cid = max(sims, key=sims.get)
+                            rep_emb = fb_norm
                         else:
                             best_cid = p_cids[0]
+                            rep_emb = None
                     phrase_assigned_cids.append(best_cid)
+                    phrase_repr_embeddings.append(rep_emb)
                     if best_cid not in phrase_cluster_order:
                         phrase_cluster_order[best_cid] = f"Speaker {pn_num}"
                         pn_num += 1
@@ -593,6 +607,13 @@ class SpeakerEmbeddingService:
                 for phrase, cid in zip(phrases, phrase_assigned_cids):
                     phrase["speaker_label"] = phrase_cluster_order[cid]
                     diarized_segments.append(phrase)
+
+                # V3.2: build speaker-label-keyed centroids for CASA
+                speaker_label_centroids: dict = {
+                    phrase_cluster_order[cid]: vec
+                    for cid, vec in pw_centroids.items()
+                    if cid in phrase_cluster_order
+                }
 
             else:
                 # All phrase-window embeddings were zero → fall back to VAD overlap voting
@@ -612,6 +633,9 @@ class SpeakerEmbeddingService:
                         best_cid = raw_cids[0]
                     phrase["speaker_label"] = cluster_order[best_cid]
                     diarized_segments.append(phrase)
+                # V3.2: no phrase-window embeddings available in this path
+                phrase_repr_embeddings = [None] * len(phrases)
+                speaker_label_centroids = {}
         else:
             # Fallback to speech intervals when no transcript words
             for st, et in speech_intervals:
@@ -635,6 +659,9 @@ class SpeakerEmbeddingService:
                     "words": [],
                     "speaker_label": cluster_order[best_cid],
                 })
+            # V3.2: no phrase-level data when using VAD-interval fallback
+            phrase_repr_embeddings = [None] * len(diarized_segments)
+            speaker_label_centroids = {}
 
         # Step 7: Build diagnostics
         from collections import Counter
@@ -647,6 +674,9 @@ class SpeakerEmbeddingService:
             "distinct_speakers": len(cluster_sizes),
             "cluster_sizes": dict(cluster_sizes),
             "mean_cosine_sim": round(mean_sim, 4),
+            # V3.2 CASA support — phrase-level embeddings and label-keyed centroids
+            "phrase_embeddings": phrase_repr_embeddings,
+            "speaker_centroids": speaker_label_centroids,
         }
 
         logger.info(f"[Diarization Diagnostics] {diagnostics}")

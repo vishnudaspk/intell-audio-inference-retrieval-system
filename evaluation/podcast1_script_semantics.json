@@ -1,0 +1,4368 @@
+{
+  "metadata": {
+    "audio_file": "Podcast 1.mp3",
+    "audio_duration_sec": 495.75,
+    "evaluation_timestamp": "2026-08-20 17:05:29",
+    "pipeline_version": "V3.2 CASA",
+    "total_dialogue_phrases": 112,
+    "estimated_speakers": 3,
+    "decision_summary": {
+      "CONFIRM": 61,
+      "CORRECT": 0,
+      "UNCERTAIN": 51,
+      "PROVISIONAL": 1,
+      "ATTRIBUTION_CHANGED": 0
+    },
+    "confidence_statistics": {
+      "mean": 0.6984,
+      "std": 0.088,
+      "min": 0.5023,
+      "max": 0.8685,
+      "median": 0.7066
+    },
+    "timings_sec": {
+      "normalization": 1.532,
+      "vad": 7.648,
+      "asr": 9.965,
+      "diarization": 28.177,
+      "casa": 0.004,
+      "total": 47.325
+    }
+  },
+  "phrases": [
+    {
+      "phrase_index": 0,
+      "start_sec": 0.0,
+      "end_sec": 5.92,
+      "duration_sec": 5.92,
+      "transcript_text": "Typically, we can see in chart B that the overall figure for computer ownership stands at around 60 million,",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7407,
+      "provisional_status": true,
+      "acoustic_score": 0.8512,
+      "temporal_score": 0.65,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.69)",
+        "local continuity: 3/3 neighbors match",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [],
+      "linguistic_evidence": [],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.69)",
+        "local continuity: 3/3 neighbors match",
+        "forward continuity: next phrase also Speaker 1",
+        "no prior context (first phrase)",
+        "decision: CONFIRM (confidence=0.74 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 1,
+      "start_sec": 6.62,
+      "end_sec": 9.84,
+      "duration_sec": 3.22,
+      "transcript_text": "which represents a huge increase in a very short time period.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.754,
+      "provisional_status": false,
+      "acoustic_score": 0.8072,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.64)",
+        "local continuity: 4/4 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.64)",
+        "local continuity: 4/4 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.75 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 2,
+      "start_sec": 10.54,
+      "end_sec": 15.46,
+      "duration_sec": 4.92,
+      "transcript_text": "Now, of course, 60 million is just a drop in the ocean if you compare the total population of China.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7663,
+      "provisional_status": false,
+      "acoustic_score": 0.8296,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.67)",
+        "local continuity: 5/5 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.67)",
+        "local continuity: 5/5 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.77 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 3,
+      "start_sec": 16.06,
+      "end_sec": 20.22,
+      "duration_sec": 4.16,
+      "transcript_text": "And this is a key reason why the personal computer market is such a hot market.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.8133,
+      "provisional_status": false,
+      "acoustic_score": 0.817,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.82,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.65)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: continuation from same speaker (expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.65)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "dialogue pattern: continuation from same speaker (expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.81 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 4,
+      "start_sec": 20.78,
+      "end_sec": 27.64,
+      "duration_sec": 6.86,
+      "transcript_text": "For us at Alpha, and of course for all of our competitors as well, we have millions of potential customers who are looking to join the internet generation.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7602,
+      "provisional_status": false,
+      "acoustic_score": 0.8185,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.65)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.65)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: CONTINUATION",
+        "decision: CONFIRM (confidence=0.76 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 5,
+      "start_sec": 28.32,
+      "end_sec": 33.24,
+      "duration_sec": 4.92,
+      "transcript_text": "If we do this right, we really can repute rewards in a very short time frame.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7422,
+      "provisional_status": false,
+      "acoustic_score": 0.7858,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.61)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.61)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.74 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 6,
+      "start_sec": 34.02,
+      "end_sec": 40.2,
+      "duration_sec": 6.18,
+      "transcript_text": "I now like to move on to discuss the X420 brand itself and compare and contrast with some of our key competitors.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7631,
+      "provisional_status": false,
+      "acoustic_score": 0.8237,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.66)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.66)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.76 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 7,
+      "start_sec": 45.2,
+      "end_sec": 46.5,
+      "duration_sec": 1.3,
+      "transcript_text": "All right, we're back.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.53,
+      "provisional_status": false,
+      "acoustic_score": 0.4,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": 0.5867,
+      "acoustic_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.29)",
+        "local continuity: 5/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.29)",
+        "local continuity: 5/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: UNCERTAIN (confidence=0.53; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 8,
+      "start_sec": 46.72,
+      "end_sec": 49.24,
+      "duration_sec": 2.52,
+      "transcript_text": "So now we've picked out a couple of different phrases for you.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.5965,
+      "provisional_status": false,
+      "acoustic_score": 0.4,
+      "temporal_score": 0.85,
+      "linguistic_score": 0.82,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.5714,
+      "acoustic_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.33)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.22s) supports continuity",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.22s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: continuation from same speaker (expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.33)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.22s) supports continuity",
+        "forward continuity: next phrase also Speaker 1",
+        "dialogue pattern: continuation from same speaker (expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT",
+        "decision: UNCERTAIN (confidence=0.60; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 9,
+      "start_sec": 49.4,
+      "end_sec": 51.28,
+      "duration_sec": 1.88,
+      "transcript_text": "Let's check those out now on Fluency Builder.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6922,
+      "provisional_status": false,
+      "acoustic_score": 0.695,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.6048,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.56)",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.16s) supports continuity"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.16s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.56)",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.16s) supports continuity",
+        "phrase type: STATEMENT | prev type: CONTINUATION",
+        "decision: UNCERTAIN (confidence=0.69; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 10,
+      "start_sec": 52.98,
+      "end_sec": 53.78,
+      "duration_sec": 0.8,
+      "transcript_text": "Fluency Builder.",
+      "original_diarization_speaker": "Speaker 2",
+      "casa_assigned_speaker": "Speaker 2",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6906,
+      "provisional_status": false,
+      "acoustic_score": 0.7853,
+      "temporal_score": 0.75,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": 0.6115,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 2 (sim=0.73)",
+        "local discontinuity: no neighbors match assigned speaker"
+      ],
+      "temporal_evidence": [
+        "expected turn transition from Speaker 1",
+        "turn-boundary pause before (1.70s ≥ 0.4s)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 2 (sim=0.73)",
+        "local discontinuity: no neighbors match assigned speaker",
+        "expected turn transition from Speaker 1",
+        "turn-boundary pause before (1.70s ≥ 0.4s)",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: UNCERTAIN (confidence=0.69; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 11,
+      "start_sec": 54.48,
+      "end_sec": 57.06,
+      "duration_sec": 2.58,
+      "transcript_text": "So in today's dialogue, we heard Mr.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6981,
+      "provisional_status": false,
+      "acoustic_score": 0.742,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.45,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": 0.5549,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.62)",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "expected turn transition from Speaker 2",
+        "turn-boundary pause before (0.70s ≥ 0.4s)"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: continuation from different speaker (less expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.62)",
+        "expected turn transition from Speaker 2",
+        "turn-boundary pause before (0.70s ≥ 0.4s)",
+        "forward continuity: next phrase also Speaker 3",
+        "dialogue pattern: continuation from different speaker (less expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT",
+        "decision: UNCERTAIN (confidence=0.70; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 12,
+      "start_sec": 57.36,
+      "end_sec": 61.7,
+      "duration_sec": 4.34,
+      "transcript_text": "Ford talk about some numbers. He's talking about growth and change in the market.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7362,
+      "provisional_status": false,
+      "acoustic_score": 0.7523,
+      "temporal_score": 0.85,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.63)",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.30s) supports continuity",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.30s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.63)",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.30s) supports continuity",
+        "forward continuity: next phrase also Speaker 3",
+        "phrase type: STATEMENT | prev type: CONTINUATION",
+        "decision: CONFIRM (confidence=0.74 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 13,
+      "start_sec": 62.18,
+      "end_sec": 62.64,
+      "duration_sec": 0.46,
+      "transcript_text": "And he says,",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7394,
+      "provisional_status": false,
+      "acoustic_score": 0.6679,
+      "temporal_score": 0.72,
+      "linguistic_score": 0.82,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.53)",
+        "speaker continuity from previous turn (Speaker 3)",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)",
+        "short phrase duration (0.46s) reduces temporal certainty"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: continuation from same speaker (expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.53)",
+        "speaker continuity from previous turn (Speaker 3)",
+        "forward continuity: next phrase also Speaker 3",
+        "short phrase duration (0.46s) reduces temporal certainty",
+        "dialogue pattern: continuation from same speaker (expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.74 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 14,
+      "start_sec": 63.08,
+      "end_sec": 69.88,
+      "duration_sec": 6.8,
+      "transcript_text": "with figures two around four to five percent, we've got an overall increase of one thousand percent.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7414,
+      "provisional_status": false,
+      "acoustic_score": 0.807,
+      "temporal_score": 0.75,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.64)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.64)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "phrase type: STATEMENT | prev type: CONTINUATION",
+        "decision: CONFIRM (confidence=0.74 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 15,
+      "start_sec": 70.2,
+      "end_sec": 70.74,
+      "duration_sec": 0.54,
+      "transcript_text": "That's right.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.5705,
+      "provisional_status": false,
+      "acoustic_score": 0.35,
+      "temporal_score": 0.63,
+      "linguistic_score": 0.7,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.6317,
+      "acoustic_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.30)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "expected turn transition from Speaker 3",
+        "short phrase duration (0.54s) reduces temporal certainty"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: acknowledgement of statement from different speaker",
+        "phrase type: AFFIRMATION | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.30)",
+        "expected turn transition from Speaker 3",
+        "forward continuity: next phrase also Speaker 1",
+        "short phrase duration (0.54s) reduces temporal certainty",
+        "dialogue pattern: acknowledgement of statement from different speaker",
+        "phrase type: AFFIRMATION | prev type: STATEMENT",
+        "decision: UNCERTAIN (confidence=0.57; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 16,
+      "start_sec": 70.92,
+      "end_sec": 82.18,
+      "duration_sec": 11.26,
+      "transcript_text": "So this phrase, an increase of very, very common when you're talking about growth of maybe revenue or when you're talking about the growth of a company or sales, for example.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6675,
+      "provisional_status": false,
+      "acoustic_score": 0.6499,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.5915,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.51)",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.18s) supports continuity"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.18s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: following affirmation — neutral",
+        "phrase type: CONTINUATION | prev type: AFFIRMATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.51)",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.18s) supports continuity",
+        "dialogue pattern: following affirmation — neutral",
+        "phrase type: CONTINUATION | prev type: AFFIRMATION",
+        "decision: UNCERTAIN (confidence=0.67; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 17,
+      "start_sec": 82.56,
+      "end_sec": 85.5,
+      "duration_sec": 2.94,
+      "transcript_text": "So it's important to remember here that this is a fixed phrase.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6606,
+      "provisional_status": false,
+      "acoustic_score": 0.6828,
+      "temporal_score": 0.7,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": 0.5662,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.55)",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "expected turn transition from Speaker 1"
+      ],
+      "linguistic_evidence": [
+        "phrase type: CONTINUATION | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.55)",
+        "expected turn transition from Speaker 1",
+        "forward continuity: next phrase also Speaker 3",
+        "phrase type: CONTINUATION | prev type: CONTINUATION",
+        "decision: UNCERTAIN (confidence=0.66; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 18,
+      "start_sec": 85.8,
+      "end_sec": 91.12,
+      "duration_sec": 5.32,
+      "transcript_text": "We say an increase of 10 percent or an increase of 30 percent.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7761,
+      "provisional_status": false,
+      "acoustic_score": 0.8248,
+      "temporal_score": 0.85,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.72)",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.30s) supports continuity",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.30s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.72)",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.30s) supports continuity",
+        "forward continuity: next phrase also Speaker 3",
+        "phrase type: STATEMENT | prev type: CONTINUATION",
+        "decision: CONFIRM (confidence=0.78 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 19,
+      "start_sec": 91.76,
+      "end_sec": 104.5,
+      "duration_sec": 12.74,
+      "transcript_text": "But you can use the same phrase with with drops in percentages or money. So you can say a decrease of 10 percent. That means that you go down 10 percent or a decrease of 100 percent.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7859,
+      "provisional_status": false,
+      "acoustic_score": 0.7898,
+      "temporal_score": 0.75,
+      "linguistic_score": 0.82,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.68)",
+        "speaker continuity from previous turn (Speaker 3)"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: continuation from same speaker (expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.68)",
+        "speaker continuity from previous turn (Speaker 3)",
+        "dialogue pattern: continuation from same speaker (expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.79 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 20,
+      "start_sec": 104.68,
+      "end_sec": 105.18,
+      "duration_sec": 0.5,
+      "transcript_text": "That's right.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.518,
+      "provisional_status": false,
+      "acoustic_score": 0.35,
+      "temporal_score": 0.63,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.6359,
+      "acoustic_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.36)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "expected turn transition from Speaker 3",
+        "short phrase duration (0.50s) reduces temporal certainty"
+      ],
+      "linguistic_evidence": [
+        "phrase type: AFFIRMATION | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.36)",
+        "expected turn transition from Speaker 3",
+        "forward continuity: next phrase also Speaker 1",
+        "short phrase duration (0.50s) reduces temporal certainty",
+        "phrase type: AFFIRMATION | prev type: CONTINUATION",
+        "decision: UNCERTAIN (confidence=0.52; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 21,
+      "start_sec": 105.62,
+      "end_sec": 110.8,
+      "duration_sec": 5.18,
+      "transcript_text": "So a very useful phrase when talking about incrementing someone or, as you said,",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.53,
+      "provisional_status": false,
+      "acoustic_score": 0.4,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": 0.5636,
+      "acoustic_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.38)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: following affirmation — neutral",
+        "phrase type: CONTINUATION | prev type: AFFIRMATION"
+      ],
+      "all_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.38)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "dialogue pattern: following affirmation — neutral",
+        "phrase type: CONTINUATION | prev type: AFFIRMATION",
+        "decision: UNCERTAIN (confidence=0.53; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 22,
+      "start_sec": 111.64,
+      "end_sec": 113.74,
+      "duration_sec": 2.1,
+      "transcript_text": "decreasing a decrease of five percent.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7166,
+      "provisional_status": false,
+      "acoustic_score": 0.7394,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.56)",
+        "local continuity: 5/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.56)",
+        "local continuity: 5/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: CONTINUATION",
+        "decision: CONFIRM (confidence=0.72 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 23,
+      "start_sec": 114.2,
+      "end_sec": 118.48,
+      "duration_sec": 4.28,
+      "transcript_text": "Now, Mr. Ford used a very interesting phrase when referring to the Chinese market.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7014,
+      "provisional_status": false,
+      "acoustic_score": 0.7116,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.52)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.52)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.70 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 24,
+      "start_sec": 118.74,
+      "end_sec": 120.6,
+      "duration_sec": 1.86,
+      "transcript_text": "Obviously, it's a very big market.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6894,
+      "provisional_status": false,
+      "acoustic_score": 0.667,
+      "temporal_score": 0.85,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.5744,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.47)",
+        "local continuity: 5/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.26s) supports continuity",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.26s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.47)",
+        "local continuity: 5/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.26s) supports continuity",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: UNCERTAIN (confidence=0.69; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 25,
+      "start_sec": 121.6,
+      "end_sec": 125.2,
+      "duration_sec": 3.6,
+      "transcript_text": "And he says that the computer ownership stands at around 60 million.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.584,
+      "provisional_status": false,
+      "acoustic_score": 0.4,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.82,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.6018,
+      "acoustic_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.43)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: continuation from same speaker (expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.43)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "dialogue pattern: continuation from same speaker (expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT",
+        "decision: UNCERTAIN (confidence=0.58; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 26,
+      "start_sec": 125.96,
+      "end_sec": 131.62,
+      "duration_sec": 5.66,
+      "transcript_text": "But of course, 60 million is just a drop in the ocean if you compare it to the population of China.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7059,
+      "provisional_status": false,
+      "acoustic_score": 0.7426,
+      "temporal_score": 0.75,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.56)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: CONTINUATION | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.56)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "phrase type: CONTINUATION | prev type: CONTINUATION",
+        "decision: CONFIRM (confidence=0.71 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 27,
+      "start_sec": 131.92,
+      "end_sec": 132.22,
+      "duration_sec": 0.3,
+      "transcript_text": "That's right.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.518,
+      "provisional_status": false,
+      "acoustic_score": 0.35,
+      "temporal_score": 0.63,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": 0.6275,
+      "acoustic_evidence": [
+        "weak acoustic similarity to Speaker 3 (sim=0.32)",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "expected turn transition from Speaker 1",
+        "short phrase duration (0.30s) reduces temporal certainty"
+      ],
+      "linguistic_evidence": [
+        "phrase type: AFFIRMATION | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "weak acoustic similarity to Speaker 3 (sim=0.32)",
+        "expected turn transition from Speaker 1",
+        "forward continuity: next phrase also Speaker 3",
+        "short phrase duration (0.30s) reduces temporal certainty",
+        "phrase type: AFFIRMATION | prev type: CONTINUATION",
+        "decision: UNCERTAIN (confidence=0.52; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 28,
+      "start_sec": 132.44,
+      "end_sec": 135.76,
+      "duration_sec": 3.32,
+      "transcript_text": "So what does this mean? It's a big percentage or a small percentage.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6523,
+      "provisional_status": false,
+      "acoustic_score": 0.6224,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": 0.5485,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.48)",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.22s) supports continuity"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.22s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: following affirmation — neutral",
+        "phrase type: CONTINUATION | prev type: AFFIRMATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.48)",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.22s) supports continuity",
+        "dialogue pattern: following affirmation — neutral",
+        "phrase type: CONTINUATION | prev type: AFFIRMATION",
+        "decision: UNCERTAIN (confidence=0.65; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 29,
+      "start_sec": 136.14,
+      "end_sec": 136.82,
+      "duration_sec": 0.68,
+      "transcript_text": "Very, very small.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.5023,
+      "provisional_status": false,
+      "acoustic_score": 0.35,
+      "temporal_score": 0.585,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.622,
+      "acoustic_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.30)"
+      ],
+      "temporal_evidence": [
+        "expected turn transition from Speaker 3",
+        "short phrase duration (0.68s) reduces temporal certainty"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.30)",
+        "expected turn transition from Speaker 3",
+        "short phrase duration (0.68s) reduces temporal certainty",
+        "phrase type: STATEMENT | prev type: CONTINUATION",
+        "decision: UNCERTAIN (confidence=0.50; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 30,
+      "start_sec": 137.32,
+      "end_sec": 141.92,
+      "duration_sec": 4.6,
+      "transcript_text": "So what he's saying here is it's like a drop of water in an ocean.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7342,
+      "provisional_status": false,
+      "acoustic_score": 0.8076,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.45,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.64)",
+        "local continuity: 5/6 neighbors match",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "expected turn transition from Speaker 1",
+        "turn-boundary pause before (0.50s ≥ 0.4s)"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: continuation from different speaker (less expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.64)",
+        "local continuity: 5/6 neighbors match",
+        "expected turn transition from Speaker 1",
+        "turn-boundary pause before (0.50s ≥ 0.4s)",
+        "forward continuity: next phrase also Speaker 3",
+        "dialogue pattern: continuation from different speaker (less expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.73 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 31,
+      "start_sec": 142.2,
+      "end_sec": 148.24,
+      "duration_sec": 6.04,
+      "transcript_text": "So a drop of water is so small, you don't even notice it. You don't even see it because the ocean is so big.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7508,
+      "provisional_status": false,
+      "acoustic_score": 0.7786,
+      "temporal_score": 0.85,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.60)",
+        "local continuity: 5/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.28s) supports continuity",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.28s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "phrase type: CONTINUATION | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.60)",
+        "local continuity: 5/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.28s) supports continuity",
+        "forward continuity: next phrase also Speaker 3",
+        "phrase type: CONTINUATION | prev type: CONTINUATION",
+        "decision: CONFIRM (confidence=0.75 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 32,
+      "start_sec": 148.4,
+      "end_sec": 150.48,
+      "duration_sec": 2.08,
+      "transcript_text": "And so you can use this in many different ways. You can say, hey,",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7956,
+      "provisional_status": false,
+      "acoustic_score": 0.8601,
+      "temporal_score": 0.85,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.70)",
+        "local continuity: 5/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.16s) supports continuity",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.16s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "phrase type: CONTINUATION | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.70)",
+        "local continuity: 5/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.16s) supports continuity",
+        "forward continuity: next phrase also Speaker 3",
+        "phrase type: CONTINUATION | prev type: CONTINUATION",
+        "decision: CONFIRM (confidence=0.80 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 33,
+      "start_sec": 151.14,
+      "end_sec": 153.98,
+      "duration_sec": 2.84,
+      "transcript_text": "you know, $5 is just a drop in the ocean.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7782,
+      "provisional_status": false,
+      "acoustic_score": 0.8513,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.69)",
+        "local continuity: 5/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: CONTINUATION | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.69)",
+        "local continuity: 5/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "forward continuity: next phrase also Speaker 3",
+        "phrase type: CONTINUATION | prev type: CONTINUATION",
+        "decision: CONFIRM (confidence=0.78 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 34,
+      "start_sec": 154.42,
+      "end_sec": 154.5,
+      "duration_sec": 0.08,
+      "transcript_text": "Right.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6578,
+      "provisional_status": false,
+      "acoustic_score": 0.7109,
+      "temporal_score": 0.72,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": 0.5885,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.52)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)",
+        "short phrase duration (0.08s) reduces temporal certainty"
+      ],
+      "linguistic_evidence": [
+        "phrase type: AFFIRMATION | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.52)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "forward continuity: next phrase also Speaker 3",
+        "short phrase duration (0.08s) reduces temporal certainty",
+        "phrase type: AFFIRMATION | prev type: CONTINUATION",
+        "decision: UNCERTAIN (confidence=0.66; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 35,
+      "start_sec": 154.66,
+      "end_sec": 158.12,
+      "duration_sec": 3.46,
+      "transcript_text": "It's not really important because it's very little money. That's right. That's right.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7404,
+      "provisional_status": false,
+      "acoustic_score": 0.7825,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.67)",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.16s) supports continuity"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.16s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: following affirmation — neutral",
+        "phrase type: STATEMENT | prev type: AFFIRMATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.67)",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.16s) supports continuity",
+        "dialogue pattern: following affirmation — neutral",
+        "phrase type: STATEMENT | prev type: AFFIRMATION",
+        "decision: CONFIRM (confidence=0.74 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 36,
+      "start_sec": 158.38,
+      "end_sec": 160.86,
+      "duration_sec": 2.48,
+      "transcript_text": "So it's sort of like a metaphor saying, you know what?",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6083,
+      "provisional_status": false,
+      "acoustic_score": 0.6242,
+      "temporal_score": 0.7,
+      "linguistic_score": 0.45,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.5947,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.48)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "expected turn transition from Speaker 3"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: continuation from different speaker (less expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.48)",
+        "expected turn transition from Speaker 3",
+        "forward continuity: next phrase also Speaker 1",
+        "dialogue pattern: continuation from different speaker (less expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT",
+        "decision: UNCERTAIN (confidence=0.61; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 37,
+      "start_sec": 161.1,
+      "end_sec": 162.44,
+      "duration_sec": 1.34,
+      "transcript_text": "It's very insignificant.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.595,
+      "provisional_status": false,
+      "acoustic_score": 0.35,
+      "temporal_score": 0.85,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.5928,
+      "acoustic_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.44)",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.24s) supports continuity",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.24s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.44)",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.24s) supports continuity",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: CONTINUATION",
+        "decision: UNCERTAIN (confidence=0.59; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 38,
+      "start_sec": 163.32,
+      "end_sec": 168.22,
+      "duration_sec": 4.9,
+      "transcript_text": "It's just a drop of water in an ocean. It's not really something you can notice.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.661,
+      "provisional_status": false,
+      "acoustic_score": 0.6609,
+      "temporal_score": 0.75,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.5996,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.52)",
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.52)",
+        "speaker continuity from previous turn (Speaker 1)",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: UNCERTAIN (confidence=0.66; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 39,
+      "start_sec": 168.56,
+      "end_sec": 168.88,
+      "duration_sec": 0.32,
+      "transcript_text": "That's right.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.5705,
+      "provisional_status": false,
+      "acoustic_score": 0.35,
+      "temporal_score": 0.63,
+      "linguistic_score": 0.7,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": 0.6135,
+      "acoustic_evidence": [
+        "weak acoustic similarity to Speaker 3 (sim=0.38)",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "expected turn transition from Speaker 1",
+        "short phrase duration (0.32s) reduces temporal certainty"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: acknowledgement of statement from different speaker",
+        "phrase type: AFFIRMATION | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "weak acoustic similarity to Speaker 3 (sim=0.38)",
+        "expected turn transition from Speaker 1",
+        "forward continuity: next phrase also Speaker 3",
+        "short phrase duration (0.32s) reduces temporal certainty",
+        "dialogue pattern: acknowledgement of statement from different speaker",
+        "phrase type: AFFIRMATION | prev type: STATEMENT",
+        "decision: UNCERTAIN (confidence=0.57; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 40,
+      "start_sec": 169.08,
+      "end_sec": 170.72,
+      "duration_sec": 1.64,
+      "transcript_text": "Just a drop in the ocean.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7615,
+      "provisional_status": false,
+      "acoustic_score": 0.7982,
+      "temporal_score": 0.85,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.63)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.20s) supports continuity",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.20s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: following affirmation — neutral",
+        "phrase type: STATEMENT | prev type: AFFIRMATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.63)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.20s) supports continuity",
+        "forward continuity: next phrase also Speaker 3",
+        "dialogue pattern: following affirmation — neutral",
+        "phrase type: STATEMENT | prev type: AFFIRMATION",
+        "decision: CONFIRM (confidence=0.76 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 41,
+      "start_sec": 171.34,
+      "end_sec": 177.26,
+      "duration_sec": 5.92,
+      "transcript_text": "And now at the very end of today's speech, we heard the phrase to compare and contrast.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7993,
+      "provisional_status": false,
+      "acoustic_score": 0.7914,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.82,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.62)",
+        "local continuity: 5/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: continuation from same speaker (expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.62)",
+        "local continuity: 5/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "forward continuity: next phrase also Speaker 3",
+        "dialogue pattern: continuation from same speaker (expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.80 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 42,
+      "start_sec": 177.76,
+      "end_sec": 182.06,
+      "duration_sec": 4.3,
+      "transcript_text": "So we're talking about the X420 computer brand itself.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7523,
+      "provisional_status": false,
+      "acoustic_score": 0.8042,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.64)",
+        "local continuity: 5/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: CONTINUATION | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.64)",
+        "local continuity: 5/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "forward continuity: next phrase also Speaker 3",
+        "phrase type: CONTINUATION | prev type: CONTINUATION",
+        "decision: CONFIRM (confidence=0.75 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 43,
+      "start_sec": 182.42,
+      "end_sec": 183.8,
+      "duration_sec": 1.38,
+      "transcript_text": "Now what does Mr.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7259,
+      "provisional_status": false,
+      "acoustic_score": 0.7334,
+      "temporal_score": 0.85,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.55)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.36s) supports continuity",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.36s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.55)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.36s) supports continuity",
+        "forward continuity: next phrase also Speaker 3",
+        "phrase type: STATEMENT | prev type: CONTINUATION",
+        "decision: CONFIRM (confidence=0.73 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 44,
+      "start_sec": 184.04,
+      "end_sec": 186.6,
+      "duration_sec": 2.56,
+      "transcript_text": "Ford mean when he says to compare and contrast?",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7525,
+      "provisional_status": false,
+      "acoustic_score": 0.8046,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.64)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.24s) supports continuity"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.24s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "phrase type: QUESTION | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.64)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.24s) supports continuity",
+        "phrase type: QUESTION | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.75 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 45,
+      "start_sec": 187.16,
+      "end_sec": 188.64,
+      "duration_sec": 1.48,
+      "transcript_text": "So when we mentioned the word compare,",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6457,
+      "provisional_status": false,
+      "acoustic_score": 0.6104,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.6088,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.46)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "expected turn transition from Speaker 3",
+        "turn-boundary pause before (0.56s ≥ 0.4s)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: CONTINUATION | prev type: QUESTION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.46)",
+        "expected turn transition from Speaker 3",
+        "turn-boundary pause before (0.56s ≥ 0.4s)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: CONTINUATION | prev type: QUESTION",
+        "decision: UNCERTAIN (confidence=0.65; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 46,
+      "start_sec": 189.2,
+      "end_sec": 198.76,
+      "duration_sec": 9.56,
+      "transcript_text": "we are basically trying to determine how they are similar in many ways, the characteristics of how they are similar. And to contrast is how they are different, right?",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6433,
+      "provisional_status": false,
+      "acoustic_score": 0.6287,
+      "temporal_score": 0.75,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.5786,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.48)",
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: QUESTION | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.48)",
+        "speaker continuity from previous turn (Speaker 1)",
+        "phrase type: QUESTION | prev type: CONTINUATION",
+        "decision: UNCERTAIN (confidence=0.64; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 47,
+      "start_sec": 199.16,
+      "end_sec": 201.18,
+      "duration_sec": 2.02,
+      "transcript_text": "That's right. So let's use an example.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.8046,
+      "provisional_status": false,
+      "acoustic_score": 0.8084,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.8,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.70)",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "expected turn transition from Speaker 1",
+        "turn-boundary pause before (0.40s ≥ 0.4s)"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: expected question→response from different speaker",
+        "phrase type: STATEMENT | prev type: QUESTION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.70)",
+        "expected turn transition from Speaker 1",
+        "turn-boundary pause before (0.40s ≥ 0.4s)",
+        "forward continuity: next phrase also Speaker 3",
+        "dialogue pattern: expected question→response from different speaker",
+        "phrase type: STATEMENT | prev type: QUESTION",
+        "decision: CONFIRM (confidence=0.80 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 48,
+      "start_sec": 201.78,
+      "end_sec": 205.04,
+      "duration_sec": 3.26,
+      "transcript_text": "Perhaps we could say Pepsi and Coca-Cola.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7049,
+      "provisional_status": false,
+      "acoustic_score": 0.718,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.59)",
+        "speaker continuity from previous turn (Speaker 3)",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.59)",
+        "speaker continuity from previous turn (Speaker 3)",
+        "forward continuity: next phrase also Speaker 3",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.70 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 49,
+      "start_sec": 205.2,
+      "end_sec": 206.36,
+      "duration_sec": 1.16,
+      "transcript_text": "Let's compare and contrast.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6874,
+      "provisional_status": false,
+      "acoustic_score": 0.6862,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": 0.5589,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.55)",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.16s) supports continuity"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.16s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.55)",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.16s) supports continuity",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: UNCERTAIN (confidence=0.69; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 50,
+      "start_sec": 207.68,
+      "end_sec": 209.8,
+      "duration_sec": 2.12,
+      "transcript_text": "So they're both carbonated beverages.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6437,
+      "provisional_status": false,
+      "acoustic_score": 0.6658,
+      "temporal_score": 0.75,
+      "linguistic_score": 0.45,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.6053,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.53)"
+      ],
+      "temporal_evidence": [
+        "expected turn transition from Speaker 3",
+        "turn-boundary pause before (1.32s ≥ 0.4s)"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: continuation from different speaker (less expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.53)",
+        "expected turn transition from Speaker 3",
+        "turn-boundary pause before (1.32s ≥ 0.4s)",
+        "dialogue pattern: continuation from different speaker (less expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT",
+        "decision: UNCERTAIN (confidence=0.64; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 51,
+      "start_sec": 210.52,
+      "end_sec": 211.6,
+      "duration_sec": 1.08,
+      "transcript_text": "They are both sweet.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6657,
+      "provisional_status": false,
+      "acoustic_score": 0.6694,
+      "temporal_score": 0.75,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": 0.619,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.53)"
+      ],
+      "temporal_evidence": [
+        "expected turn transition from Speaker 1",
+        "turn-boundary pause before (0.72s ≥ 0.4s)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.53)",
+        "expected turn transition from Speaker 1",
+        "turn-boundary pause before (0.72s ≥ 0.4s)",
+        "phrase type: STATEMENT | prev type: CONTINUATION",
+        "decision: UNCERTAIN (confidence=0.67; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 52,
+      "start_sec": 212.4,
+      "end_sec": 213.02,
+      "duration_sec": 0.62,
+      "transcript_text": "And they're both,",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6008,
+      "provisional_status": false,
+      "acoustic_score": 0.6378,
+      "temporal_score": 0.72,
+      "linguistic_score": 0.45,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.6251,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.50)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "expected turn transition from Speaker 3",
+        "turn-boundary pause before (0.80s ≥ 0.4s)",
+        "short phrase duration (0.62s) reduces temporal certainty"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: continuation from different speaker (less expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.50)",
+        "expected turn transition from Speaker 3",
+        "turn-boundary pause before (0.80s ≥ 0.4s)",
+        "forward continuity: next phrase also Speaker 1",
+        "short phrase duration (0.62s) reduces temporal certainty",
+        "dialogue pattern: continuation from different speaker (less expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT",
+        "decision: UNCERTAIN (confidence=0.60; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 53,
+      "start_sec": 213.5,
+      "end_sec": 214.94,
+      "duration_sec": 1.44,
+      "transcript_text": "they're pretty much the same color.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6434,
+      "provisional_status": false,
+      "acoustic_score": 0.6289,
+      "temporal_score": 0.75,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.5849,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.48)",
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.48)",
+        "speaker continuity from previous turn (Speaker 1)",
+        "phrase type: STATEMENT | prev type: CONTINUATION",
+        "decision: UNCERTAIN (confidence=0.64; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 54,
+      "start_sec": 215.3,
+      "end_sec": 215.68,
+      "duration_sec": 0.38,
+      "transcript_text": "That's right.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6725,
+      "provisional_status": false,
+      "acoustic_score": 0.69,
+      "temporal_score": 0.63,
+      "linguistic_score": 0.7,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": 0.6271,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.56)",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "expected turn transition from Speaker 1",
+        "short phrase duration (0.38s) reduces temporal certainty"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: acknowledgement of statement from different speaker",
+        "phrase type: AFFIRMATION | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.56)",
+        "expected turn transition from Speaker 1",
+        "forward continuity: next phrase also Speaker 3",
+        "short phrase duration (0.38s) reduces temporal certainty",
+        "dialogue pattern: acknowledgement of statement from different speaker",
+        "phrase type: AFFIRMATION | prev type: STATEMENT",
+        "decision: UNCERTAIN (confidence=0.67; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 55,
+      "start_sec": 215.88,
+      "end_sec": 217.58,
+      "duration_sec": 1.7,
+      "transcript_text": "And they're also fairly cheap.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.75,
+      "provisional_status": false,
+      "acoustic_score": 0.7772,
+      "temporal_score": 0.85,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.66)",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.20s) supports continuity",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.20s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: following affirmation — neutral",
+        "phrase type: CONTINUATION | prev type: AFFIRMATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.66)",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.20s) supports continuity",
+        "forward continuity: next phrase also Speaker 3",
+        "dialogue pattern: following affirmation — neutral",
+        "phrase type: CONTINUATION | prev type: AFFIRMATION",
+        "decision: CONFIRM (confidence=0.75 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 56,
+      "start_sec": 218.04,
+      "end_sec": 224.44,
+      "duration_sec": 6.4,
+      "transcript_text": "They have about the same price. But I would say that Coca-Cola tastes more like prune.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7778,
+      "provisional_status": false,
+      "acoustic_score": 0.8733,
+      "temporal_score": 0.75,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.72)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.72)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "phrase type: STATEMENT | prev type: CONTINUATION",
+        "decision: CONFIRM (confidence=0.78 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 57,
+      "start_sec": 224.9,
+      "end_sec": 229.86,
+      "duration_sec": 4.96,
+      "transcript_text": "So that would be a contrasting characteristic of Coca-Cola is that maybe it tastes a little bit sweeter.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6159,
+      "provisional_status": false,
+      "acoustic_score": 0.6152,
+      "temporal_score": 0.75,
+      "linguistic_score": 0.45,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.6006,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.53)",
+        "local discontinuity: no neighbors match assigned speaker"
+      ],
+      "temporal_evidence": [
+        "expected turn transition from Speaker 3",
+        "turn-boundary pause before (0.46s ≥ 0.4s)"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: continuation from different speaker (less expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.53)",
+        "local discontinuity: no neighbors match assigned speaker",
+        "expected turn transition from Speaker 3",
+        "turn-boundary pause before (0.46s ≥ 0.4s)",
+        "dialogue pattern: continuation from different speaker (less expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT",
+        "decision: UNCERTAIN (confidence=0.62; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 58,
+      "start_sec": 230.18,
+      "end_sec": 230.48,
+      "duration_sec": 0.3,
+      "transcript_text": "It does.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.533,
+      "provisional_status": false,
+      "acoustic_score": 0.4,
+      "temporal_score": 0.63,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": 0.6232,
+      "acoustic_evidence": [
+        "weak acoustic similarity to Speaker 3 (sim=0.41)",
+        "local continuity: 5/6 neighbors match",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "expected turn transition from Speaker 1",
+        "short phrase duration (0.30s) reduces temporal certainty"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "weak acoustic similarity to Speaker 3 (sim=0.41)",
+        "local continuity: 5/6 neighbors match",
+        "expected turn transition from Speaker 1",
+        "forward continuity: next phrase also Speaker 3",
+        "short phrase duration (0.30s) reduces temporal certainty",
+        "phrase type: STATEMENT | prev type: CONTINUATION",
+        "decision: UNCERTAIN (confidence=0.53; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 59,
+      "start_sec": 230.66,
+      "end_sec": 233.64,
+      "duration_sec": 2.98,
+      "transcript_text": "And you could also say it's easier to find Coca-Cola.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.824,
+      "provisional_status": false,
+      "acoustic_score": 0.8136,
+      "temporal_score": 0.85,
+      "linguistic_score": 0.82,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.65)",
+        "local continuity: 5/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.18s) supports continuity",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.18s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: continuation from same speaker (expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.65)",
+        "local continuity: 5/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.18s) supports continuity",
+        "forward continuity: next phrase also Speaker 3",
+        "dialogue pattern: continuation from same speaker (expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.82 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 60,
+      "start_sec": 234.02,
+      "end_sec": 236.3,
+      "duration_sec": 2.28,
+      "transcript_text": "Pepsi is less easy to find sometimes.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7969,
+      "provisional_status": false,
+      "acoustic_score": 0.8625,
+      "temporal_score": 0.85,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.71)",
+        "local continuity: 5/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.38s) supports continuity",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.38s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.71)",
+        "local continuity: 5/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.38s) supports continuity",
+        "forward continuity: next phrase also Speaker 3",
+        "phrase type: STATEMENT | prev type: CONTINUATION",
+        "decision: CONFIRM (confidence=0.80 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 61,
+      "start_sec": 236.56,
+      "end_sec": 236.96,
+      "duration_sec": 0.4,
+      "transcript_text": "That's right.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6404,
+      "provisional_status": false,
+      "acoustic_score": 0.7171,
+      "temporal_score": 0.765,
+      "linguistic_score": 0.45,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": 0.5786,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.53)",
+        "local continuity: 5/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.26s) supports continuity",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.26s) supports continuity",
+        "short phrase duration (0.40s) reduces temporal certainty"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: statement→acknowledgement from same speaker (slight suspicion)",
+        "phrase type: AFFIRMATION | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.53)",
+        "local continuity: 5/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.26s) supports continuity",
+        "forward continuity: next phrase also Speaker 3",
+        "short phrase duration (0.40s) reduces temporal certainty",
+        "dialogue pattern: statement→acknowledgement from same speaker (slight suspicion)",
+        "phrase type: AFFIRMATION | prev type: STATEMENT",
+        "decision: UNCERTAIN (confidence=0.64; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 62,
+      "start_sec": 237.14,
+      "end_sec": 237.92,
+      "duration_sec": 0.78,
+      "transcript_text": "Another way that they're different.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7073,
+      "provisional_status": false,
+      "acoustic_score": 0.8234,
+      "temporal_score": 0.765,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.66)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.18s) supports continuity",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.18s) supports continuity",
+        "short phrase duration (0.78s) reduces temporal certainty"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: following affirmation — neutral",
+        "phrase type: STATEMENT | prev type: AFFIRMATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.66)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.18s) supports continuity",
+        "forward continuity: next phrase also Speaker 3",
+        "short phrase duration (0.78s) reduces temporal certainty",
+        "dialogue pattern: following affirmation — neutral",
+        "phrase type: STATEMENT | prev type: AFFIRMATION",
+        "decision: CONFIRM (confidence=0.71 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 63,
+      "start_sec": 238.14,
+      "end_sec": 243.24,
+      "duration_sec": 5.1,
+      "transcript_text": "So basically to compare and contrast is to point out how two things are similar and how they're different.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.8125,
+      "provisional_status": false,
+      "acoustic_score": 0.8155,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.82,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.71)",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.22s) supports continuity"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.22s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: continuation from same speaker (expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.71)",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.22s) supports continuity",
+        "dialogue pattern: continuation from same speaker (expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.81 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 64,
+      "start_sec": 243.56,
+      "end_sec": 244.1,
+      "duration_sec": 0.54,
+      "transcript_text": "That's right.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.518,
+      "provisional_status": false,
+      "acoustic_score": 0.35,
+      "temporal_score": 0.63,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.6362,
+      "acoustic_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.37)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "expected turn transition from Speaker 3",
+        "short phrase duration (0.54s) reduces temporal certainty"
+      ],
+      "linguistic_evidence": [
+        "phrase type: AFFIRMATION | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.37)",
+        "expected turn transition from Speaker 3",
+        "forward continuity: next phrase also Speaker 1",
+        "short phrase duration (0.54s) reduces temporal certainty",
+        "phrase type: AFFIRMATION | prev type: CONTINUATION",
+        "decision: UNCERTAIN (confidence=0.52; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 65,
+      "start_sec": 244.6,
+      "end_sec": 252.3,
+      "duration_sec": 7.7,
+      "transcript_text": "So we've had a lot of interesting phrases there. I think very useful if you're talking about business and marketing and sales.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6718,
+      "provisional_status": false,
+      "acoustic_score": 0.6578,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.5592,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.46)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: following affirmation — neutral",
+        "phrase type: CONTINUATION | prev type: AFFIRMATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.46)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "dialogue pattern: following affirmation — neutral",
+        "phrase type: CONTINUATION | prev type: AFFIRMATION",
+        "decision: UNCERTAIN (confidence=0.67; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 66,
+      "start_sec": 252.92,
+      "end_sec": 255.28,
+      "duration_sec": 2.36,
+      "transcript_text": "So why don't we listen to our dialogue one last time.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.693,
+      "provisional_status": false,
+      "acoustic_score": 0.6964,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.5835,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.51)",
+        "local continuity: 5/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: CONTINUATION | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.51)",
+        "local continuity: 5/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: CONTINUATION | prev type: CONTINUATION",
+        "decision: UNCERTAIN (confidence=0.69; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 67,
+      "start_sec": 260.24,
+      "end_sec": 265.0,
+      "duration_sec": 4.76,
+      "transcript_text": "As all of you are well aware, competition in the laptop computer sector is intense.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.53,
+      "provisional_status": false,
+      "acoustic_score": 0.4,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": 0.5766,
+      "acoustic_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.36)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.36)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: CONTINUATION",
+        "decision: UNCERTAIN (confidence=0.53; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 68,
+      "start_sec": 265.44,
+      "end_sec": 267.7,
+      "duration_sec": 2.26,
+      "transcript_text": "We continue to fight with our competitors for market share.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7955,
+      "provisional_status": false,
+      "acoustic_score": 0.8828,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.73)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.73)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.80 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 69,
+      "start_sec": 267.96,
+      "end_sec": 273.56,
+      "duration_sec": 5.6,
+      "transcript_text": "And this is the case both in the developed markets in the West as well as more developing markets in Asia and Africa.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.8685,
+      "provisional_status": false,
+      "acoustic_score": 0.8945,
+      "temporal_score": 0.85,
+      "linguistic_score": 0.82,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.74)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.26s) supports continuity",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.26s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: continuation from same speaker (expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.74)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.26s) supports continuity",
+        "forward continuity: next phrase also Speaker 1",
+        "dialogue pattern: continuation from same speaker (expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.87 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 70,
+      "start_sec": 274.16,
+      "end_sec": 277.42,
+      "duration_sec": 3.26,
+      "transcript_text": "You may ask yourself, why is this market so cutthroat?",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7446,
+      "provisional_status": false,
+      "acoustic_score": 0.7902,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.62)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: QUESTION | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.62)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: QUESTION | prev type: CONTINUATION",
+        "decision: CONFIRM (confidence=0.74 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 71,
+      "start_sec": 277.8,
+      "end_sec": 279.18,
+      "duration_sec": 1.38,
+      "transcript_text": "Well, the answer is simple.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7756,
+      "provisional_status": false,
+      "acoustic_score": 0.8238,
+      "temporal_score": 0.85,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.66)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.38s) supports continuity",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.38s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "phrase type: CONTINUATION | prev type: QUESTION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.66)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.38s) supports continuity",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: CONTINUATION | prev type: QUESTION",
+        "decision: CONFIRM (confidence=0.78 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 72,
+      "start_sec": 279.7,
+      "end_sec": 284.64,
+      "duration_sec": 4.94,
+      "transcript_text": "There's a huge untapped potential market out there with a huge untapped potential for profit.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7844,
+      "provisional_status": false,
+      "acoustic_score": 0.8625,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.70)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.70)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: CONTINUATION",
+        "decision: CONFIRM (confidence=0.78 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 73,
+      "start_sec": 285.4,
+      "end_sec": 287.46,
+      "duration_sec": 2.06,
+      "transcript_text": "If I bring up the first graph here,",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7783,
+      "provisional_status": false,
+      "acoustic_score": 0.8515,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.69)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.69)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.78 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 74,
+      "start_sec": 287.92,
+      "end_sec": 291.48,
+      "duration_sec": 3.56,
+      "transcript_text": "it shows the increase in terms of number of computer owners across the globe.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7728,
+      "provisional_status": false,
+      "acoustic_score": 0.8415,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.68)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.68)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.77 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 75,
+      "start_sec": 291.86,
+      "end_sec": 297.92,
+      "duration_sec": 6.06,
+      "transcript_text": "As you can see in the 1980s, computer ownership amounted to around 0.5% of the total world population.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.8033,
+      "provisional_status": false,
+      "acoustic_score": 0.8742,
+      "temporal_score": 0.85,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.72)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.38s) supports continuity",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.38s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.72)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.38s) supports continuity",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.80 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 76,
+      "start_sec": 298.66,
+      "end_sec": 301.88,
+      "duration_sec": 3.22,
+      "transcript_text": "Since the 1990s, computer ownership has risen dramatically.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7727,
+      "provisional_status": false,
+      "acoustic_score": 0.8413,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.68)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.68)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.77 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 77,
+      "start_sec": 302.58,
+      "end_sec": 313.56,
+      "duration_sec": 10.98,
+      "transcript_text": "In the new millennium, we saw an even larger explosion in computer owners with figures rising to around 4-5%, an increase of 1,000% compared with the 1980s.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7771,
+      "provisional_status": false,
+      "acoustic_score": 0.8493,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.69)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.69)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.78 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 78,
+      "start_sec": 314.1,
+      "end_sec": 317.2,
+      "duration_sec": 3.1,
+      "transcript_text": "If we move on to discuss the figures for China specifically,",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.756,
+      "provisional_status": false,
+      "acoustic_score": 0.8109,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.64)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.64)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.76 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 79,
+      "start_sec": 317.88,
+      "end_sec": 323.12,
+      "duration_sec": 5.24,
+      "transcript_text": "we can see in chart B that the overall figure for computer ownership stands at around 60 million,",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7785,
+      "provisional_status": false,
+      "acoustic_score": 0.8519,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.69)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.69)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.78 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 80,
+      "start_sec": 323.86,
+      "end_sec": 327.04,
+      "duration_sec": 3.18,
+      "transcript_text": "which represents a huge increase in a very short time period.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7634,
+      "provisional_status": false,
+      "acoustic_score": 0.8244,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.66)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.66)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.76 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 81,
+      "start_sec": 327.64,
+      "end_sec": 328.14,
+      "duration_sec": 0.5,
+      "transcript_text": "Now of course,",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6789,
+      "provisional_status": false,
+      "acoustic_score": 0.7813,
+      "temporal_score": 0.72,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": 0.5821,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.61)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)",
+        "short phrase duration (0.50s) reduces temporal certainty"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.61)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "short phrase duration (0.50s) reduces temporal certainty",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: UNCERTAIN (confidence=0.68; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 82,
+      "start_sec": 328.52,
+      "end_sec": 332.66,
+      "duration_sec": 4.14,
+      "transcript_text": "60 million is just a drop in the ocean if you compare the total population of China.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7747,
+      "provisional_status": false,
+      "acoustic_score": 0.8222,
+      "temporal_score": 0.85,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.66)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.38s) supports continuity",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.38s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.66)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.38s) supports continuity",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.77 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 83,
+      "start_sec": 333.46,
+      "end_sec": 337.48,
+      "duration_sec": 4.02,
+      "transcript_text": "And this is a key reason why the personal computer market is such a hot market.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.8178,
+      "provisional_status": false,
+      "acoustic_score": 0.8251,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.82,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.66)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: continuation from same speaker (expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.66)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "dialogue pattern: continuation from same speaker (expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.82 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 84,
+      "start_sec": 338.04,
+      "end_sec": 341.06,
+      "duration_sec": 3.02,
+      "transcript_text": "For us at Alpha and of course for all of our competitors as well,",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7707,
+      "provisional_status": false,
+      "acoustic_score": 0.8376,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.68)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.68)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: CONTINUATION",
+        "decision: CONFIRM (confidence=0.77 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 85,
+      "start_sec": 341.42,
+      "end_sec": 345.0,
+      "duration_sec": 3.58,
+      "transcript_text": "we have millions of potential customers who are looking to join the internet generation.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.768,
+      "provisional_status": false,
+      "acoustic_score": 0.81,
+      "temporal_score": 0.85,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.64)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.36s) supports continuity",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.36s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.64)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.36s) supports continuity",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.77 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 86,
+      "start_sec": 345.72,
+      "end_sec": 350.44,
+      "duration_sec": 4.72,
+      "transcript_text": "If we do this right, we really can reap huge rewards in a very short time frame.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7569,
+      "provisional_status": false,
+      "acoustic_score": 0.8125,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.64)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.64)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.76 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 87,
+      "start_sec": 351.26,
+      "end_sec": 357.38,
+      "duration_sec": 6.12,
+      "transcript_text": "I now like to move on to discuss the X420 brand itself and compare and contrast with some of our key competitors.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7696,
+      "provisional_status": false,
+      "acoustic_score": 0.8357,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.67)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.67)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.77 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 88,
+      "start_sec": 362.96,
+      "end_sec": 363.74,
+      "duration_sec": 0.78,
+      "transcript_text": "All right, we're back.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6708,
+      "provisional_status": false,
+      "acoustic_score": 0.7544,
+      "temporal_score": 0.72,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.5855,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.58)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)",
+        "short phrase duration (0.78s) reduces temporal certainty"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.58)",
+        "local continuity: 6/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "short phrase duration (0.78s) reduces temporal certainty",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: UNCERTAIN (confidence=0.67; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 89,
+      "start_sec": 363.94,
+      "end_sec": 367.58,
+      "duration_sec": 3.64,
+      "transcript_text": "As we mentioned, this is just a part of our presentation series.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.5425,
+      "provisional_status": false,
+      "acoustic_score": 0.4,
+      "temporal_score": 0.85,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.5693,
+      "acoustic_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.42)",
+        "local continuity: 5/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.20s) supports continuity",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.20s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.42)",
+        "local continuity: 5/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.20s) supports continuity",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: UNCERTAIN (confidence=0.54; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 90,
+      "start_sec": 368.16,
+      "end_sec": 371.08,
+      "duration_sec": 2.92,
+      "transcript_text": "We're going to keep on talking with Mr.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.684,
+      "provisional_status": false,
+      "acoustic_score": 0.68,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.5775,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.49)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.49)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: UNCERTAIN (confidence=0.68; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 91,
+      "start_sec": 371.26,
+      "end_sec": 379.08,
+      "duration_sec": 7.82,
+      "transcript_text": "Ford as he discusses business and a lot of other very interesting and useful skills for talking in public.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6807,
+      "provisional_status": false,
+      "acoustic_score": 0.6741,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.5786,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.54)",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.18s) supports continuity"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.18s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.54)",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.18s) supports continuity",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: UNCERTAIN (confidence=0.68; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 92,
+      "start_sec": 379.88,
+      "end_sec": 380.16,
+      "duration_sec": 0.28,
+      "transcript_text": "That's right.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.602,
+      "provisional_status": false,
+      "acoustic_score": 0.35,
+      "temporal_score": 0.72,
+      "linguistic_score": 0.7,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": 0.5696,
+      "acoustic_evidence": [
+        "weak acoustic similarity to Speaker 3 (sim=0.35)",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "expected turn transition from Speaker 1",
+        "turn-boundary pause before (0.80s ≥ 0.4s)",
+        "short phrase duration (0.28s) reduces temporal certainty"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: acknowledgement of statement from different speaker",
+        "phrase type: AFFIRMATION | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "weak acoustic similarity to Speaker 3 (sim=0.35)",
+        "expected turn transition from Speaker 1",
+        "turn-boundary pause before (0.80s ≥ 0.4s)",
+        "forward continuity: next phrase also Speaker 3",
+        "short phrase duration (0.28s) reduces temporal certainty",
+        "dialogue pattern: acknowledgement of statement from different speaker",
+        "phrase type: AFFIRMATION | prev type: STATEMENT",
+        "decision: UNCERTAIN (confidence=0.60; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 93,
+      "start_sec": 380.46,
+      "end_sec": 385.94,
+      "duration_sec": 5.48,
+      "transcript_text": "The goal of this series is to help you feel better when you're giving a presentation in English.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6731,
+      "provisional_status": false,
+      "acoustic_score": 0.6374,
+      "temporal_score": 0.85,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": 0.5687,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.49)",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.30s) supports continuity",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.30s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: following affirmation — neutral",
+        "phrase type: STATEMENT | prev type: AFFIRMATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.49)",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.30s) supports continuity",
+        "forward continuity: next phrase also Speaker 3",
+        "dialogue pattern: following affirmation — neutral",
+        "phrase type: STATEMENT | prev type: AFFIRMATION",
+        "decision: UNCERTAIN (confidence=0.67; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 94,
+      "start_sec": 386.14,
+      "end_sec": 393.42,
+      "duration_sec": 7.28,
+      "transcript_text": "We all know it's very, very hard to talk in English when you're when you're still learning, but it's even harder to talk alone to give a speech or a presentation.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7014,
+      "provisional_status": false,
+      "acoustic_score": 0.689,
+      "temporal_score": 0.85,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.56)",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.20s) supports continuity",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.20s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.56)",
+        "speaker continuity from previous turn (Speaker 3)",
+        "short pause before (0.20s) supports continuity",
+        "forward continuity: next phrase also Speaker 3",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.70 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 95,
+      "start_sec": 393.84,
+      "end_sec": 402.62,
+      "duration_sec": 8.78,
+      "transcript_text": "And so the point of this series is to really give you those skills and to help teach you some of the key phrases and words that you'll be using in your presentations in the future.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7681,
+      "provisional_status": false,
+      "acoustic_score": 0.7575,
+      "temporal_score": 0.75,
+      "linguistic_score": 0.82,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.64)",
+        "speaker continuity from previous turn (Speaker 3)"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: continuation from same speaker (expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.64)",
+        "speaker continuity from previous turn (Speaker 3)",
+        "dialogue pattern: continuation from same speaker (expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.77 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 96,
+      "start_sec": 402.84,
+      "end_sec": 403.26,
+      "duration_sec": 0.42,
+      "transcript_text": "That's right.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.518,
+      "provisional_status": false,
+      "acoustic_score": 0.35,
+      "temporal_score": 0.63,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.6329,
+      "acoustic_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.41)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "expected turn transition from Speaker 3",
+        "short phrase duration (0.42s) reduces temporal certainty"
+      ],
+      "linguistic_evidence": [
+        "phrase type: AFFIRMATION | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.41)",
+        "expected turn transition from Speaker 3",
+        "forward continuity: next phrase also Speaker 1",
+        "short phrase duration (0.42s) reduces temporal certainty",
+        "phrase type: AFFIRMATION | prev type: CONTINUATION",
+        "decision: UNCERTAIN (confidence=0.52; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 97,
+      "start_sec": 403.46,
+      "end_sec": 409.5,
+      "duration_sec": 6.04,
+      "transcript_text": "So if you have any questions or any doubts, we are always available at Englishpot.com and we'll see everyone there.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.5025,
+      "provisional_status": false,
+      "acoustic_score": 0.35,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.5727,
+      "acoustic_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.44)",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.20s) supports continuity"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.20s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: following affirmation — neutral",
+        "phrase type: CONTINUATION | prev type: AFFIRMATION"
+      ],
+      "all_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.44)",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.20s) supports continuity",
+        "dialogue pattern: following affirmation — neutral",
+        "phrase type: CONTINUATION | prev type: AFFIRMATION",
+        "decision: UNCERTAIN (confidence=0.50; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 98,
+      "start_sec": 418.32,
+      "end_sec": 418.84,
+      "duration_sec": 0.52,
+      "transcript_text": "Hello,",
+      "original_diarization_speaker": "Speaker 2",
+      "casa_assigned_speaker": "Speaker 2",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6643,
+      "provisional_status": false,
+      "acoustic_score": 0.7853,
+      "temporal_score": 0.675,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": 0.6153,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 2 (sim=0.73)",
+        "local discontinuity: no neighbors match assigned speaker"
+      ],
+      "temporal_evidence": [
+        "expected turn transition from Speaker 1",
+        "turn-boundary pause before (8.82s ≥ 0.4s)",
+        "short phrase duration (0.52s) reduces temporal certainty"
+      ],
+      "linguistic_evidence": [
+        "phrase type: GREETING | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 2 (sim=0.73)",
+        "local discontinuity: no neighbors match assigned speaker",
+        "expected turn transition from Speaker 1",
+        "turn-boundary pause before (8.82s ≥ 0.4s)",
+        "short phrase duration (0.52s) reduces temporal certainty",
+        "phrase type: GREETING | prev type: CONTINUATION",
+        "decision: UNCERTAIN (confidence=0.66; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 99,
+      "start_sec": 420.04,
+      "end_sec": 421.92,
+      "duration_sec": 1.88,
+      "transcript_text": "everyone and welcome to Englishpot.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7898,
+      "provisional_status": false,
+      "acoustic_score": 0.7814,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.8,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.61)",
+        "local continuity: 4/6 neighbors match",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "expected turn transition from Speaker 2",
+        "turn-boundary pause before (1.20s ≥ 0.4s)"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: expected greeting reciprocation from different speaker",
+        "phrase type: STATEMENT | prev type: GREETING"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.61)",
+        "local continuity: 4/6 neighbors match",
+        "expected turn transition from Speaker 2",
+        "turn-boundary pause before (1.20s ≥ 0.4s)",
+        "forward continuity: next phrase also Speaker 1",
+        "dialogue pattern: expected greeting reciprocation from different speaker",
+        "phrase type: STATEMENT | prev type: GREETING",
+        "decision: CONFIRM (confidence=0.79 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 100,
+      "start_sec": 422.1,
+      "end_sec": 422.58,
+      "duration_sec": 0.48,
+      "transcript_text": "My name is Marco.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.5645,
+      "provisional_status": false,
+      "acoustic_score": 0.4,
+      "temporal_score": 0.72,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.5868,
+      "acoustic_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.43)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.18s) supports continuity"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.18s) supports continuity",
+        "short phrase duration (0.48s) reduces temporal certainty"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.43)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.18s) supports continuity",
+        "short phrase duration (0.48s) reduces temporal certainty",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: UNCERTAIN (confidence=0.56; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 101,
+      "start_sec": 423.0,
+      "end_sec": 430.02,
+      "duration_sec": 7.02,
+      "transcript_text": "My name is Catherine and today we have part two of a very important and very valuable series about giving presentations.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.703,
+      "provisional_status": false,
+      "acoustic_score": 0.7372,
+      "temporal_score": 0.75,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.67)",
+        "local discontinuity: no neighbors match assigned speaker"
+      ],
+      "temporal_evidence": [
+        "expected turn transition from Speaker 1",
+        "turn-boundary pause before (0.42s ≥ 0.4s)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.67)",
+        "local discontinuity: no neighbors match assigned speaker",
+        "expected turn transition from Speaker 1",
+        "turn-boundary pause before (0.42s ≥ 0.4s)",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.70 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 102,
+      "start_sec": 430.74,
+      "end_sec": 431.14,
+      "duration_sec": 0.4,
+      "transcript_text": "That's right.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.617,
+      "provisional_status": false,
+      "acoustic_score": 0.4,
+      "temporal_score": 0.72,
+      "linguistic_score": 0.7,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": 0.5864,
+      "acoustic_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.29)",
+        "local continuity: 4/6 neighbors match",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "expected turn transition from Speaker 3",
+        "turn-boundary pause before (0.72s ≥ 0.4s)",
+        "short phrase duration (0.40s) reduces temporal certainty"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: acknowledgement of statement from different speaker",
+        "phrase type: AFFIRMATION | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.29)",
+        "local continuity: 4/6 neighbors match",
+        "expected turn transition from Speaker 3",
+        "turn-boundary pause before (0.72s ≥ 0.4s)",
+        "forward continuity: next phrase also Speaker 1",
+        "short phrase duration (0.40s) reduces temporal certainty",
+        "dialogue pattern: acknowledgement of statement from different speaker",
+        "phrase type: AFFIRMATION | prev type: STATEMENT",
+        "decision: UNCERTAIN (confidence=0.62; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 103,
+      "start_sec": 431.42,
+      "end_sec": 433.58,
+      "duration_sec": 2.16,
+      "transcript_text": "As you well know, we started this series.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6692,
+      "provisional_status": false,
+      "acoustic_score": 0.6303,
+      "temporal_score": 0.85,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.5631,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.49)",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.28s) supports continuity",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.28s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: following affirmation — neutral",
+        "phrase type: STATEMENT | prev type: AFFIRMATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.49)",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.28s) supports continuity",
+        "forward continuity: next phrase also Speaker 1",
+        "dialogue pattern: following affirmation — neutral",
+        "phrase type: STATEMENT | prev type: AFFIRMATION",
+        "decision: UNCERTAIN (confidence=0.67; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 104,
+      "start_sec": 433.96,
+      "end_sec": 442.5,
+      "duration_sec": 8.54,
+      "transcript_text": "It's a 10 part series and today we're going to talk about sales and charts and graphs and more or less explaining maybe a PowerPoint presentation.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6535,
+      "provisional_status": false,
+      "acoustic_score": 0.6246,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 3",
+      "alternate_confidence": 0.5751,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.48)",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.38s) supports continuity"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.38s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.48)",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.38s) supports continuity",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: UNCERTAIN (confidence=0.65; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 105,
+      "start_sec": 443.06,
+      "end_sec": 449.5,
+      "duration_sec": 6.44,
+      "transcript_text": "That's right. So you're going to learn some wonderful ways of talking about changes in markets and marketing.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.6955,
+      "provisional_status": false,
+      "acoustic_score": 0.701,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": 0.5841,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.57)",
+        "forward continuity: next phrase also Speaker 3"
+      ],
+      "temporal_evidence": [
+        "expected turn transition from Speaker 1",
+        "turn-boundary pause before (0.56s ≥ 0.4s)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.57)",
+        "expected turn transition from Speaker 1",
+        "turn-boundary pause before (0.56s ≥ 0.4s)",
+        "forward continuity: next phrase also Speaker 3",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: UNCERTAIN (confidence=0.70; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 106,
+      "start_sec": 450.12,
+      "end_sec": 454.26,
+      "duration_sec": 4.14,
+      "transcript_text": "So let's take a listen to today's dialogue and we'll be back in a moment to talk about what you've heard.",
+      "original_diarization_speaker": "Speaker 3",
+      "casa_assigned_speaker": "Speaker 3",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7818,
+      "provisional_status": false,
+      "acoustic_score": 0.7823,
+      "temporal_score": 0.75,
+      "linguistic_score": 0.82,
+      "alternate_speaker": "Speaker 1",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.67)",
+        "speaker continuity from previous turn (Speaker 3)"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 3)"
+      ],
+      "linguistic_evidence": [
+        "dialogue pattern: continuation from same speaker (expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 3 (sim=0.67)",
+        "speaker continuity from previous turn (Speaker 3)",
+        "dialogue pattern: continuation from same speaker (expected)",
+        "phrase type: CONTINUATION | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.78 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 107,
+      "start_sec": 459.44,
+      "end_sec": 464.04,
+      "duration_sec": 4.6,
+      "transcript_text": "As all of you are well aware, competition in the laptop computer sector is intense.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "UNCERTAIN",
+      "attribution_confidence": 0.53,
+      "provisional_status": false,
+      "acoustic_score": 0.4,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": 0.5798,
+      "acoustic_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.38)",
+        "local continuity: 4/6 neighbors match",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "expected turn transition from Speaker 3",
+        "turn-boundary pause before (5.18s ≥ 0.4s)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "weak acoustic similarity to Speaker 1 (sim=0.38)",
+        "local continuity: 4/6 neighbors match",
+        "expected turn transition from Speaker 3",
+        "turn-boundary pause before (5.18s ≥ 0.4s)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: CONTINUATION",
+        "decision: UNCERTAIN (confidence=0.53; original label preserved)"
+      ]
+    },
+    {
+      "phrase_index": 108,
+      "start_sec": 464.54,
+      "end_sec": 476.52,
+      "duration_sec": 11.98,
+      "transcript_text": "We continue to fight with our competitors for market share and this is the case both in the developed markets in the West as well as more developing markets in Asia and Africa. You may ask yourself, why is this market so cutthroat?",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7845,
+      "provisional_status": false,
+      "acoustic_score": 0.8628,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.71)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: QUESTION | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.71)",
+        "local continuity: 4/6 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: QUESTION | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.78 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 109,
+      "start_sec": 476.82,
+      "end_sec": 478.28,
+      "duration_sec": 1.46,
+      "transcript_text": "Well, the answer is simple.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7503,
+      "provisional_status": false,
+      "acoustic_score": 0.7777,
+      "temporal_score": 0.85,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.60)",
+        "local continuity: 4/5 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.30s) supports continuity",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.30s) supports continuity"
+      ],
+      "linguistic_evidence": [
+        "phrase type: CONTINUATION | prev type: QUESTION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.60)",
+        "local continuity: 4/5 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "short pause before (0.30s) supports continuity",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: CONTINUATION | prev type: QUESTION",
+        "decision: CONFIRM (confidence=0.75 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 110,
+      "start_sec": 478.88,
+      "end_sec": 483.78,
+      "duration_sec": 4.9,
+      "transcript_text": "There's a huge untapped potential market out there with a huge untapped potential for profit.",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7923,
+      "provisional_status": false,
+      "acoustic_score": 0.877,
+      "temporal_score": 0.8,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.72)",
+        "local continuity: 4/4 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: CONTINUATION"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.72)",
+        "local continuity: 4/4 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "forward continuity: next phrase also Speaker 1",
+        "phrase type: STATEMENT | prev type: CONTINUATION",
+        "decision: CONFIRM (confidence=0.79 ≥ 0.7)"
+      ]
+    },
+    {
+      "phrase_index": 111,
+      "start_sec": 484.64,
+      "end_sec": 495.62,
+      "duration_sec": 10.98,
+      "transcript_text": "If I bring up the first graph here, it shows the increase in terms of number of computer owners across the globe. As you can see in the 1980s, computer ownership amounted to around 0.5%",
+      "original_diarization_speaker": "Speaker 1",
+      "casa_assigned_speaker": "Speaker 1",
+      "attribution_changed": false,
+      "decision_type": "CONFIRM",
+      "attribution_confidence": 0.7633,
+      "provisional_status": false,
+      "acoustic_score": 0.8469,
+      "temporal_score": 0.75,
+      "linguistic_score": 0.55,
+      "alternate_speaker": "Speaker 2",
+      "alternate_confidence": null,
+      "acoustic_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.69)",
+        "local continuity: 3/3 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "temporal_evidence": [
+        "speaker continuity from previous turn (Speaker 1)"
+      ],
+      "linguistic_evidence": [
+        "phrase type: STATEMENT | prev type: STATEMENT"
+      ],
+      "all_evidence": [
+        "moderate acoustic similarity to Speaker 1 (sim=0.69)",
+        "local continuity: 3/3 neighbors match",
+        "speaker continuity from previous turn (Speaker 1)",
+        "phrase type: STATEMENT | prev type: STATEMENT",
+        "decision: CONFIRM (confidence=0.76 ≥ 0.7)"
+      ]
+    }
+  ]
+}

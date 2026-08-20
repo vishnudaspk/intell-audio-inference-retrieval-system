@@ -165,6 +165,15 @@ class SQLiteRepository(BaseRepository):
                     cursor.execute("ALTER TABLE audio_segments ADD COLUMN speaker_label TEXT")
                 if "speaker_id" not in columns:
                     cursor.execute("ALTER TABLE audio_segments ADD COLUMN speaker_id TEXT")
+                # V3.2 CASA migration
+                if "speaker_confidence" not in columns:
+                    cursor.execute("ALTER TABLE audio_segments ADD COLUMN speaker_confidence REAL")
+                if "attribution_decision" not in columns:
+                    cursor.execute("ALTER TABLE audio_segments ADD COLUMN attribution_decision TEXT")
+                if "attribution_evidence_json" not in columns:
+                    cursor.execute("ALTER TABLE audio_segments ADD COLUMN attribution_evidence_json TEXT")
+                if "provisional" not in columns:
+                    cursor.execute("ALTER TABLE audio_segments ADD COLUMN provisional INTEGER")
 
                 conn.commit()
         except Exception as exc:
@@ -572,6 +581,11 @@ class SQLiteRepository(BaseRepository):
                         json.dumps(seg.speaker_embedding) if seg.speaker_embedding is not None else None,
                         json.dumps(seg.acoustic_features) if seg.acoustic_features is not None else None,
                         seg.created_at.isoformat(),
+                        # V3.2 CASA fields
+                        seg.speaker_confidence,
+                        seg.attribution_decision,
+                        json.dumps(seg.attribution_evidence) if seg.attribution_evidence is not None else None,
+                        1 if seg.provisional else (0 if seg.provisional is not None else None),
                     )
                     for seg in segments
                 ]
@@ -582,8 +596,10 @@ class SQLiteRepository(BaseRepository):
                     (id, audio_id, sequence_order, start_sec, end_sec, duration_sec,
                      vad_confidence, text, language, speaker_label, speaker_id,
                      whisper_segment_id, avg_logprob, no_speech_prob, words_json,
-                     speaker_embedding_json, acoustic_features_json, created_at)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                     speaker_embedding_json, acoustic_features_json, created_at,
+                     speaker_confidence, attribution_decision,
+                     attribution_evidence_json, provisional)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """,
                     records,
                 )
@@ -619,6 +635,13 @@ class SQLiteRepository(BaseRepository):
         keys = row.keys() if hasattr(row, "keys") else []
         speaker_label = row["speaker_label"] if "speaker_label" in keys else None
         speaker_id = row["speaker_id"] if "speaker_id" in keys else None
+        # V3.2 CASA fields (may be absent in older DB rows)
+        speaker_confidence = row["speaker_confidence"] if "speaker_confidence" in keys else None
+        attribution_decision = row["attribution_decision"] if "attribution_decision" in keys else None
+        attribution_evidence_json = row["attribution_evidence_json"] if "attribution_evidence_json" in keys else None
+        attribution_evidence = json.loads(attribution_evidence_json) if attribution_evidence_json else None
+        provisional_raw = row["provisional"] if "provisional" in keys else None
+        provisional = bool(provisional_raw) if provisional_raw is not None else None
 
         return AudioSegment(
             id=row["id"],
@@ -638,6 +661,11 @@ class SQLiteRepository(BaseRepository):
             words=words,
             speaker_embedding=embedding_raw,
             acoustic_features=acoustic_raw,
+            # V3.2 CASA
+            speaker_confidence=speaker_confidence,
+            attribution_decision=attribution_decision,
+            attribution_evidence=attribution_evidence,
+            provisional=provisional,
             created_at=datetime.fromisoformat(row["created_at"]) if row["created_at"] else datetime.utcnow(),
         )
 

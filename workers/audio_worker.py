@@ -25,6 +25,8 @@ from schemas.enums import JobStatus
 from schemas.models import AudioAsset, AudioSegment, ProcessingJob, TranscriptWord
 from services.acoustic_service import AcousticFeatureService
 from services.audio_service import AudioService
+from services.casa_config import CASAConfig
+from services.casa_engine import CASAEngine
 from services.speaker_embedding_service import SpeakerEmbeddingService
 from services.transcription_service import TranscriptionService
 from services.vad_service import VADService
@@ -84,6 +86,7 @@ class AudioWorker:
         acoustic_service: Optional[AcousticFeatureService] = None,
         extract_acoustics: bool = True,
         extract_embeddings: bool = True,
+        apply_casa: Optional[bool] = None,
     ):
         self.repo = repository or SQLiteRepository()
         self.audio_service = audio_service or AudioService()
@@ -93,6 +96,11 @@ class AudioWorker:
         self.acoustic_service = acoustic_service or AcousticFeatureService()
         self.extract_acoustics = extract_acoustics
         self.extract_embeddings = extract_embeddings
+        # apply_casa defaults to settings.CASA_ENABLED; can be overridden per-instance
+        if apply_casa is None:
+            from config.settings import settings
+            apply_casa = settings.CASA_ENABLED
+        self.apply_casa = apply_casa
 
     def process_asset(self, asset: AudioAsset) -> ProcessingJob:
         """
@@ -204,10 +212,47 @@ class AudioWorker:
                         speech_intervals=speech_intervals,
                         transcript_words=words_for_diarization if words_for_diarization else None,
                     )
-                    timings["speaker_diarization_diagnostics"] = diarization_diagnostics
+                    timings["speaker_diarization_diagnostics"] = {
+                        k: v for k, v in diarization_diagnostics.items()
+                        if k not in ("phrase_embeddings", "speaker_centroids")
+                    }
                 except Exception as exc:
                     logger.warning(f"[Job {job.id}] Speaker diarization failed (non-fatal): {exc}")
                 timings["speaker_embedding_sec"] = round(time.time() - t0, 3)
+
+            # ── Stage 4.5: CASA — Conversation-Aware Speaker Attribution (V3.2) ───
+            if diarized_segments and self.apply_casa:
+                logger.info(f"[Job {job.id}] Stage=CASA asset={asset.id}")
+                t0 = time.time()
+                try:
+                    casa_engine = CASAEngine(config=CASAConfig())
+                    phrase_embeddings = diarization_diagnostics.get("phrase_embeddings") or []
+                    speaker_centroids = diarization_diagnostics.get("speaker_centroids") or {}
+                    casa_results = casa_engine.apply(
+                        diarized_segments=diarized_segments,
+                        phrase_embeddings=phrase_embeddings if phrase_embeddings else None,
+                        speaker_centroids=speaker_centroids if speaker_centroids else None,
+                    )
+                    # Apply CASA decisions back to diarized_segments
+                    for result in casa_results:
+                        idx = result.phrase_index
+                        if idx < len(diarized_segments):
+                            seg = diarized_segments[idx]
+                            seg["speaker_label"]        = result.proposed_speaker
+                            seg["speaker_confidence"]   = result.confidence
+                            seg["attribution_decision"] = result.decision
+                            seg["attribution_evidence"] = result.evidence
+                            seg["provisional"]          = result.provisional
+                    corrections = sum(1 for r in casa_results if r.decision == "CORRECT")
+                    uncertain   = sum(1 for r in casa_results if r.decision == "UNCERTAIN")
+                    logger.info(
+                        f"[Job {job.id}] CASA: {len(casa_results)} phrases — "
+                        f"CORRECT={corrections} UNCERTAIN={uncertain} "
+                        f"CONFIRM={len(casa_results)-corrections-uncertain}"
+                    )
+                except Exception as exc:
+                    logger.warning(f"[Job {job.id}] CASA pass failed (non-fatal): {exc}")
+                timings["casa_sec"] = round(time.time() - t0, 3)
 
             # Determine segments to assemble: prefer diarized phrase units if available, else VAD intervals
             if diarized_segments:
@@ -294,6 +339,11 @@ class AudioWorker:
                     words=words,
                     speaker_embedding=embedding_list,
                     acoustic_features=acoustic_dict,
+                    # V3.2 CASA fields (None when CASA is off or phrase is from fallback)
+                    speaker_confidence=unit.get("speaker_confidence"),
+                    attribution_decision=unit.get("attribution_decision"),
+                    attribution_evidence=unit.get("attribution_evidence"),
+                    provisional=unit.get("provisional"),
                 )
                 audio_segments.append(seg)
 

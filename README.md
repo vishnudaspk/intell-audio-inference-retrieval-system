@@ -192,3 +192,49 @@ Phase 8 — Productionization
 ## Project Evolution
 
 2022 → 2026
+
+
+🔵 V3.2 — Speaker Intelligence
+
+
+
+
+=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+🔵 V3.2 — Speaker Intelligence
+CASA
+dialogue consistency
+speaker-attribution confidence
+acoustic + temporal + linguistic fusion
+short-response handling
+early-dialogue stabilization
+attribution evaluation benchmark
+
+
+🔵 V3.3 — Temporal Intelligence
+word/phrase/turn synchronization
+speaker turn boundaries
+interruptions
+overlaps
+pause analysis
+timeline intelligence
+
+
+🔵 V3.4 — Multimodal Reasoning
+transcript reasoning
+audio reasoning
+visual context
+cross-modal evidence
+conversational understanding
+event/scene understanding
+
+
+🏁 V3.5 — V3 Final / Release Candidate
+Then we freeze the architecture and perform:
+regression testing
+accuracy benchmarking
+performance benchmarking
+UI cleanup
+documentation
+failure-case analysis
+reproducibility testing

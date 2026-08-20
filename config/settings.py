@@ -52,6 +52,11 @@ class Settings(BaseSettings):
     SPEAKER_EMBEDDING_DEVICE: str = "auto"  # "cuda", "cpu", or "auto"
     SPEAKER_MIN_SEGMENT_DURATION_SEC: float = 0.5
 
+    # V3.2 CASA — Conversation-Aware Speaker Attribution
+    CASA_ENABLED: bool = True
+    """Master switch for the CASA correction/validation layer.  Set False to
+    reproduce V3.1 attribution behaviour exactly."""
+
     # V3 Acoustic Analysis Configuration
     EXTRACT_ACOUSTICS: bool = True
     ACOUSTIC_SAMPLE_RATE: int = 16000

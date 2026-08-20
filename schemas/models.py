@@ -177,6 +177,7 @@ class AudioSegment(BaseModel):
     - SpeechBrain ECAPA-TDNN speaker embedding (192-dim, L2-normalized)
     - Librosa acoustic features (pitch, energy, spectral)
     - Sequence metadata (audio_id, segment index)
+    - V3.2 CASA attribution confidence and decision (optional, backward-compatible)
     """
 
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
@@ -203,6 +204,16 @@ class AudioSegment(BaseModel):
 
     # Acoustic features (stored as nested JSON)
     acoustic_features: Optional[Dict[str, Any]] = None
+
+    # V3.2 CASA attribution confidence & decision
+    speaker_confidence: Optional[float] = None
+    """CASA fused confidence score in [0.0, 1.0]. None when CASA is disabled."""
+    attribution_decision: Optional[str] = None
+    """One of 'CONFIRM', 'CORRECT', 'UNCERTAIN'.  None when CASA is disabled."""
+    attribution_evidence: Optional[List[str]] = None
+    """Human-readable list of evidence signals used for this attribution."""
+    provisional: Optional[bool] = None
+    """True when this phrase falls inside the early-dialogue stabilization window."""
 
     # Metadata
     sequence_order: int = 0
