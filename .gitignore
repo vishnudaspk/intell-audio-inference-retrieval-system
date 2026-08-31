@@ -1,0 +1,42 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local environment
+.env
+.env.*
+
+# Local application data
+*.db
+*.sqlite
+*.sqlite3
+
+# ML models / local inference
+models/
+
+# Qdrant local storage
+qdrant_data/
+
+# Generated audio / temporary files
+*.wav
+*.mp3
+*.m4a
+*.flac
+*.ogg
+*.tmp
+
+# Local data
+data/
+
+# Agent/tooling state
+.agents/
+
+# Frontend build artifacts
+frontend/react/node_modules/
+frontend/react/dist/
+
+# IDE
+.vscode/
+.idea/
