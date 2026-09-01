@@ -17,9 +17,6 @@ The legacy implementation remains preserved here so the evolution of the system 
 The following video demonstrates the original 2022 system and its processing pipeline:
 
 **Legacy Model Demonstration**
-
-`assets/legacy model.mp4`
-
 The demonstration shows:
 
 1. Audio ingestion
