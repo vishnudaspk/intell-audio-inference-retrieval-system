@@ -1,449 +1,930 @@
-# Intell Audio Inference & Retrieval System
+# Intell Audio Inference & Retrieval System (IAIRS)
 
-> **Legacy 2022 implementation — preserved for historical comparison**
+> **2026 Audio Intelligence Platform**  
+> Transform audio into structured, searchable, speaker-aware, acoustically profiled, and timestamp-grounded information.
 
-This repository contains the original **VANS Audio System**, an early audio transcription, forced-alignment, search, and timestamp-based playback prototype developed in 2022.
-
-The project demonstrates an early approach to turning spoken audio into searchable, time-aligned text using traditional speech-recognition and forced-alignment technologies.
-
-A significantly modernized **2026 architecture** has since been developed on separate branches, introducing Whisper, Silero VAD, speaker intelligence, acoustic analysis, vector retrieval, RAG, Qdrant, and a React/TypeScript frontend.
-
-The legacy implementation remains preserved here so the evolution of the system can be demonstrated clearly.
-
----
-
-## 🎥 Legacy System Demo
-
-The following video demonstrates the original 2022 system and its processing pipeline:
-
-**Legacy Model Demonstration**
-The demonstration shows:
-
-1. Audio ingestion
-2. Speech recognition
-3. Transcript generation
-4. Gentle forced alignment
-5. Word-level timestamps
-6. Timestamp-based audio navigation
-7. Lexical word search
-
-### Demo Video
-
-[▶️ Watch the Legacy 2022 System Demo](assets/legacy%20model.mp4)
+[![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![React](https://img.shields.io/badge/React-TypeScript-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
+[![Qdrant](https://img.shields.io/badge/Qdrant-Vector%20Search-DC2626?style=flat-square)](https://qdrant.tech/)
+[![CUDA](https://img.shields.io/badge/CUDA-GPU%20Accelerated-76B900?style=flat-square&logo=nvidia&logoColor=white)](https://developer.nvidia.com/cuda-toolkit)
+[![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 
 ---
 
-## What Was the 2022 System?
+## Overview
 
-The original system was designed around a relatively straightforward pipeline:
+**Intell Audio Inference & Retrieval System (IAIRS)** is a local-first audio intelligence platform designed to go beyond conventional speech-to-text.
+
+Instead of treating a recording as only a transcript, IAIRS processes audio as a combination of:
+
+- **Speech content** — timestamped transcription
+- **Speaker information** — voice embeddings, clustering, and conversation-aware attribution
+- **Acoustic information** — pitch, energy, spectral, quality, and noise diagnostics
+- **Retrievable knowledge** — hybrid lexical and semantic search
+- **Grounded reasoning** — local LLM answers based on retrieved timestamped evidence
+
+The result is a structured, timestamp-aware representation of an audio asset that can be explored through an interactive dashboard, searched directly, queried in natural language, and exported for downstream analysis.
+
+### 2022 → 2026 Evolution
+
+The repository preserves the original 2022 prototype on the `main` branch for historical comparison.
+
+The active 2026 implementation lives on:
 
 ```text
-Audio
-   │
-   ▼
-Audio Extraction
-   │
-   ▼
-Speech Recognition
-(PocketSphinx)
-   │
-   ▼
-Transcript
-   │
-   ▼
-Gentle Forced Alignment
-   │
-   ▼
-Word + Timestamp CSV
-   │
-   ▼
-Search
-   │
-   ▼
-Timestamp-based Audio Playback
+v3-multimodal-intelligence
 ```
 
-The goal was to make spoken content searchable and allow the user to jump to the point in the recording where a particular word was spoken.
+The modern system introduces neural speech processing, speaker intelligence, acoustic analytics, hybrid retrieval, grounded RAG, structured persistence, and a React-based developer dashboard.
 
 ---
 
-## Core Technologies
+### Dashboard Preview
 
-| Component          | Technology      |
-| ------------------ | --------------- |
-| Frontend           | Streamlit       |
-| Speech Recognition | PocketSphinx    |
-| Forced Alignment   | Gentle          |
-| Alignment Server   | Docker          |
-| Audio Processing   | MoviePy / Pydub |
-| YouTube Audio      | PyTube          |
-| Search             | CSV + Python    |
-| NLP Processing     | NLTK            |
-| Language           | Python          |
+The 2026 IAIRS frontend provides an interactive workspace for exploring audio from multiple perspectives — signal quality, speaker behavior, synchronized transcription, grounded retrieval, and structured export.
+
+#### Overview & Quality
+
+Inspect the overall health and characteristics of the processed audio, including signal integrity, RMS energy, dynamic range, SNR estimates, speech-to-silence ratio, noise characteristics, and other processing diagnostics.
+
+![IAIRS Overview and Audio Quality](assets/overview%20quality.png)
 
 ---
 
-## Gentle Forced Alignment
+#### Speaker Analytics
 
-A central component of the original system is **Gentle**, an open-source forced-alignment system.
+Explore speaker distribution and conversational behavior through speaking-time statistics, turn counts, dominant speaker information, and available voice and acoustic characteristics.
 
-Gentle takes:
-
-* an audio file
-* an existing transcript
-
-and attempts to determine **when each word occurs in the audio**.
-
-Conceptually:
-
-```text
-Audio:
-───────────────────────────────────────────────►
-
-Transcript:
-"hello this is an audio system"
-
-Gentle:
-hello      0.42s ── 0.81s
-this       0.86s ── 1.04s
-is         1.07s ── 1.15s
-an         1.18s ── 1.28s
-audio      1.31s ── 1.68s
-system     1.72s ── 2.20s
-```
-
-These timestamps are then written into:
-
-```text
-alignment_result.csv
-```
-
-The application can subsequently search this file and use the timestamp to jump into the corresponding portion of the audio.
+![IAIRS Speaker Analytics](assets/spkr%20analytics.png)
 
 ---
 
-## How the Legacy Search Works
+#### Transcript
 
-The original application performs a simple lexical search over the alignment CSV.
+Navigate a synchronized, timestamp-aware transcript with speaker attribution. Each segment connects the textual content directly to its position in the audio timeline for fast inspection and playback.
 
-For example:
-
-```text
-User searches:
-audio
-```
-
-The system looks through the aligned words and finds matching entries.
-
-It can then return something similar to:
-
-```text
-Option 1:
-Word 'audio' found at t=1.31s
-```
-
-Selecting the result allows the application to create an audio playback starting from that timestamp.
-
-This was an early implementation of **timestamp-grounded audio retrieval**.
+![IAIRS Timestamp-Synchronized Transcript](assets/transcript.png)
 
 ---
 
-## Why Gentle Was Important
+#### Ask the Audio — Grounded RAG
 
-Gentle provided something that ordinary speech recognition did not provide reliably:
+Ask natural-language questions about the processed recording. IAIRS combines hybrid retrieval with local LLM reasoning to generate responses based on relevant timestamped transcript evidence.
 
-> **Temporal information about individual words.**
-
-A conventional transcript might produce:
-
-```text
-"this is an audio system"
-```
-
-Gentle attempted to produce:
-
-```text
-this   → 0.42s
-is     → 1.07s
-an     → 1.18s
-audio  → 1.31s
-system → 1.72s
-```
-
-This temporal representation became an important foundation for the later versions of the project.
+![IAIRS Ask the Audio RAG](assets/rag.png)
 
 ---
 
-## Limitations of the 2022 Approach
+#### Export
 
-The original implementation was useful as a prototype, but it had several significant limitations.
+Export processed audio intelligence and analysis results in supported formats for further inspection, reporting, subtitle generation, or downstream processing.
 
-### 1. PocketSphinx Accuracy
-
-PocketSphinx is a lightweight traditional speech-recognition engine, but its recognition accuracy is substantially lower than modern neural ASR systems such as Whisper, particularly with:
-
-* accents
-* background noise
-* conversational speech
-* multiple speakers
-* spontaneous dialogue
-
-Incorrect transcription directly affects downstream alignment.
+![IAIRS Export Options](assets/export.png)
 
 ---
 
-### 2. Gentle Depends on an Existing Transcript
+## Demonstration
 
-Gentle is primarily a **forced-alignment system**, not a modern end-to-end speech recognizer.
-
-It expects a transcript and attempts to align that transcript to the audio.
-
-Therefore:
+A complete demonstration of the 2026 IAIRS pipeline is included in:
 
 ```text
-Bad Transcript
-      ↓
-Poor Alignment
-      ↓
-Incorrect Timestamps
+assets/IAIRS - 2026.mp4
 ```
 
-The quality of the final result is therefore dependent on the quality of the preceding transcription stage.
+The demo covers media ingestion, pipeline execution, audio quality analytics, speaker intelligence, synchronized transcription, grounded audio retrieval, and export capabilities.
 
 ---
 
-### 3. Multiple Speakers
+# Core Capabilities
 
-The original pipeline does not perform modern speaker diarization.
+## Media Ingestion
 
-It does not robustly answer:
+- Local file ingestion
+- Audio and video container support
+- Common formats including MP3, WAV, M4A, FLAC, OGG, and MP4
+- YouTube audio ingestion through the configured extraction pipeline
+- Persistent media library with session-based active asset handling
+
+## Neural Voice Activity Detection
+
+IAIRS uses **Silero VAD** to identify speech regions before downstream processing.
+
+Post-processing can:
+
+- Filter very short non-useful speech fragments
+- Merge closely separated speech intervals
+- Preserve useful temporal boundaries
+- Produce speech and silence statistics
+
+## Speech Recognition
+
+Speech recognition is powered by **faster-whisper** through the CTranslate2 inference backend.
+
+The resulting timestamped transcript supports:
+
+- Synchronized playback
+- Search and retrieval
+- Speaker attribution
+- Natural-language question answering
+- Export
+
+CUDA acceleration is used where available, with compatible CPU fallback paths.
+
+## Speaker Intelligence
+
+Speaker processing is built around **SpeechBrain ECAPA-TDNN** embeddings.
+
+The pipeline:
+
+1. Extracts speaker representations from speech windows
+2. Normalizes voice embeddings
+3. Measures acoustic similarity
+4. Groups acoustically related speech
+5. Produces chronological speaker assignments
+
+The system performs **speaker grouping and attribution**, not real-world identity recognition.
+
+## CASA — Conversation-Aware Speaker Attribution
+
+Standard acoustic clustering can struggle with very short responses such as:
+
+> "Yeah."  
+> "Okay."  
+> "Right."
+
+These segments may contain insufficient audio for a stable voice embedding.
+
+IAIRS adds **CASA — Conversation-Aware Speaker Attribution**, a post-clustering refinement layer that evaluates ambiguous assignments using:
+
+- **Acoustic similarity**
+- **Temporal turn continuity**
+- **Conversational and linguistic cues**
+
+CASA is intended to stabilize ambiguous conversational turns rather than replace acoustic diarization.
+
+## Acoustic and Signal Analytics
+
+IAIRS can compute audio-level and speech-level analytics including:
+
+- RMS signal energy
+- Peak amplitude
+- Dynamic range
+- Speech / silence ratio
+- Estimated signal-to-noise ratio
+- Noise floor
+- Signal integrity indicators
+- Speech segment count
+- Average speech segment duration
+- Longest silence
+- Spectral centroid
+- Zero-crossing rate
+- Fundamental frequency (`F0`) statistics
+- Energy statistics
+- Spectral bandwidth and rolloff
+- Spectral flux
+- MFCC descriptors
+- Delta and delta-delta MFCC features
+- Speaker talk-time and turn statistics
+
+## Hybrid Retrieval
+
+IAIRS combines two complementary retrieval strategies.
+
+**Lexical retrieval**
+- Exact terminology
+- Keywords
+- Names
+- Technical vocabulary
+
+**Dense semantic retrieval**
+- Meaning-based matching
+- Conceptually related language
+- Natural-language queries
+
+The result streams are combined through hybrid ranking using **Reciprocal Rank Fusion (RRF)**.
+
+## Ask the Audio — Grounded RAG
+
+The **Ask the Audio** interface allows users to ask natural-language questions about processed recordings.
 
 ```text
-Who is speaking?
-When did Speaker 1 stop?
-When did Speaker 2 start?
-```
-
-It primarily operates on the supplied transcript and audio signal.
-
----
-
-### 4. Overlapping Speech
-
-When two people speak simultaneously, traditional forced alignment can struggle to determine the correct temporal boundaries.
-
-This becomes especially problematic for:
-
-* interviews
-* meetings
-* films
-* podcasts
-* conversational recordings
-
----
-
-### 5. Short Responses
-
-Very short utterances such as:
-
-```text
-"Yeah."
-
-"Okay."
-
-"Right."
-
-"No."
-```
-
-can be difficult to align reliably, particularly when surrounded by other speech or noise.
-
----
-
-### 6. Legacy Architecture
-
-The original application was essentially a Streamlit monolith.
-
-Several responsibilities were coupled together:
-
-```text
-UI
-│
-├── Audio processing
-├── Speech recognition
-├── Gentle API communication
-├── CSV generation
-├── Search
-└── Audio playback
-```
-
-This made the system harder to extend and maintain as additional intelligence was introduced.
-
----
-
-# Project Evolution
-
-The project subsequently evolved into a substantially different architecture.
-
-### 2022 — Legacy System
-
-```text
-PocketSphinx
-     ↓
-Transcript
-     ↓
-Gentle
-     ↓
-Word Alignment
-     ↓
-CSV Search
-     ↓
-Timestamp Playback
-```
-
-### 2026 — Modernized System
-
-```text
-Audio / Video
-      ↓
-Silero VAD
-      ↓
-Whisper ASR
-      ↓
-Temporal Transcript
-      ↓
-Speaker Intelligence
-      ↓
-Acoustic Analysis
-      ↓
+User Question
+      |
+      v
 Hybrid Retrieval
-      ↓
+(BM25 + Dense Vectors)
+      |
+      v
+Timestamped Audio Context
+      |
+      v
+Local LLM Reasoning
+      |
+      v
+Evidence-Grounded Response
+```
+
+The reasoning layer is designed to use retrieved transcript evidence and preserve timestamp grounding where applicable.
+
+When relevant evidence is unavailable, the system is intended to avoid presenting unsupported conclusions as facts.
+
+---
+
+# System Architecture
+
+```text
+                         Raw Audio / Video
+                   File Upload or YouTube Source
+                                |
+                                v
+                    Audio Normalization Layer
+                        16 kHz / Mono Stream
+                                |
+               +----------------+----------------+
+               |                                 |
+               v                                 v
+        Audio Quality Analysis             Silero VAD
+               |                                 |
+               |                                 v
+               |                         Speech Intervals
+               |                                 |
+               +----------------+----------------+
+                                |
+                                v
+                         Processing Pipeline
+                                |
+               +----------------+----------------+
+               |                |               |
+               v                v               v
+        faster-whisper     ECAPA-TDNN      Acoustic Analysis
+        Transcription      Embeddings       Pitch / MFCC /
+        + Timestamps       + Clustering     Spectral Features
+               |                |               |
+               +----------------+---------------+
+                                |
+                                v
+                     CASA Speaker Attribution
+                                |
+                                v
+                  Unified Timestamped Audio Segments
+                                |
+               +----------------+----------------+
+               |                                 |
+               v                                 v
+          SQLite Storage                  Transcript Chunking
+                                                 |
+                                +----------------+----------------+
+                                |                                 |
+                                v                                 v
+                           BM25 Index                     Dense Embeddings
+                                                                  |
+                                                                  v
+                                                             Qdrant
+                                |                                 |
+                                +----------------+----------------+
+                                                 |
+                                                 v
+                                          Hybrid Retrieval
+                                                 |
+                                                 v
+                                       Grounded LLM Reasoning
+                                                 |
+                                                 v
+                                   React Dashboard / API / Export
+```
+
+---
+
+# Processing Pipeline
+
+## 1. Ingestion and Normalization
+
+Audio is accepted from supported local media files or the configured YouTube ingestion flow.
+
+The processing layer normalizes media into a consistent representation suitable for:
+
+- VAD
+- ASR
+- Speaker embeddings
+- Acoustic feature extraction
+- Playback synchronization
+
+## 2. Audio Quality Analysis
+
+IAIRS computes signal-level diagnostics including:
+
+| Metric | Description |
+|---|---|
+| **RMS Energy** | Overall waveform energy |
+| **Peak Amplitude** | Maximum signal magnitude |
+| **Dynamic Range** | Variation between quieter and louder regions |
+| **Estimated SNR** | Approximate speech-to-noise relationship |
+| **Noise Floor** | Estimated background signal level |
+| **Speech / Silence Ratio** | Distribution of active speech |
+| **Longest Silence** | Largest continuous non-speech interval |
+| **Spectral Centroid** | Approximate spectral brightness |
+| **Zero-Crossing Rate** | Signal frequency/noise characteristic |
+| **Audio Quality Score** | Composite quality indicator |
+
+## 3. Voice Activity Detection
+
+Silero VAD identifies speech-bearing regions.
+
+The resulting intervals become the temporal backbone for later stages such as transcription, speaker analysis, and conversation statistics.
+
+## 4. Speech Recognition
+
+Speech intervals are processed through **faster-whisper** to produce timestamp-aware transcript information.
+
+The transcript is then used for:
+
+- Playback synchronization
+- Search
+- Speaker analytics
+- Natural-language reasoning
+- Export
+
+## 5. Speaker Embedding and Clustering
+
+Speech windows are processed with **ECAPA-TDNN** to generate speaker representations.
+
+Similarity-based clustering groups acoustically consistent speech and produces chronological labels such as:
+
+```text
+Speaker 1
+Speaker 2
+Speaker 3
+...
+```
+
+## 6. CASA Attribution
+
+CASA provides a conversation-aware refinement stage after acoustic speaker clustering.
+
+```text
+Ambiguous Segment
+       |
+       +------------------------------+
+       |              |               |
+       v              v               v
+ Acoustic        Temporal Turn     Conversational
+ Similarity       Continuity          Cues
+       |              |               |
+       +--------------+---------------+
+                      |
+                      v
+             Attribution Decision
+```
+
+This stage helps improve consistency where acoustic evidence alone is weak.
+
+## 7. Acoustic Feature Extraction
+
+IAIRS extracts additional information from the audio signal.
+
+### Pitch and Voice
+
+- Fundamental frequency (`F0`)
+- Mean pitch
+- Pitch variation
+- Voiced-frame statistics
+
+### Energy
+
+- RMS energy
+- Energy variation
+- Peak energy
+
+### Spectral Features
+
+- Spectral centroid
+- Spectral bandwidth
+- Spectral rolloff
+- Spectral flux
+
+### Cepstral Features
+
+- MFCC 1–13
+- Delta MFCC
+- Delta-delta MFCC
+
+## 8. Structured Temporal Segments
+
+Outputs from transcription, speaker analysis, and acoustic processing are combined into structured timestamp-aware segments.
+
+Conceptually, a segment can contain:
+
+```text
+Timestamp
+Transcript
+Speaker Label
+Attribution Information
+Acoustic Features
+Retrieval Metadata
+```
+
+This unified representation connects the pipeline to search, RAG, playback, analytics, and export.
+
+## 9. Hybrid Retrieval and Indexing
+
+Timestamp-preserving transcript chunks are indexed through:
+
+```text
+BM25
+  +
+Dense Vector Retrieval
+  +
 Qdrant
-      ↓
-RAG / Qwen3
-      ↓
-Grounded Answers
-      ↓
-Timestamp Citations
+  |
+  v
+Hybrid Ranking
 ```
 
-The 2026 implementation is maintained separately so that the original system can remain reproducible and historically intact.
+This supports both exact lexical questions and semantic natural-language queries.
 
----
+## 10. Grounded Reasoning
 
-## Branch Structure
-
-The repository contains separate development histories.
-
-The **legacy `main` branch** represents the original 2022 implementation.
-
-The newer development branches contain the 2026 modernization work.
-
-This separation allows the project to demonstrate the progression from:
-
-**traditional speech processing → modern AI audio intelligence**
-
-without rewriting the original implementation.
-
----
-
-## Running the Legacy Application
-
-### Requirements
-
-* Python 3.11+
-* Streamlit
-* PocketSphinx / SpeechRecognition
-* Gentle
-* Docker
-* MoviePy
-* Pydub
-* NLTK
-
-### Start Gentle
-
-The legacy application expects Gentle to be available at:
+Retrieved transcript chunks are supplied to the configured local LLM provider.
 
 ```text
-http://localhost:8888
+Question
+   |
+   v
+Retrieve Relevant Timestamped Evidence
+   |
+   v
+Evaluate Context
+   |
+   v
+Generate Grounded Answer
+   |
+   v
+Return Timestamp-Aware Response
 ```
 
-Start the Gentle Docker container:
+---
 
-```powershell
-docker run -d `
-  --name intell_gentle `
-  -p 8888:8765 `
-  lowerquality/gentle:latest
-```
+# Dashboard
 
-Verify:
+The modern frontend provides a developer-oriented interface for exploring processed media.
 
-```powershell
-docker ps --filter "name=intell_gentle"
-```
+## Overview & Quality
 
-### Start Streamlit
+Displays high-level diagnostics such as:
 
-```powershell
-.\.venv\Scripts\python.exe -m streamlit run app.py
-```
+- RMS energy
+- Dynamic range
+- Speech / silence ratio
+- Dominant speaker
+- Signal integrity
+- SNR
+- Peak amplitude
+- Noise floor
+- Speech segment count
+- Average speech segment duration
+- Longest silence
+- Spectral centroid
+- Zero-crossing rate
+- Audio quality score
 
-Then open:
+## Speaker Analytics
+
+Provides speaker-level information including:
+
+- Speaker distribution
+- Speaking time
+- Turn counts
+- Conversational balance
+- Dominant speaker
+- Available pitch and voice statistics
+
+## Transcript
+
+Provides a timestamp-synchronized transcript for exploring the recording.
+
+Timestamped segments can be used to navigate directly through the media.
+
+## Ask the Audio
+
+Supports two complementary interaction styles:
+
+- **AI RAG mode** for grounded natural-language questions
+- **Lexical mode** for direct exact-term search
+
+## Export
+
+Processed results can be exported through the available pipeline in formats such as:
+
+- JSON
+- CSV
+- SRT
+- VTT
+- Markdown reports
+
+---
+
+# Technology Stack
+
+| Layer | Technology | Role |
+|---|---|---|
+| Backend | Python + FastAPI | API and processing services |
+| Frontend | React + TypeScript + Vite | Interactive dashboard |
+| ASR | faster-whisper / CTranslate2 | Speech recognition |
+| VAD | Silero VAD | Speech detection |
+| Speaker Embeddings | SpeechBrain ECAPA-TDNN | Voice representation |
+| Speaker Clustering | Similarity-based clustering / AHC | Speaker grouping |
+| Attribution | CASA | Conversation-aware speaker refinement |
+| Acoustic Analysis | Librosa + audio utilities | DSP and speech features |
+| Lexical Retrieval | BM25 | Exact-term retrieval |
+| Dense Retrieval | Local embedding model | Semantic search |
+| Vector Store | Qdrant | Dense vector indexing |
+| LLM Provider | LM Studio-compatible local inference | Grounded reasoning |
+| Persistence | SQLite | Structured local storage |
+| Testing | pytest | Unit and integration testing |
+
+---
+
+# Project Structure
 
 ```text
-http://localhost:8501
+intell-audio-inference-retrieval-system/
+|
++-- backend/                  # API routes and backend interfaces
++-- config/                   # Configuration and environment settings
++-- core/                     # Pipeline orchestration and event infrastructure
++-- database/                 # SQLite persistence and repositories
++-- engines/                  # ASR and VAD engine abstractions
++-- frontend/
+|   +-- react/                # React + TypeScript dashboard
+|   +-- streamlit_app.py      # Preserved developer / legacy interface
++-- retrieval/                # BM25, vector, and hybrid retrieval
++-- schemas/                  # Domain models and validation schemas
++-- services/                 # Audio intelligence services
+|   +-- acoustic_service.py
+|   +-- audio_quality_service.py
+|   +-- audio_service.py
+|   +-- casa_config.py
+|   +-- casa_engine.py
+|   +-- chunker.py
+|   +-- conversation_analyzer.py
+|   +-- export_service.py
+|   +-- health_service.py
+|   +-- llm_service.py
+|   +-- reasoning_agent.py
+|   +-- speaker_embedding_service.py
+|   +-- transcription_service.py
+|   +-- vad_service.py
++-- tests/                    # Unit and integration tests
++-- workers/                  # Processing and indexing workers
++-- assets/                   # Repository media assets and demos
++-- app.py                    # Application entry point
++-- docker-compose.yml        # Local infrastructure definition
++-- requirements.txt          # Python dependencies
++-- .env.example              # Environment configuration template
++-- README.md
 ```
 
 ---
 
-## Original Workflow
+# Installation
 
-1. Select **Audio Upload** or **YouTube Link**
-2. Provide an audio source
-3. Download or load the audio
-4. Convert the audio to WAV
-5. Generate a transcript using PocketSphinx
-6. Send the transcript and audio to Gentle
-7. Generate word-level alignment
-8. Store alignment results in CSV
-9. Search for words
-10. Select a timestamp
-11. Play audio from the selected location
+## Prerequisites
+
+The exact environment depends on the enabled pipeline components.
+
+Typical requirements include:
+
+- Python 3.11+
+- Node.js and npm
+- FFmpeg available to the media pipeline
+- Docker Desktop for local Qdrant
+- LM Studio or another compatible configured local inference provider
+- NVIDIA GPU with CUDA for accelerated inference where supported
+
+CPU execution is possible for compatible components, although GPU acceleration is recommended for faster processing.
+
+## 1. Clone the Repository
+
+```bash
+git clone https://github.com/vishnudaspk/intell-audio-inference-retrieval-system.git
+cd intell-audio-inference-retrieval-system
+```
+
+Switch to the active 2026 implementation:
+
+```bash
+git switch v3-multimodal-intelligence
+```
+
+## 2. Create the Python Environment
+
+### Windows PowerShell
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+```
+
+### Linux / macOS
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+## 3. Configure Environment Variables
+
+Create a local environment file from the repository template.
+
+### Windows PowerShell
+
+```powershell
+Copy-Item .env.example .env
+```
+
+### Linux / macOS
+
+```bash
+cp .env.example .env
+```
+
+Review `.env.example` and configure the providers and models available on your system.
+
+Typical configuration areas include:
+
+```ini
+ASR_ENGINE=whisper
+VAD_ENGINE=silero
+
+SPEAKER_EMBEDDING_ENGINE=speechbrain
+
+LM_STUDIO_BASE_URL=http://localhost:1234
+LM_STUDIO_CHAT_MODEL=<your-local-chat-model>
+LM_STUDIO_EMBEDDING_MODEL=<your-local-embedding-model>
+
+QDRANT_URL=http://localhost:6333
+QDRANT_COLLECTION=intell_audio_chunks
+```
+
+Use the actual model identifiers configured in your environment.
+
+## 4. Start Qdrant
+
+If the repository Docker configuration is available:
+
+```bash
+docker compose up -d
+```
+
+Verify the container:
+
+```bash
+docker ps
+```
+
+## 5. Start the Local LLM / Embedding Provider
+
+Start the configured local inference server.
+
+For an LM Studio-based setup, ensure that:
+
+- The chat model is loaded
+- The embedding model is available to the configured pipeline
+- The local server is running
+- The model names match your `.env` configuration
+
+## 6. Start the Backend
+
+From the repository root:
+
+```bash
+python app.py
+```
+
+## 7. Start the Frontend
+
+```bash
+cd frontend/react
+npm install
+npm run dev
+```
+
+Open the development address shown by Vite in the terminal.
 
 ---
 
-## Historical Significance
+# Usage
 
-Although technically simple by modern standards, this prototype established several concepts that continued into later versions of the project:
+## 1. Ingest Media
 
-* speech-to-text processing
-* temporal representation of speech
-* searchable transcripts
-* word-level timestamps
-* audio navigation through textual search
-* retrieval of information from recorded speech
+Add a supported local media file or use the configured YouTube ingestion workflow.
 
-The 2026 system builds upon these ideas using modern neural speech processing and retrieval technologies.
+The asset is added to the audio library.
+
+## 2. Run the Pipeline
+
+The processing flow performs the configured stages:
+
+```text
+Normalization
+    ->
+Audio Quality Analysis
+    ->
+Voice Activity Detection
+    ->
+Speech Recognition
+    ->
+Speaker Embeddings and Clustering
+    ->
+CASA Attribution
+    ->
+Acoustic Feature Extraction
+    ->
+Structured Segment Assembly
+    ->
+Hybrid Indexing
+```
+
+## 3. Inspect Audio Quality
+
+Open **Overview & Quality** to inspect signal characteristics and processing diagnostics.
+
+## 4. Analyze Speakers
+
+Open **Speaker Analytics** to inspect speaker distribution, speaking time, turns, and available voice statistics.
+
+## 5. Explore the Transcript
+
+Use the synchronized transcript to navigate the recording through timestamped speech segments.
+
+## 6. Ask the Audio
+
+Use the RAG interface to ask questions about the processed recording.
+
+Examples:
+
+```text
+What were the main points discussed?
+
+When was the deployment problem mentioned?
+
+What did Speaker 2 say about the proposal?
+
+Was a specific technology mentioned in the recording?
+```
+
+## 7. Export Results
+
+Export the processed analysis through the available formats.
 
 ---
 
-## Project Status
+# Testing
 
-**2022 Legacy Implementation — Preserved**
+Run the test suite from the repository root.
 
-This branch is maintained primarily for:
+### Windows
 
-* historical reference
-* reproducibility
-* demonstration
-* architecture comparison
-* understanding the evolution of the project
+```powershell
+.\.venv\Scripts\python.exe -m pytest tests/ -v
+```
 
-The modern implementation should be evaluated from its dedicated 2026 development branch.
+### Linux / macOS
+
+```bash
+python -m pytest tests/ -v
+```
+
+The test suite covers multiple parts of the platform, including:
+
+- Acoustic feature extraction
+- Audio quality analytics
+- VAD processing
+- Speaker embeddings
+- CASA attribution
+- BM25 retrieval
+- Hybrid retrieval
+- Grounded reasoning
+- API lifecycle behavior
+- Pipeline integration
 
 ---
 
-## License
+# 2022 Legacy vs 2026 IAIRS
 
-See the repository license for details.
+| Capability | 2022 Prototype | 2026 IAIRS |
+|---|---|---|
+| Architecture | Streamlit-oriented monolithic workflow | Decoupled service architecture with API and React dashboard |
+| Speech Recognition | Earlier speech processing stack | faster-whisper |
+| Speech Detection | Traditional pipeline flow | Neural Silero VAD |
+| Alignment | External / legacy alignment workflow | Native timestamp-aware transcription pipeline |
+| Speaker Intelligence | Not available | ECAPA embeddings + clustering + CASA |
+| Acoustic Analytics | Limited / not integrated | Signal, spectral, pitch, MFCC, and quality analytics |
+| Search | Basic transcript-oriented search | Hybrid lexical + semantic retrieval |
+| Question Answering | Not available | Evidence-oriented local RAG |
+| Persistence | Simpler legacy storage | Structured SQLite persistence |
+| Frontend | Streamlit prototype | React + TypeScript developer dashboard |
+
+The 2022 implementation remains preserved for historical comparison.
+
+---
+
+# Current Limitations
+
+IAIRS is an actively evolving experimental system.
+
+## Overlapping Speech
+
+The current pipeline is optimized primarily for turn-taking speech.
+
+Simultaneous cross-talk is more difficult because multiple voices can occupy the same temporal region.
+
+## Speaker Variability
+
+Speaker embeddings can be affected by:
+
+- Strong reverberation
+- Significant microphone changes
+- Extreme background noise
+- Very short speech turns
+- Large changes in recording conditions
+
+CASA helps with some ambiguous conversational cases but is not a replacement for dedicated overlapping-speech separation.
+
+## Local Deployment Focus
+
+The current architecture is designed primarily for local development and workstation inference.
+
+Large-scale distributed deployment would require additional infrastructure for:
+
+- Distributed workers
+- Job queues
+- Event brokers
+- Horizontal scaling
+- Observability
+
+## Video Intelligence
+
+Video containers can be ingested for their audio tracks.
+
+Visual understanding, scene analysis, OCR, and frame-level multimodal reasoning are future directions rather than core capabilities of the current audio pipeline.
+
+---
+
+# Roadmap
+
+- [x] Modernize the audio processing architecture
+- [x] Integrate neural VAD and faster-whisper transcription
+- [x] Add speaker embeddings and clustering
+- [x] Implement CASA conversation-aware speaker attribution
+- [x] Add acoustic and signal quality analytics
+- [x] Implement hybrid BM25 + vector retrieval
+- [x] Add timestamp-aware grounded audio RAG
+- [x] Build a modern developer analytics dashboard
+- [ ] Improve interruption and turn-transition intelligence
+- [ ] Improve overlapping-speech handling
+- [ ] Add deeper conversation analytics
+- [ ] Add synchronized visual/video intelligence
+- [ ] Add production-oriented distributed processing and deployment
+
+---
+
+# Project Status
+
+The repository contains two historical stages of the project:
+
+- **`main`** — preserved 2022 legacy implementation
+- **`v3-multimodal-intelligence`** — active 2026 IAIRS architecture
+
+For the latest modern implementation:
+
+```bash
+git switch v3-multimodal-intelligence
+```
+
+---
+
+# License
+
+This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for details.
+
+---
+
+## Author
+
+**Vishnu Das**
+
+GitHub: https://github.com/vishnudaspk
+
+---
+
+## Why IAIRS?
+
+> **Audio is more than text.**
+
+A recording contains language, timing, speaker behavior, acoustic characteristics, conversational structure, and context.
+
+IAIRS is designed to bring those layers together into one searchable and inspectable local intelligence pipeline.

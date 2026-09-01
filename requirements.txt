@@ -1,7 +1,30 @@
+# Web & API
 streamlit
-pytube
-moviepy
-speechrecognition
+fastapi
+uvicorn
 requests
-nltk
+pydantic
+pydantic-settings
+
+# Vector Store & Storage
+qdrant-client
+
+# Audio Ingestion & Processing
 pydub
+moviepy
+pytube
+soundfile
+librosa
+scipy
+
+# Audio Intelligence & ML (V3 Phase 1)
+faster-whisper
+silero-vad
+speechbrain
+
+# Retrieval & NLP
+nltk
+
+# Development & Testing
+pytest
+ruff

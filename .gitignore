@@ -1,42 +1,63 @@
-# Python
-.venv/
+# Python & bytecode
 __pycache__/
 *.py[cod]
-.pytest_cache/
+*$py.class
+*.so
 
-# Local environment
+# Virtual environment
+.venv/
+venv/
+env/
+ENV/
+
+# Environment & local secrets
 .env
 .env.*
+!.env.example
+.streamlit/secrets.toml
 
-# Local application data
+# Data directory runtime outputs
+data/
 *.db
 *.sqlite
 *.sqlite3
 
-# ML models / local inference
-models/
-
-# Qdrant local storage
-qdrant_data/
-
-# Generated audio / temporary files
-*.wav
+# Loose audio & generated output files
 *.mp3
+*.wav
 *.m4a
 *.flac
 *.ogg
-*.tmp
+*.aac
+*.opus
+audio.txt
+alignment_result.csv
+org.txt
+temp.csv
+*tmp*.py
+diagnose*.py
+verify*.py
+test_tok*.py
 
-# Local data
-data/
+# Models & vector storage
+models/
+*.gguf
+qdrant_data/
 
-# Agent/tooling state
-.agents/
-
-# Frontend build artifacts
-frontend/react/node_modules/
-frontend/react/dist/
-
-# IDE
+# IDEs & Editors
 .vscode/
 .idea/
+*.swp
+*.swo
+
+# OS generated
+.DS_Store
+Thumbs.db
+
+# Testing, Tooling & Logs
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.log
+.agents/
